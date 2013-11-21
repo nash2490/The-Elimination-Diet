@@ -96,12 +96,12 @@
 		6CD236CE1834817600102959 /* EDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236CD1834817600102959 /* EDImage.m */; };
 		6CD236D11834818C00102959 /* EDFood.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236D01834818C00102959 /* EDFood.m */; };
 		6CD321B217E0BB2F0085922F /* EDType.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD321B117E0BB2F0085922F /* EDType.m */; };
-		6CE51DD1183EA848004C7ABC /* EDSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD0183EA848004C7ABC /* EDSymptom.m */; };
 		6CE51DD4183EA848004C7ABC /* EDHadSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */; };
 		6CE51DD7183EA848004C7ABC /* EDBodyPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD6183EA848004C7ABC /* EDBodyPart.m */; };
 		6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD9183EA848004C7ABC /* EDSymptomDescription.m */; };
 		6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */; };
 		6CE51DE0183EA9D9004C7ABC /* EDSymptomDescription+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */; };
+		6CE51DE6183EB5E6004C7ABC /* EDSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DE5183EB5E6004C7ABC /* EDSymptom.m */; };
 		6CE6141517B042AB009F5C75 /* EDMealTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6141417B042AB009F5C75 /* EDMealTableViewController.m */; };
 		6CE6141817B0458E009F5C75 /* EDEatenMealTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6141717B0458E009F5C75 /* EDEatenMealTableViewController.m */; };
 		6CED588C1763FA3F005BFF76 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED588B1763FA3F005BFF76 /* UIKit.framework */; };
@@ -291,8 +291,6 @@
 		6CD321B017E0BB2F0085922F /* EDType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDType.h; sourceTree = "<group>"; };
 		6CD321B117E0BB2F0085922F /* EDType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDType.m; sourceTree = "<group>"; };
 		6CE51DCE183E9E21004C7ABC /* EDDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EDDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
-		6CE51DCF183EA848004C7ABC /* EDSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSymptom.h; sourceTree = "<group>"; };
-		6CE51DD0183EA848004C7ABC /* EDSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSymptom.m; sourceTree = "<group>"; };
 		6CE51DD2183EA848004C7ABC /* EDHadSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDHadSymptom.h; sourceTree = "<group>"; };
 		6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDHadSymptom.m; sourceTree = "<group>"; };
 		6CE51DD5183EA848004C7ABC /* EDBodyPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDBodyPart.h; sourceTree = "<group>"; };
@@ -303,6 +301,8 @@
 		6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDBodyPart+Methods.m"; sourceTree = "<group>"; };
 		6CE51DDE183EA9D9004C7ABC /* EDSymptomDescription+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDSymptomDescription+Methods.h"; sourceTree = "<group>"; };
 		6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDSymptomDescription+Methods.m"; sourceTree = "<group>"; };
+		6CE51DE4183EB5E6004C7ABC /* EDSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSymptom.h; sourceTree = "<group>"; };
+		6CE51DE5183EB5E6004C7ABC /* EDSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSymptom.m; sourceTree = "<group>"; };
 		6CE6141317B042AB009F5C75 /* EDMealTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDMealTableViewController.h; sourceTree = "<group>"; };
 		6CE6141417B042AB009F5C75 /* EDMealTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDMealTableViewController.m; sourceTree = "<group>"; };
 		6CE6141617B0458E009F5C75 /* EDEatenMealTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEatenMealTableViewController.h; sourceTree = "<group>"; };
@@ -371,8 +371,8 @@
 				6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */,
 				6CAEC0A917A8454D00649199 /* EDSymptom+Methods.h */,
 				6CAEC0AA17A8454E00649199 /* EDSymptom+Methods.m */,
-				6CE51DCF183EA848004C7ABC /* EDSymptom.h */,
-				6CE51DD0183EA848004C7ABC /* EDSymptom.m */,
+				6CE51DE4183EB5E6004C7ABC /* EDSymptom.h */,
+				6CE51DE5183EB5E6004C7ABC /* EDSymptom.m */,
 				6CE51DDE183EA9D9004C7ABC /* EDSymptomDescription+Methods.h */,
 				6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */,
 				6CE51DD8183EA848004C7ABC /* EDSymptomDescription.h */,
@@ -831,6 +831,7 @@
 				6CED58AA1763FAF8005BFF76 /* EDViewController.m in Sources */,
 				6CADA0C41831211B00A9C6AA /* EDEatenMeal.m in Sources */,
 				6CED58AE17641A80005BFF76 /* EDTableViewController.m in Sources */,
+				6CE51DE6183EB5E6004C7ABC /* EDSymptom.m in Sources */,
 				6C8CF340176BAB7C0080F3F2 /* NSString+EatDate.m in Sources */,
 				6C8B78B3182D489A008603CF /* EDCameraViewController.m in Sources */,
 				6C83C182176F9D4D0075472D /* EDMenuViewController.m in Sources */,
@@ -839,7 +840,6 @@
 				6C4DC05117736E8F00AE401F /* UIView+EDAdjustView.m in Sources */,
 				6C3619A518204BBE00791E49 /* EDCreationViewController.m in Sources */,
 				6CADA0BE1831210800A9C6AA /* EDMeal.m in Sources */,
-				6CE51DD1183EA848004C7ABC /* EDSymptom.m in Sources */,
 				6C4DC05417764EA800AE401F /* EDMainMenuVC.m in Sources */,
 				6CE51DD7183EA848004C7ABC /* EDBodyPart.m in Sources */,
 				6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */,

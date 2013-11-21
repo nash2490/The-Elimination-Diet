@@ -7,7 +7,9 @@
 //
 
 #import "EDSymptom.h"
+#import "EDBodyPart.h"
 #import "EDHadSymptom.h"
+#import "EDSymptomDescription.h"
 #import "EDTag.h"
 
 
@@ -15,9 +17,10 @@
 
 @dynamic name;
 @dynamic uniqueID;
+@dynamic favorite;
 @dynamic timesHad;
 @dynamic bodyPart;
 @dynamic symptomDescription;
-@dynamic newRelationship;
+@dynamic tags;
 
 @end

@@ -59,11 +59,12 @@
         <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="restaurant" inverseEntity="EDMeal" syncable="YES"/>
     </entity>
     <entity name="EDSymptom" representedClassName="EDSymptom" syncable="YES">
+        <attribute name="favorite" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
         <relationship name="bodyPart" maxCount="1" deletionRule="Nullify" destinationEntity="EDBodyPart" inverseName="relatedSymptoms" inverseEntity="EDBodyPart" syncable="YES"/>
-        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EDTag" inverseName="symptomsWithTag" inverseEntity="EDTag" syncable="YES"/>
         <relationship name="symptomDescription" maxCount="1" deletionRule="Nullify" destinationEntity="EDSymptomDescription" inverseName="relatedSymptoms" inverseEntity="EDSymptomDescription" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDTag" inverseName="symptomsWithTag" inverseEntity="EDTag" syncable="YES"/>
         <relationship name="timesHad" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDHadSymptom" inverseName="symptom" inverseEntity="EDHadSymptom" syncable="YES"/>
     </entity>
     <entity name="EDSymptomDescription" representedClassName="EDSymptomDescription" syncable="YES">
@@ -75,7 +76,7 @@
         <attribute name="name" attributeType="String" minValueString="2" maxValueString="24" syncable="YES"/>
         <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
         <relationship name="foodWithTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDFood" inverseName="tags" inverseEntity="EDFood" syncable="YES"/>
-        <relationship name="symptomsWithTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="newRelationship" inverseEntity="EDSymptom" syncable="YES"/>
+        <relationship name="symptomsWithTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="tags" inverseEntity="EDSymptom" syncable="YES"/>
     </entity>
     <entity name="EDType" representedClassName="EDType" parentEntity="EDFood" syncable="YES">
         <relationship name="ingredientsPrimary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="typesPrimary" inverseEntity="EDIngredient" syncable="YES"/>
@@ -94,7 +95,7 @@
         <element name="EDMeal" positionX="117" positionY="-58" width="171" height="148"/>
         <element name="EDMedication" positionX="45" positionY="306" width="128" height="45"/>
         <element name="EDRestaurant" positionX="-74" positionY="-36" width="128" height="73"/>
-        <element name="EDSymptom" positionX="-1143" positionY="-468" width="128" height="133"/>
+        <element name="EDSymptom" positionX="-1143" positionY="-486" width="128" height="148"/>
         <element name="EDTag" positionX="-225" positionY="-504" width="128" height="103"/>
         <element name="EDType" positionX="765" positionY="-27" width="128" height="90"/>
         <element name="EDBodyPart" positionX="-1476" positionY="-97" width="128" height="88"/>

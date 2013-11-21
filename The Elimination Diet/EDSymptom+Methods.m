@@ -8,6 +8,316 @@
 
 #import "EDSymptom+Methods.h"
 
+#import "EDEliminatedAPI+Fetching.h"
+#import "EDEliminatedAPI+Searching.h"
+#import "EDEliminatedAPI+Sorting.h"
+#import "EDEliminatedAPI+Helpers.h"
+
+#import "EDTag+Methods.h"
+#import "EDEliminatedFood+Methods.h"
+
+#import "EDBodyPart+Methods.h"
+#import "EDHadSymptom+Methods.h"
+#import "EDSymptomDescription+Methods.h"
+
+#import "NSError+MultipleErrors.h"
+#import "NSString+EatDate.h"
+
 @implementation EDSymptom (Methods)
+
+#pragma mark - Property Creation
+// --------------------------------------------------
+
++ (EDSymptom *) createSymptomWithName:(NSString *)name
+                             favorite:(BOOL) isFavorite
+                             bodyPart:(EDBodyPart *) bodyPart
+                   symptomDescription:(EDSymptomDescription *) symptomDescription
+                                 tags:(NSSet *)tags
+                           forContext:(NSManagedObjectContext *)context
+{
+    // we require all of these
+    if (!bodyPart || !symptomDescription || !name) {
+        return nil;
+    }
+    
+    // Check For Duplicate ------------------
+    // check if a meal with the same name already exists
+    NSFetchRequest *fetchSymptom = [self fetchSymptomsForName:name];
+    
+    NSError *error;
+    NSArray *sameName = [context executeFetchRequest:fetchSymptom error:&error];
+    
+    // unique will be used to determine if another object exists with the same
+    //      - name
+    //      - added ingredients
+    //      - parents
+    //      - restaurant
+    
+    BOOL unique = TRUE;
+    
+    EDSymptom *dupSymptom;
+    
+    if ([sameName count]) {
+        for (int i = 0; i< [sameName count]; i++) {
+            dupSymptom = sameName[i];
+            
+            unique = [bodyPart isEqual:dupSymptom.bodyPart];
+
+            unique = [symptomDescription isEqual:dupSymptom.bodyPart];
+            
+            if (!unique) {
+                
+                // error - meal already exists
+                
+                // end the for loop
+                i = [sameName count];
+            }
+        }
+    }
+    
+    
+
+    // if this meal is unique, then create it
+    if (unique) {
+        
+        EDSymptom *temp = [NSEntityDescription insertNewObjectForEntityForName:SYMPTOM_ENTITY_NAME
+                                                        inManagedObjectContext:context];
+        
+        // set object properties to obvious or empty;
+        temp.name = name;
+        temp.uniqueID = [EDEliminatedAPI createUniqueID];
+        temp.favorite = @(isFavorite);
+        temp.bodyPart = bodyPart;
+        temp.symptomDescription = symptomDescription;
+        temp.timesHad = [[NSSet alloc] init];
+        temp.tags = [[NSSet alloc] init];
+        
+        //[temp determineAllTransientProperties];
+        
+        if (tags) { // if there are tags then set them
+            temp.tags = tags;
+        }
+        
+        return temp;
+    }
+    
+    else { // the meal already exists, so we should just return it
+        return dupSymptom;
+    }
+}
+
++ (void) setUpDefaultSymptomsInContext:(NSManagedObjectContext *) context
+{
+    
+}
+
+
+
+
+#pragma mark - Fetching
+
+
++ (NSFetchRequest *) fetchAllSymptoms
+{
+    NSFetchRequest *fetch = [self fetchObjectsForEntityName:SYMPTOM_ENTITY_NAME];
+    
+    return fetch;
+}
+
+
++ (NSFetchRequest *) fetchFavoriteSymptoms
+{
+    NSFetchRequest *fetch = [self fetchFavoriteObjectsForEntityName:SYMPTOM_ENTITY_NAME];
+    
+    return fetch;
+}
+
+
++ (NSFetchRequest *) fetchSymptomsForName:(NSString *) name
+{
+    NSFetchRequest *fetch = [self fetchObjectsForEntityName:SYMPTOM_ENTITY_NAME];
+    
+    fetch.predicate = [NSPredicate predicateWithFormat:@"name like[cd] %@", name];
+    
+    return fetch;
+}
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+{
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName];
+    
+    fetch.sortDescriptors = @[[EDEliminatedAPI nameSortDescriptor]];
+    
+    return fetch;
+}
+
+
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+                                 stringKeyPath: (NSString *) path
+                                 equalToString: (NSString *) stringValue
+{
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName stringKeyPath:path equalToString:stringValue];
+    
+    return fetch;
+}
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+                                    setKeyPath: (NSString *) path
+                                 containsValue: (id) value
+{
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName setKeyPath:path containsValue:value];
+    
+    return fetch;
+}
+
++ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName
+                                 withSelfInSet:(NSSet *)objects
+{
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName withSelfInSet:objects];
+    return fetch;
+}
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+                                  withFoodName:(NSString *)foodName
+{
+    return [EDEliminatedAPI fetchObjectsForEntityName:entityName withName:foodName];
+}
+
+
++ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName
+                                 withfoodNames:(NSArray *) foodNames
+{
+    
+    //NSExpression *rhs = [NSExpression expressionWithFormat:@"name"];
+    //NSExpression *lhs = [NSExpression expressionWithFormat:@"%@", foodNames];
+    
+    //NSPredicate *pred = [NSComparisonPredicate predicateWithLeftExpression:lhs rightExpression:rhs modifier:NSAnyPredicateModifier type:NSLikePredicateOperatorType options:NSCaseInsensitivePredicateOption];
+    
+    
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName withNames:foodNames];
+    
+    return fetch;
+}
+
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+                                      UniqueID: (NSString *) uniqueID
+{
+    return [EDEliminatedAPI fetchObjectsForEntityName:entityName UniqueID:uniqueID];
+}
+
+
+#pragma mark - Tag And Favorite Fetching -
+
++ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
+                                          Tags: (NSSet *) tags
+{
+    return [EDTag fetchObjectsForEntityName:entityName withTags:tags];
+}
+
++ (NSFetchRequest *) fetchFavoriteObjectsForEntityName:(NSString *)entityName
+{
+    return [EDEliminatedAPI fetchFavoriteObjectsForEntityName:entityName];
+}
+
+
+#pragma mark - Searching -
+
+//---------
+// search through name and tags
++ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName forSearchString:(NSString *)text
+{
+    
+    
+    return [EDEliminatedAPI fetchObjectsForEntityName:entityName forSearchString:text];
+}
+
+
+
+// only searches through the names
++ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName nameContainingText:(NSString *)text
+{
+    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName nameContainingText:text];
+    
+    fetch.sortDescriptors = @[[EDEliminatedAPI nameSortDescriptor]];
+    
+    return fetch;
+}
+
+#pragma mark - Tags and Favorites
+//- (BOOL) isFavorite
+//{
+//    EDTag *starTag = [EDTag getFavoriteTagInContext:self.managedObjectContext];
+//    if ([self.tags containsObject:starTag]) {
+//        return TRUE;
+//    }
+//    return FALSE;
+//}
+
+- (BOOL) isFavorite
+{
+    return [self.favorite boolValue];
+}
+
+- (NSString *) tagsAsString
+{
+    return [EDTag convertIntoString:self.tags];
+}
+
+
+#pragma mark - Validation methods
+
+- (BOOL)validateForInsert:(NSError **)error
+{
+    BOOL propertiesValid = [super validateForInsert:error];
+    if (!propertiesValid) {
+        
+        NSLog(@"%@", [*error localizedDescription]);
+        return FALSE;
+    }
+    
+    BOOL consistencyValid = [self validateConsistency:error];
+    return (propertiesValid && consistencyValid);
+}
+
+- (BOOL)validateForUpdate:(NSError **)error
+{
+    BOOL propertiesValid = [super validateForUpdate:error];
+    if (!propertiesValid) {
+        
+        NSLog(@"%@", [*error localizedDescription]);
+        return FALSE;
+    }
+    
+    BOOL consistencyValid = [self validateConsistency:error];
+    return (propertiesValid && consistencyValid);
+}
+
+
+
+
+
+// **** CENTRAL VALIDATION METHOD ****
+/// - We need to check whether or not there are overlapping eliminatedObject
+- (BOOL)validateConsistency:(NSError **)error
+{
+    BOOL valid = TRUE;
+    
+    return valid;
+}
+
+/// Other Methods
+//---------------------------------------------------------------
+
+- (NSString *) nameFirstLetter
+{
+    if ([self.name length]) {
+        return [self.name substringToIndex:1];
+    }
+    
+    return @"";
+    
+}
 
 @end
