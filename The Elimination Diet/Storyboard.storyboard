@@ -848,7 +848,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggl-Yn-TzC">
                                             <rect key="frame" x="20" y="5" width="77" height="68"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" patternImage="9D483A83-2CE3-48F6-B33F-64E9351760D0" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="CFADAA51-70CC-4B1B-A3B6-FEE175318814" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="77" id="aTq-Yk-Ue1"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="oEN-Q2-Rcp"/>
@@ -1059,7 +1059,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NRK-6N-L2c">
                                             <rect key="frame" x="20" y="5" width="77" height="68"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" patternImage="9D0DD57E-FE07-4820-A134-770CFBD1D085" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="A3025E4D-B356-431F-8DDA-C9DBE0F1AB11" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="LNe-9e-IgR"/>
                                                 <constraint firstAttribute="width" constant="77" id="yaz-jl-Wp2"/>
@@ -1906,7 +1906,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S4i-sI-ZYH">
                                             <rect key="frame" x="20" y="5" width="77" height="69"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" patternImage="804BAEF1-D377-469D-8099-C584CC330FB0" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="0EFC220C-5B4C-48F0-8346-B5A9B9EAF4DB" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="77" id="Atq-02-VPP"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Oxt-T8-4Ya"/>
@@ -1963,7 +1963,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="804BAEF1-D377-469D-8099-C584CC330FB0" width="256" height="256">
+        <image name="0EFC220C-5B4C-48F0-8346-B5A9B9EAF4DB" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -6352,7 +6352,7 @@ BAILAAQCEwAEAhYABAIbAAQCKgAEAi4ABAI1AAQCPQAEAkoABAJPAAQCUQAEAlMABAJYAAQCYAAEAmMA
 BAJoAAQCcAAEAnMABAKFAAQCiAAEAo0AAAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQCjw
 </mutableData>
         </image>
-        <image name="9D0DD57E-FE07-4820-A134-770CFBD1D085" width="256" height="256">
+        <image name="A3025E4D-B356-431F-8DDA-C9DBE0F1AB11" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -10741,7 +10741,7 @@ BAILAAQCEwAEAhYABAIbAAQCKgAEAi4ABAI1AAQCPQAEAkoABAJPAAQCUQAEAlMABAJYAAQCYAAEAmMA
 BAJoAAQCcAAEAnMABAKFAAQCiAAEAo0AAAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQCjw
 </mutableData>
         </image>
-        <image name="9D483A83-2CE3-48F6-B33F-64E9351760D0" width="256" height="256">
+        <image name="CFADAA51-70CC-4B1B-A3B6-FEE175318814" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

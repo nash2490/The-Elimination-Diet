@@ -14,10 +14,8 @@
 		6C08B5F017AAC8B3006F223B /* EDTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C08B5EF17AAC8B3006F223B /* EDTypeTableViewController.m */; };
 		6C08B5F317AAF956006F223B /* EDCoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C08B5F217AAF955006F223B /* EDCoreDataTableViewController.m */; };
 		6C0A0FA617DA1B1A00954302 /* EDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FA517DA1B1A00954302 /* EDEvent.m */; };
-		6C0A0FA917DA1B5900954302 /* EDHadSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FA817DA1B5900954302 /* EDHadSymptom.m */; };
 		6C0A0FAC17DA1B6700954302 /* EDEliminatedFood.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FAB17DA1B6700954302 /* EDEliminatedFood.m */; };
 		6C0A0FB517DA1C6700954302 /* EDEvent+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FB417DA1C6700954302 /* EDEvent+Methods.m */; };
-		6C0A0FB817DA1F0000954302 /* EDSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FB717DA1F0000954302 /* EDSymptom.m */; };
 		6C0A0FBC17DA4B1A00954302 /* EDSelectMealsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FBB17DA4B1A00954302 /* EDSelectMealsViewController.m */; };
 		6C1070861803427F000D3251 /* EDEatNewFoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C1070851803427F000D3251 /* EDEatNewFoodViewController.m */; };
 		6C10D5041827E374000F247F /* EDTableComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C10D5031827E374000F247F /* EDTableComponents.m */; };
@@ -98,6 +96,12 @@
 		6CD236CE1834817600102959 /* EDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236CD1834817600102959 /* EDImage.m */; };
 		6CD236D11834818C00102959 /* EDFood.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236D01834818C00102959 /* EDFood.m */; };
 		6CD321B217E0BB2F0085922F /* EDType.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD321B117E0BB2F0085922F /* EDType.m */; };
+		6CE51DD1183EA848004C7ABC /* EDSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD0183EA848004C7ABC /* EDSymptom.m */; };
+		6CE51DD4183EA848004C7ABC /* EDHadSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */; };
+		6CE51DD7183EA848004C7ABC /* EDBodyPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD6183EA848004C7ABC /* EDBodyPart.m */; };
+		6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD9183EA848004C7ABC /* EDSymptomDescription.m */; };
+		6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */; };
+		6CE51DE0183EA9D9004C7ABC /* EDSymptomDescription+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */; };
 		6CE6141517B042AB009F5C75 /* EDMealTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6141417B042AB009F5C75 /* EDMealTableViewController.m */; };
 		6CE6141817B0458E009F5C75 /* EDEatenMealTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6141717B0458E009F5C75 /* EDEatenMealTableViewController.m */; };
 		6CED588C1763FA3F005BFF76 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED588B1763FA3F005BFF76 /* UIKit.framework */; };
@@ -129,14 +133,10 @@
 		6C08B5F217AAF955006F223B /* EDCoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDCoreDataTableViewController.m; sourceTree = "<group>"; };
 		6C0A0FA417DA1B1A00954302 /* EDEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEvent.h; sourceTree = "<group>"; };
 		6C0A0FA517DA1B1A00954302 /* EDEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDEvent.m; sourceTree = "<group>"; };
-		6C0A0FA717DA1B5900954302 /* EDHadSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDHadSymptom.h; sourceTree = "<group>"; };
-		6C0A0FA817DA1B5900954302 /* EDHadSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDHadSymptom.m; sourceTree = "<group>"; };
 		6C0A0FAA17DA1B6700954302 /* EDEliminatedFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEliminatedFood.h; sourceTree = "<group>"; };
 		6C0A0FAB17DA1B6700954302 /* EDEliminatedFood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDEliminatedFood.m; sourceTree = "<group>"; };
 		6C0A0FB317DA1C6700954302 /* EDEvent+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDEvent+Methods.h"; sourceTree = "<group>"; };
 		6C0A0FB417DA1C6700954302 /* EDEvent+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDEvent+Methods.m"; sourceTree = "<group>"; };
-		6C0A0FB617DA1F0000954302 /* EDSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSymptom.h; sourceTree = "<group>"; };
-		6C0A0FB717DA1F0000954302 /* EDSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSymptom.m; sourceTree = "<group>"; };
 		6C0A0FBA17DA4B1A00954302 /* EDSelectMealsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSelectMealsViewController.h; sourceTree = "<group>"; };
 		6C0A0FBB17DA4B1A00954302 /* EDSelectMealsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSelectMealsViewController.m; sourceTree = "<group>"; };
 		6C1070841803427F000D3251 /* EDEatNewFoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEatNewFoodViewController.h; sourceTree = "<group>"; };
@@ -290,6 +290,19 @@
 		6CD236D01834818C00102959 /* EDFood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDFood.m; sourceTree = "<group>"; };
 		6CD321B017E0BB2F0085922F /* EDType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDType.h; sourceTree = "<group>"; };
 		6CD321B117E0BB2F0085922F /* EDType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDType.m; sourceTree = "<group>"; };
+		6CE51DCE183E9E21004C7ABC /* EDDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EDDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		6CE51DCF183EA848004C7ABC /* EDSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSymptom.h; sourceTree = "<group>"; };
+		6CE51DD0183EA848004C7ABC /* EDSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSymptom.m; sourceTree = "<group>"; };
+		6CE51DD2183EA848004C7ABC /* EDHadSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDHadSymptom.h; sourceTree = "<group>"; };
+		6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDHadSymptom.m; sourceTree = "<group>"; };
+		6CE51DD5183EA848004C7ABC /* EDBodyPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDBodyPart.h; sourceTree = "<group>"; };
+		6CE51DD6183EA848004C7ABC /* EDBodyPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDBodyPart.m; sourceTree = "<group>"; };
+		6CE51DD8183EA848004C7ABC /* EDSymptomDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSymptomDescription.h; sourceTree = "<group>"; };
+		6CE51DD9183EA848004C7ABC /* EDSymptomDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSymptomDescription.m; sourceTree = "<group>"; };
+		6CE51DDB183EA9BD004C7ABC /* EDBodyPart+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDBodyPart+Methods.h"; sourceTree = "<group>"; };
+		6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDBodyPart+Methods.m"; sourceTree = "<group>"; };
+		6CE51DDE183EA9D9004C7ABC /* EDSymptomDescription+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDSymptomDescription+Methods.h"; sourceTree = "<group>"; };
+		6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDSymptomDescription+Methods.m"; sourceTree = "<group>"; };
 		6CE6141317B042AB009F5C75 /* EDMealTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDMealTableViewController.h; sourceTree = "<group>"; };
 		6CE6141417B042AB009F5C75 /* EDMealTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDMealTableViewController.m; sourceTree = "<group>"; };
 		6CE6141617B0458E009F5C75 /* EDEatenMealTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEatenMealTableViewController.h; sourceTree = "<group>"; };
@@ -348,14 +361,22 @@
 		6C0A0FB917DA24EF00954302 /* Symptoms */ = {
 			isa = PBXGroup;
 			children = (
+				6CE51DDB183EA9BD004C7ABC /* EDBodyPart+Methods.h */,
+				6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */,
+				6CE51DD5183EA848004C7ABC /* EDBodyPart.h */,
+				6CE51DD6183EA848004C7ABC /* EDBodyPart.m */,
 				6CAEC09717A8441500649199 /* EDHadSymptom+Methods.h */,
 				6CAEC09817A8441600649199 /* EDHadSymptom+Methods.m */,
-				6C0A0FA717DA1B5900954302 /* EDHadSymptom.h */,
-				6C0A0FA817DA1B5900954302 /* EDHadSymptom.m */,
+				6CE51DD2183EA848004C7ABC /* EDHadSymptom.h */,
+				6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */,
 				6CAEC0A917A8454D00649199 /* EDSymptom+Methods.h */,
 				6CAEC0AA17A8454E00649199 /* EDSymptom+Methods.m */,
-				6C0A0FB617DA1F0000954302 /* EDSymptom.h */,
-				6C0A0FB717DA1F0000954302 /* EDSymptom.m */,
+				6CE51DCF183EA848004C7ABC /* EDSymptom.h */,
+				6CE51DD0183EA848004C7ABC /* EDSymptom.m */,
+				6CE51DDE183EA9D9004C7ABC /* EDSymptomDescription+Methods.h */,
+				6CE51DDF183EA9D9004C7ABC /* EDSymptomDescription+Methods.m */,
+				6CE51DD8183EA848004C7ABC /* EDSymptomDescription.h */,
+				6CE51DD9183EA848004C7ABC /* EDSymptomDescription.m */,
 			);
 			name = Symptoms;
 			sourceTree = "<group>";
@@ -818,7 +839,10 @@
 				6C4DC05117736E8F00AE401F /* UIView+EDAdjustView.m in Sources */,
 				6C3619A518204BBE00791E49 /* EDCreationViewController.m in Sources */,
 				6CADA0BE1831210800A9C6AA /* EDMeal.m in Sources */,
+				6CE51DD1183EA848004C7ABC /* EDSymptom.m in Sources */,
 				6C4DC05417764EA800AE401F /* EDMainMenuVC.m in Sources */,
+				6CE51DD7183EA848004C7ABC /* EDBodyPart.m in Sources */,
+				6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */,
 				6C8B3652181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.m in Sources */,
 				6CAE740418046D260062E12C /* EDTagCell.m in Sources */,
 				6C3619AB18205E5200791E49 /* EDEatNewMealViewController.m in Sources */,
@@ -839,6 +863,7 @@
 				6C8B365C181ACCBE00B022F3 /* EDEliminatedAPI+Helpers.m in Sources */,
 				6CAEC0AB17A8454F00649199 /* EDSymptom+Methods.m in Sources */,
 				6CAEC0AE17A8456A00649199 /* EDType+Methods.m in Sources */,
+				6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */,
 				6C32A0C417AA93A0007E932D /* EDDocumentHandler.m in Sources */,
 				6CADA0D1183172CE00A9C6AA /* iCarousel.m in Sources */,
 				6C08B5F017AAC8B3006F223B /* EDTypeTableViewController.m in Sources */,
@@ -860,6 +885,7 @@
 				6C683D7A17CE63CB00011ED5 /* EDFood+Methods.m in Sources */,
 				6C683D7D17CE67C600011ED5 /* EDTag+Methods.m in Sources */,
 				6CB51B5F17CF318500F58122 /* EDEliminatedFood+Ingredients.m in Sources */,
+				6CE51DE0183EA9D9004C7ABC /* EDSymptomDescription+Methods.m in Sources */,
 				6CB51B6217CF319900F58122 /* EDEliminatedFood+Types.m in Sources */,
 				6CB51B6517CF31A100F58122 /* EDEliminatedFood+Methods.m in Sources */,
 				6CB51B6817CF31A900F58122 /* EDEliminatedFood+Restaurants.m in Sources */,
@@ -873,16 +899,15 @@
 				6C9F69C717D869BE0087FFF9 /* EDTimeAndDescriptionCell.m in Sources */,
 				6C0A0FA617DA1B1A00954302 /* EDEvent.m in Sources */,
 				6CADA0D61832A10500A9C6AA /* UIImage+fixOrientation.m in Sources */,
-				6C0A0FA917DA1B5900954302 /* EDHadSymptom.m in Sources */,
 				6C0A0FAC17DA1B6700954302 /* EDEliminatedFood.m in Sources */,
 				6C75C36C18157CEB00676288 /* EDEliminatedAPI.m in Sources */,
 				6C0368B91818796A0088353A /* EDIngredient.m in Sources */,
 				6CADA0D91832B9F900A9C6AA /* EDShowHideCell.m in Sources */,
 				6C0A0FB517DA1C6700954302 /* EDEvent+Methods.m in Sources */,
-				6C0A0FB817DA1F0000954302 /* EDSymptom.m in Sources */,
 				6C0A0FBC17DA4B1A00954302 /* EDSelectMealsViewController.m in Sources */,
 				6CD321B217E0BB2F0085922F /* EDType.m in Sources */,
 				6CBE2F16182951E500854B64 /* EDReminderCell.m in Sources */,
+				6CE51DD4183EA848004C7ABC /* EDHadSymptom.m in Sources */,
 				6C10D5041827E374000F247F /* EDTableComponents.m in Sources */,
 				6CBE2F1F18297C6700854B64 /* EDNewFoodFromPicturesViewController.m in Sources */,
 				6CBE2F191829520E00854B64 /* EDImageButtonCell.m in Sources */,
@@ -1028,9 +1053,10 @@
 		6CAB9CE317A0062100988074 /* EDDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6CE51DCE183E9E21004C7ABC /* EDDataModel 2.xcdatamodel */,
 				6CAB9CE417A0062100988074 /* EDDataModel.xcdatamodel */,
 			);
-			currentVersion = 6CAB9CE417A0062100988074 /* EDDataModel.xcdatamodel */;
+			currentVersion = 6CE51DCE183E9E21004C7ABC /* EDDataModel 2.xcdatamodel */;
 			path = EDDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

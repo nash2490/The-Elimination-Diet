@@ -1,17 +1,13 @@
 //
-//  EDHadSymptom.m
+//  EDSymptomDescription+Methods.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 11/21/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDHadSymptom.h"
-#import "EDSymptom.h"
+#import "EDSymptomDescription.h"
 
-
-@implementation EDHadSymptom
-
-@dynamic symptom;
+@interface EDSymptomDescription (Methods)
 
 @end

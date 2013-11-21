@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="EDBodyPart" representedClassName="EDBodyPart" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" syncable="YES"/>
+        <relationship name="relatedSymptoms" optional="YES" toMany="YES" maxCount="10000" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="bodyPart" inverseEntity="EDSymptom" syncable="YES"/>
+    </entity>
+    <entity name="EDEatenMeal" representedClassName="EDEatenMeal" parentEntity="EDEvent" syncable="YES">
+        <relationship name="meal" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="timesEaten" inverseEntity="EDMeal" syncable="YES"/>
+    </entity>
+    <entity name="EDEliminatedFood" representedClassName="EDEliminatedFood" parentEntity="EDEvent" syncable="YES">
+        <attribute name="stop" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="eliminatedFood" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EDFood" inverseName="whenEliminated" inverseEntity="EDFood" syncable="YES"/>
+    </entity>
+    <entity name="EDEvent" representedClassName="EDEvent" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
+    </entity>
+    <entity name="EDFood" representedClassName="EDFood" syncable="YES">
+        <attribute name="favorite" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" attributeType="String" minValueString="1" maxValueString="100" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDImage" inverseName="food" inverseEntity="EDImage" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDTag" inverseName="foodWithTag" inverseEntity="EDTag" syncable="YES"/>
+        <relationship name="whenEliminated" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDEliminatedFood" inverseName="eliminatedFood" inverseEntity="EDEliminatedFood" syncable="YES"/>
+    </entity>
+    <entity name="EDHadSymptom" representedClassName="EDHadSymptom" parentEntity="EDEvent" syncable="YES">
+        <relationship name="symptom" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="timesHad" inverseEntity="EDSymptom" syncable="YES"/>
+    </entity>
+    <entity name="EDImage" representedClassName="EDImage" syncable="YES">
+        <attribute name="imagePath" attributeType="String" minValueString="0" syncable="YES"/>
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EDFood" inverseName="images" inverseEntity="EDFood" syncable="YES"/>
+    </entity>
+    <entity name="EDIngredient" representedClassName="EDIngredient" parentEntity="EDFood" syncable="YES">
+        <relationship name="ingredientChildren" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="ingredientParents" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="ingredientParents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="ingredientChildren" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="mealsPrimary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="ingredientsAdded" inverseEntity="EDMeal" syncable="YES"/>
+        <relationship name="mealsSecondary" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="ingredientsSecondary" inverseEntity="EDMeal" syncable="YES"/>
+        <relationship name="typesPrimary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDType" inverseName="ingredientsPrimary" inverseEntity="EDType" syncable="YES"/>
+        <relationship name="typesSecondary" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDType" inverseName="ingredientsSecondary" inverseEntity="EDType" syncable="YES"/>
+    </entity>
+    <entity name="EDLocation" representedClassName="EDLocation" syncable="YES">
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="restaurant" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EDRestaurant" inverseName="locations" inverseEntity="EDRestaurant" syncable="YES"/>
+    </entity>
+    <entity name="EDMeal" representedClassName="EDMeal" parentEntity="EDFood" syncable="YES">
+        <relationship name="ingredientsAdded" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="mealsPrimary" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="ingredientsSecondary" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="mealsSecondary" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="mealChildren" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="mealParents" inverseEntity="EDMeal" syncable="YES"/>
+        <relationship name="mealParents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="mealChildren" inverseEntity="EDMeal" syncable="YES"/>
+        <relationship name="restaurant" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EDRestaurant" inverseName="meals" inverseEntity="EDRestaurant" syncable="YES"/>
+        <relationship name="timesEaten" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDEatenMeal" inverseName="meal" inverseEntity="EDEatenMeal" syncable="YES"/>
+        <relationship name="types" optional="YES" transient="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="EDType" inverseName="meals" inverseEntity="EDType" syncable="YES"/>
+    </entity>
+    <entity name="EDMedication" representedClassName="EDMedication" parentEntity="EDMeal" syncable="YES"/>
+    <entity name="EDRestaurant" representedClassName="EDRestaurant" parentEntity="EDFood" syncable="YES">
+        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDLocation" inverseName="restaurant" inverseEntity="EDLocation" syncable="YES"/>
+        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="restaurant" inverseEntity="EDMeal" syncable="YES"/>
+    </entity>
+    <entity name="EDSymptom" representedClassName="EDSymptom" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
+        <relationship name="bodyPart" maxCount="1" deletionRule="Nullify" destinationEntity="EDBodyPart" inverseName="relatedSymptoms" inverseEntity="EDBodyPart" syncable="YES"/>
+        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EDTag" inverseName="symptomsWithTag" inverseEntity="EDTag" syncable="YES"/>
+        <relationship name="symptomDescription" maxCount="1" deletionRule="Nullify" destinationEntity="EDSymptomDescription" inverseName="relatedSymptoms" inverseEntity="EDSymptomDescription" syncable="YES"/>
+        <relationship name="timesHad" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDHadSymptom" inverseName="symptom" inverseEntity="EDHadSymptom" syncable="YES"/>
+    </entity>
+    <entity name="EDSymptomDescription" representedClassName="EDSymptomDescription" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" syncable="YES"/>
+        <relationship name="relatedSymptoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="symptomDescription" inverseEntity="EDSymptom" syncable="YES"/>
+    </entity>
+    <entity name="EDTag" representedClassName="EDTag" syncable="YES">
+        <attribute name="name" attributeType="String" minValueString="2" maxValueString="24" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" minValueString="1" syncable="YES"/>
+        <relationship name="foodWithTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDFood" inverseName="tags" inverseEntity="EDFood" syncable="YES"/>
+        <relationship name="symptomsWithTag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDSymptom" inverseName="newRelationship" inverseEntity="EDSymptom" syncable="YES"/>
+    </entity>
+    <entity name="EDType" representedClassName="EDType" parentEntity="EDFood" syncable="YES">
+        <relationship name="ingredientsPrimary" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="typesPrimary" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="ingredientsSecondary" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDIngredient" inverseName="typesSecondary" inverseEntity="EDIngredient" syncable="YES"/>
+        <relationship name="meals" optional="YES" transient="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EDMeal" inverseName="types" inverseEntity="EDMeal" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="EDEatenMeal" positionX="-506" positionY="41" width="128" height="58"/>
+        <element name="EDEliminatedFood" positionX="-477" positionY="-163" width="128" height="73"/>
+        <element name="EDEvent" positionX="-659" positionY="-351" width="128" height="73"/>
+        <element name="EDFood" positionX="162" positionY="-414" width="128" height="133"/>
+        <element name="EDHadSymptom" positionX="-866" positionY="-162" width="128" height="58"/>
+        <element name="EDImage" positionX="403" positionY="-405" width="128" height="73"/>
+        <element name="EDIngredient" positionX="405" positionY="-99" width="135" height="133"/>
+        <element name="EDLocation" positionX="-299" positionY="-72" width="128" height="88"/>
+        <element name="EDMeal" positionX="117" positionY="-58" width="171" height="148"/>
+        <element name="EDMedication" positionX="45" positionY="306" width="128" height="45"/>
+        <element name="EDRestaurant" positionX="-74" positionY="-36" width="128" height="73"/>
+        <element name="EDSymptom" positionX="-1143" positionY="-468" width="128" height="133"/>
+        <element name="EDTag" positionX="-225" positionY="-504" width="128" height="103"/>
+        <element name="EDType" positionX="765" positionY="-27" width="128" height="90"/>
+        <element name="EDBodyPart" positionX="-1476" positionY="-97" width="128" height="88"/>
+        <element name="EDSymptomDescription" positionX="-1397" positionY="47" width="128" height="88"/>
+    </elements>
+</model>
