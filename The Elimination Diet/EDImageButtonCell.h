@@ -1,0 +1,28 @@
+//
+//  EDImageButtonCell.h
+//  The Elimination Diet
+//
+//  Created by Justin Kahn on 11/5/13.
+//  Copyright (c) 2013 Justin Kahn. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@protocol EDImageButtonCellDelegate <NSObject>
+
+- (void) handleTakeAnotherPictureButton: (id) sender;
+- (void) handleDeletePictureButton: (id) sender;
+@end
+
+
+@interface EDImageButtonCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *takeAnotherPictureButton;
+@property (weak, nonatomic) IBOutlet UIButton *retakePictureButton;
+@property (weak, nonatomic) IBOutlet UIButton *deletePictureButton;
+
+@property (nonatomic, weak) id <EDImageButtonCellDelegate> delegate;
+
+- (IBAction)handleTakeAnotherPictureButton:(id)sender;
+
+
+@end
