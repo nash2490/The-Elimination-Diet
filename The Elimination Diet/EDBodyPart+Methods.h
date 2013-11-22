@@ -48,13 +48,6 @@
 + (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName
                                  withSelfInSet:(NSSet *) objects;
 
-/// get the food objects of entity and for the name
-+ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
-                                  withFoodName: (NSString *) foodName;
-
-/// get the food objects of entity and have a name from foodNames
-+ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName
-                                 withfoodNames:(NSArray *) foodNames;
 
 /// get the food objects of entity and for the uniqueID
 + (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName

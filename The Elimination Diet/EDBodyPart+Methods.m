@@ -7,7 +7,7 @@
 //
 
 #import "EDBodyPart+Methods.h"
-
+#import "EDBodyLocation+Methods.h"
 
 #import "EDEliminatedAPI+Fetching.h"
 #import "EDEliminatedAPI+Searching.h"
@@ -84,7 +84,65 @@
 
 + (void) setUpDefaultBodyPartsInContext:(NSManagedObjectContext *) context
 {
+    // dictionary for creating body parts and location
+    // key is the name of the part
+    // object is array @[appendage, leftRight, location] // @[@(appendage), @(leftRight), @(location)];
     
+    NSDictionary *defaultBodyParts = @{@"Head": @[@(EDBodyLocationAppendageHeadAndNeck), @(EDBodyLocationAll), @(-1.0)],
+                                       @"Neck": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationAll), @(0.0)],
+                                       @"Nose": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.5)],
+                                       @"Eyes": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.75)],
+                                       @"Ears": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.75)],
+                                       @"Mouth": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.25)],
+                                       @"Throat": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.1)],
+                                       
+                                       
+                                       @"Foot": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.0)],
+                                       @"Ankle": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.1)],
+                                       @"Shin": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.25)],
+                                       @"Calf": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.25)],
+                                       @"Knee": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.5)],
+                                       @"Thigh": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(0.75)],
+                                       @"Leg": @[@(EDBodyLocationAppendageLeg ), @(EDBodyLocationCenter), @(-1)],
+                                       
+                                       
+                                       @"Fingers": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(0.0)],
+                                       @"Hand": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(0.1)],
+                                       @"Wrist": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(0.2)],
+                                       @"Elbow": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(0.5)],
+                                       @"Shoulder": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(1.0)],
+                                       @"Arm": @[@(EDBodyLocationAppendageArm ), @(EDBodyLocationCenter), @(-1.0)],
+                                       
+                                       @"Back": @[@(EDBodyLocationAppendageBack ), @(EDBodyLocationAll), @(-1.0)],
+                                       @"Lower Back": @[@(EDBodyLocationAppendageBack ), @(EDBodyLocationCenter), @(0.1)],
+                                       @"Mid Back": @[@(EDBodyLocationAppendageBack ), @(EDBodyLocationCenter), @(0.5)],
+                                       @"Upper Back": @[@(EDBodyLocationAppendageBack ), @(EDBodyLocationCenter), @(0.9)],
+                                       
+                                       @"Butt": @[@(EDBodyLocationAppendageBack ), @(EDBodyLocationCenter), @(0.0)],
+                                       
+                                       @"Stomach": @[@(EDBodyLocationAppendageTorso ), @(EDBodyLocationCenter), @(0.25)],
+                                       @"Chest": @[@(EDBodyLocationAppendageTorso ), @(EDBodyLocationCenter), @(0.75)],
+                                       @"Lungs": @[@(EDBodyLocationAppendageTorso ), @(EDBodyLocationAll), @(0.75)],
+                                       @"Heart": @[@(EDBodyLocationAppendageTorso ), @(EDBodyLocationLeft), @(0.75)],
+                                       @"Groin": @[@(EDBodyLocationAppendageTorso ), @(EDBodyLocationCenter), @(0.0)],
+                                       
+                                       };
+    
+    
+    for (NSString *part in [defaultBodyParts allKeys]) {
+        NSArray *loc = defaultBodyParts[part];
+        NSNumber *appendage = loc[0];
+        NSNumber *leftRight = loc[1];
+        NSNumber *locFloat = loc[2];
+        
+        EDBodyLocation *newLocation = [EDBodyLocation createBodyLocationWithAppendage:[appendage integerValue]
+                                                                            leftRight:[leftRight integerValue]
+                                                                        locationFloat:[locFloat floatValue]
+                                                                           forContext:context];
+        
+        EDBodyPart *newPart = [EDBodyPart createBodyPartWithName:part forContext:context];
+        newPart.bodyLocation = newLocation;
+    }
 }
 
 
@@ -148,27 +206,6 @@
     return fetch;
 }
 
-+ (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName
-                                  withFoodName:(NSString *)foodName
-{
-    return [EDEliminatedAPI fetchObjectsForEntityName:entityName withName:foodName];
-}
-
-
-+ (NSFetchRequest *) fetchObjectsForEntityName:(NSString *)entityName
-                                 withfoodNames:(NSArray *) foodNames
-{
-    
-    //NSExpression *rhs = [NSExpression expressionWithFormat:@"name"];
-    //NSExpression *lhs = [NSExpression expressionWithFormat:@"%@", foodNames];
-    
-    //NSPredicate *pred = [NSComparisonPredicate predicateWithLeftExpression:lhs rightExpression:rhs modifier:NSAnyPredicateModifier type:NSLikePredicateOperatorType options:NSCaseInsensitivePredicateOption];
-    
-    
-    NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName withNames:foodNames];
-    
-    return fetch;
-}
 
 
 + (NSFetchRequest *) fetchObjectsForEntityName: (NSString *) entityName

@@ -1,14 +1,12 @@
 //
-//  EDSymptomDescription+Methods.m
+//  EDBodyLocation+Methods.m
 //  The Elimination Diet
 //
-//  Created by Justin Kahn on 11/21/13.
+//  Created by Justin Kahn on 11/22/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDSymptomDescription+Methods.h"
-
-
+#import "EDBodyLocation+Methods.h"
 
 #import "EDEliminatedAPI+Fetching.h"
 #import "EDEliminatedAPI+Searching.h"
@@ -18,34 +16,33 @@
 #import "EDTag+Methods.h"
 #import "EDEliminatedFood+Methods.h"
 
+#import "EDBodyPart+Methods.h"
 #import "EDSymptom+Methods.h"
 #import "EDHadSymptom+Methods.h"
+#import "EDSymptomDescription+Methods.h"
 
 #import "NSError+MultipleErrors.h"
 #import "NSString+EatDate.h"
 
-
-
-@implementation EDSymptomDescription (Methods)
+@implementation EDBodyLocation (Methods)
 
 
 #pragma mark - Property Creation
 // --------------------------------------------------
 
-+ (EDSymptomDescription *) createSymptomDescriptionWithName:(NSString *)name
-                                                 forContext:(NSManagedObjectContext *)context
++ (EDBodyLocation *) createBodyLocationWithAppendage:(EDBodyLocationAppendageName)appendage
+                                           leftRight:(EDBodyLocationLeftRight)leftRight
+                                       locationFloat:(float)locationFloat
+                                          forContext:(NSManagedObjectContext *)context
 {
-    // we require all of these
-    if (!name) {
-        return nil;
-    }
+
     
     // Check For Duplicate ------------------
     // check if a meal with the same name already exists
-    NSFetchRequest *fetch = [self fetchSymptomDescriptionsForName:name];
+    NSFetchRequest *fetch = [self fetchBodyLocationsForAppendage:appendage];
     
     NSError *error;
-    NSArray *sameName = [context executeFetchRequest:fetch error:&error];
+    NSArray *sameAppendage = [context executeFetchRequest:fetch error:&error];
     
     // unique will be used to determine if another object exists with the same
     //      - name
@@ -56,12 +53,12 @@
     BOOL unique = TRUE;
     
     
-    if ([sameName count]) {
-        if ([sameName count] == 1) {
-            return sameName[0];
-        }
-        else {  /// then we have an error since we should only have one
-            return nil;
+    for (EDBodyLocation *bodyLoc in sameAppendage) {
+        if ([bodyLoc.leftRight isEqual: @(leftRight)] &&
+            [bodyLoc.location isEqual:@(locationFloat)])
+        {
+            unique = FALSE;
+            return bodyLoc;
         }
     }
     
@@ -70,12 +67,15 @@
     // if this meal is unique, then create it
     if (unique) {
         
-        EDSymptomDescription *temp = [NSEntityDescription insertNewObjectForEntityForName:SYMPTOM_DESCRIPTION_ENTITY_NAME
+        EDBodyLocation *temp = [NSEntityDescription insertNewObjectForEntityForName:BODY_LOCATION_ENTITY_NAME
                                                          inManagedObjectContext:context];
         
         // set object properties to obvious or empty;
-        temp.name = name;
+        temp.appendage = @(appendage);
         temp.uniqueID = [EDEliminatedAPI createUniqueID];
+        temp.leftRight = @(leftRight);
+        temp.location = @(locationFloat);
+        
         
         return temp;
     }
@@ -85,29 +85,15 @@
     }
 }
 
-+ (void) setUpDefaultBodyPartsInContext:(NSManagedObjectContext *) context
-{
-    // dictionary for creating body parts and location
-    // key is the name of the part
-    // object is array @[appendage, leftRight, location] // @[@(appendage), @(leftRight), @(location)];
-    
-    NSArray *defaultSymptomDescriptions = @[@"Joint Pain", @"Muscle Pain", @"Ache", @"Nausea", @"Sharp Pain", @"Fatigue", @"Stiff Joint(s)"];
-    
-    
-    for (NSString *desc in defaultSymptomDescriptions) {
-        [EDSymptomDescription createSymptomDescriptionWithName:desc forContext:context];
-    }
-}
-
 
 
 
 #pragma mark - Fetching
 
 
-+ (NSFetchRequest *) fetchAllSymptomDescriptions
++ (NSFetchRequest *) fetchAllBodyLocations
 {
-    NSFetchRequest *fetch = [self fetchObjectsForEntityName:SYMPTOM_DESCRIPTION_ENTITY_NAME];
+    NSFetchRequest *fetch = [self fetchObjectsForEntityName:BODY_LOCATION_ENTITY_NAME];
     
     return fetch;
 }
@@ -115,11 +101,11 @@
 
 
 
-+ (NSFetchRequest *) fetchSymptomDescriptionsForName:(NSString *) name
++ (NSFetchRequest *) fetchBodyLocationsForAppendage:(EDBodyLocationAppendageName) appendage
 {
-    NSFetchRequest *fetch = [self fetchObjectsForEntityName:SYMPTOM_DESCRIPTION_ENTITY_NAME];
+    NSFetchRequest *fetch = [self fetchObjectsForEntityName:BODY_LOCATION_ENTITY_NAME];
     
-    fetch.predicate = [NSPredicate predicateWithFormat:@"name like[cd] %@", name];
+    fetch.predicate = [NSPredicate predicateWithFormat:@"appendage == %@", appendage];
     
     return fetch;
 }
@@ -128,10 +114,11 @@
 {
     NSFetchRequest *fetch = [EDEliminatedAPI fetchObjectsForEntityName:entityName];
     
-    fetch.sortDescriptors = @[[EDEliminatedAPI nameSortDescriptor]];
+    fetch.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"appendage" ascending:YES]];
     
     return fetch;
 }
+
 
 
 
@@ -187,17 +174,5 @@
     return valid;
 }
 
-/// Other Methods
-//---------------------------------------------------------------
-
-- (NSString *) nameFirstLetter
-{
-    if ([self.name length]) {
-        return [self.name substringToIndex:1];
-    }
-    
-    return @"";
-    
-}
 
 @end

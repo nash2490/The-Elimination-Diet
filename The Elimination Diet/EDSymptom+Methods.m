@@ -36,7 +36,7 @@
                            forContext:(NSManagedObjectContext *)context
 {
     // we require all of these
-    if (!bodyPart || !symptomDescription || !name) {
+    if (!bodyPart || !name) {
         return nil;
     }
     
@@ -61,9 +61,18 @@
         for (int i = 0; i< [sameName count]; i++) {
             dupSymptom = sameName[i];
             
-            unique = [bodyPart isEqual:dupSymptom.bodyPart];
+            // body parts must be different for uniqueness
+            unique = ![bodyPart isEqual:dupSymptom.bodyPart];
 
-            unique = [symptomDescription isEqual:dupSymptom.bodyPart];
+            // symptoms must be different for uniqueness
+            if (symptomDescription) {
+                unique = ![symptomDescription isEqual:dupSymptom.symptomDescription];
+            }
+            else { // if symptomDescription are both nil then not unique
+                unique = !(dupSymptom.symptomDescription == nil);
+            }
+            
+            
             
             if (!unique) {
                 
@@ -108,7 +117,7 @@
 
 + (void) setUpDefaultSymptomsInContext:(NSManagedObjectContext *) context
 {
-    
+    // no idea about defaults
 }
 
 

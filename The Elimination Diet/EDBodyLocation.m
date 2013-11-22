@@ -1,21 +1,21 @@
 //
-//  EDBodyPart.m
+//  EDBodyLocation.m
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 11/22/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDBodyPart.h"
 #import "EDBodyLocation.h"
-#import "EDSymptom.h"
+#import "EDBodyPart.h"
 
 
-@implementation EDBodyPart
+@implementation EDBodyLocation
 
-@dynamic name;
+@dynamic appendage;
+@dynamic location;
+@dynamic leftRight;
 @dynamic uniqueID;
-@dynamic relatedSymptoms;
-@dynamic bodyLocation;
+@dynamic relatedBodyParts;
 
 @end

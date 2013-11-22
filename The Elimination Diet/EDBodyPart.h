@@ -2,20 +2,21 @@
 //  EDBodyPart.h
 //  The Elimination Diet
 //
-//  Created by Justin Kahn on 11/21/13.
+//  Created by Justin Kahn on 11/22/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class EDSymptom;
+@class EDBodyLocation, EDSymptom;
 
 @interface EDBodyPart : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * uniqueID;
 @property (nonatomic, retain) NSSet *relatedSymptoms;
+@property (nonatomic, retain) EDBodyLocation *bodyLocation;
 @end
 
 @interface EDBodyPart (CoreDataGeneratedAccessors)
