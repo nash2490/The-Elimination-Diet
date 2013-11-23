@@ -13,7 +13,9 @@
 #import "EDEliminatedFood+Methods.h"
 #import "EDDocumentHandler.h"
 
-
+#import "EDSymptom+Methods.h"
+#import "EDHadSymptom+Methods.h"
+#import "EDEliminatedFood+Methods.h"
 
 #define ACTION_TABLE_CELL_ID @"Action Table Cell ID"
 
@@ -21,10 +23,11 @@
 @interface EDStatusViewController ()
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSFetchRequest *fetchRequestCurrentElimFood;
-@property (nonatomic, strong) NSFetchRequest *fetchRequestSymptomFree;
+//@property (nonatomic, strong) NSFetchRequest *fetchRequestCurrentElimFood;
+//@property (nonatomic, strong) NSFetchRequest *fetchRequestSymptomFree;
 
-
+@property (nonatomic, strong) NSArray *currentElimFoods;
+@property (nonatomic, strong) EDHadSymptom *mostRecentHadSymptom;
 
 
 @property (weak, nonatomic) IBOutlet UIView *edStatusView;
@@ -60,8 +63,10 @@
     NSLog(@"Table View is good ? = %d", (self.edActionsTableView != nil));
 	// Do any additional setup after loading the view.
     
-    self.fetchRequestCurrentElimFood = [self defaultFetchRequestCurrentElimFood];
-    self.fetchRequestSymptomFree = [self defaultFetchRequestSymptomFree];
+//    self.fetchRequestCurrentElimFood = [self defaultFetchRequestCurrentElimFood];
+//    self.fetchRequestSymptomFree = [self defaultFetchRequestSymptomFree];
+    
+    [self setupCoreData];
     
 }
 
@@ -75,22 +80,22 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self setupCoreData];
+}
+
+- (void) setupCoreData
+{
     if (!self.managedObjectContext) {
         
         [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
             
             [self setManagedObjectContext:document.managedObjectContext];
             
-            //[EDMeal setUpDefaultMealsInContext:self.managedObjectContext];
-            
-            //[EDEatenMeal setUpDefaultEatenMealsWithContext:document.managedObjectContext];
             [EDEliminatedFood setUpDefaultEliminatedFoodsInContext:document.managedObjectContext];
             
-            //[EDMedication setUpDefaultMedicationInContext:document.managedObjectContext];
-            
             [self performFetch];
-        }
-         ];
+        }];
     }
     
     else if (self.managedObjectContext) {
@@ -119,7 +124,12 @@
 
 - (void) performFetch
 {
+    NSError *error;
+    self.currentElimFoods = [self.managedObjectContext executeFetchRequest:[EDEliminatedFood fetchAllCurrentEliminatedFoods] error:&error];
     
+    self.mostRecentHadSymptom = [EDHadSymptom fetchMostRecentHadSymptomInContext:self.managedObjectContext];
+    
+    // fetch data for filling in old meal info
 }
 
 

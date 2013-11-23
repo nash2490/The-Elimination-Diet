@@ -85,7 +85,7 @@
     }
 }
 
-+ (void) setUpDefaultBodyPartsInContext:(NSManagedObjectContext *) context
++ (void) setUpDefaultSymptomDescriptionsInContext:(NSManagedObjectContext *) context
 {
     // dictionary for creating body parts and location
     // key is the name of the part

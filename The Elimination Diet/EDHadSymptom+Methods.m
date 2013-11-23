@@ -18,7 +18,7 @@
 
 @implementation EDHadSymptom (Methods)
 
-// Creation Methods
+#pragma mark - Creation Methods
 //---------------------------------------------------------------
 
 // universal method -
@@ -74,88 +74,28 @@
 //}
 
 
-// Validation methods
-//---------------------------------------------------------------
+#pragma mark - Fetching
 
-- (BOOL)validateForInsert:(NSError **)error
-{
-    BOOL propertiesValid = [super validateForInsert:error];
-    if (!propertiesValid) {
-        
-        NSLog(@"%@", [*error localizedDescription]);
-        NSLog(@"error event");
-        return FALSE;
-    }
-    
-    BOOL consistencyValid = [self validateConsistency:error];
-    return (propertiesValid && consistencyValid);
-}
-
-- (BOOL)validateForUpdate:(NSError **)error
-{
-    BOOL propertiesValid = [super validateForUpdate:error];
-    if (!propertiesValid) {
-        
-        NSLog(@"%@", [*error localizedDescription]);
-        return FALSE;
-    }
-    
-    BOOL consistencyValid = [self validateConsistency:error];
-    return (propertiesValid && consistencyValid);
-}
-
-
-
-
-
-// **** CENTRAL VALIDATION METHOD ****
-/// - We need to check
-//      - has a meal
-- (BOOL)validateConsistency:(NSError **)error
-{
-    //check overlap of elim
-    BOOL valid = [super validateConsistency:error];
-    
-    if (valid && !self.symptom)
-    {
-        
-        valid = NO;
-        
-        if (error != NULL) {
-            NSString *errorString = @"Does not Have a valid symptom";
-            NSMutableDictionary *errorInfo = [NSMutableDictionary dictionary];
-            errorInfo[NSLocalizedFailureReasonErrorKey] = errorString;
-            errorInfo[NSValidationObjectErrorKey] = self;
-            
-            NSError *definitionErrorError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                                                code:NSManagedObjectValidationError
-                                                            userInfo:errorInfo];
-            
-            // if there was no previous error, return the new error
-            if (*error == nil) {
-                *error = definitionErrorError;
-            }
-            // if there was a previous error, combine it with the existing one
-            else {
-                *error = [NSError errorFromOriginalError:*error error:definitionErrorError];
-            }
-            NSLog(@" kjkj %@", errorString);
-        }
-    }
-    
-    if (!valid) {
-        NSLog(@"%@", [*error localizedDescription]);
-    }
-    
-    return valid;
-}
-
-
-
-
-
-// Fetching
 // --------------------------------------------------
+
+
++ (EDHadSymptom *) fetchMostRecentHadSymptomInContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *fetch = [EDHadSymptom fetchAllHadSymptom];
+    
+    fetch.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
+    
+    [fetch setFetchLimit:2];
+    
+    NSError *error;
+    
+    NSArray *hadSymptoms = [context executeFetchRequest:fetch error:&error];
+    
+    EDHadSymptom *mostRecent = hadSymptoms[0];
+    
+    return mostRecent.symptom;
+}
+
 
 // order by most recent
 + (NSFetchRequest *) fetchAllHadSymptom
@@ -221,5 +161,83 @@
     
     return fetch;
 }
+
+
+#pragma mark - Validation Methods
+//---------------------------------------------------------------
+
+- (BOOL)validateForInsert:(NSError **)error
+{
+    BOOL propertiesValid = [super validateForInsert:error];
+    if (!propertiesValid) {
+        
+        NSLog(@"%@", [*error localizedDescription]);
+        NSLog(@"error event");
+        return FALSE;
+    }
+    
+    BOOL consistencyValid = [self validateConsistency:error];
+    return (propertiesValid && consistencyValid);
+}
+
+- (BOOL)validateForUpdate:(NSError **)error
+{
+    BOOL propertiesValid = [super validateForUpdate:error];
+    if (!propertiesValid) {
+        
+        NSLog(@"%@", [*error localizedDescription]);
+        return FALSE;
+    }
+    
+    BOOL consistencyValid = [self validateConsistency:error];
+    return (propertiesValid && consistencyValid);
+}
+
+
+
+
+
+// **** CENTRAL VALIDATION METHOD ****
+/// - We need to check
+//      - has a meal
+- (BOOL)validateConsistency:(NSError **)error
+{
+    //check overlap of elim
+    BOOL valid = [super validateConsistency:error];
+    
+    if (valid && !self.symptom)
+    {
+        
+        valid = NO;
+        
+        if (error != NULL) {
+            NSString *errorString = @"Does not have a valid symptom";
+            NSMutableDictionary *errorInfo = [NSMutableDictionary dictionary];
+            errorInfo[NSLocalizedFailureReasonErrorKey] = errorString;
+            errorInfo[NSValidationObjectErrorKey] = self;
+            
+            NSError *definitionErrorError = [NSError errorWithDomain:NSCocoaErrorDomain
+                                                                code:NSManagedObjectValidationError
+                                                            userInfo:errorInfo];
+            
+            // if there was no previous error, return the new error
+            if (*error == nil) {
+                *error = definitionErrorError;
+            }
+            // if there was a previous error, combine it with the existing one
+            else {
+                *error = [NSError errorFromOriginalError:*error error:definitionErrorError];
+            }
+            NSLog(@" kjkj %@", errorString);
+        }
+    }
+    
+    if (!valid) {
+        NSLog(@"%@", [*error localizedDescription]);
+    }
+    
+    return valid;
+}
+
 
 @end

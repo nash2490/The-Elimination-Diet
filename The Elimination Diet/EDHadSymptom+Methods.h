@@ -33,6 +33,7 @@
 
 #pragma mark - Fetching
 
++ (EDHadSymptom *) fetchMostRecentHadSymptomInContext:(NSManagedObjectContext *)context;
 
 /// order by most recent
 + (NSFetchRequest *) fetchAllHadSymptom;
