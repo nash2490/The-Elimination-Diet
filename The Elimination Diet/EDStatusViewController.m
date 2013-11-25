@@ -11,6 +11,7 @@
 #import "EDEliminatedAPI.h"
 
 #import "EDEliminatedFood+Methods.h"
+#import "EDFood+Methods.h"
 #import "EDDocumentHandler.h"
 
 #import "EDSymptom+Methods.h"
@@ -26,21 +27,27 @@
 //@property (nonatomic, strong) NSFetchRequest *fetchRequestCurrentElimFood;
 //@property (nonatomic, strong) NSFetchRequest *fetchRequestSymptomFree;
 
+@property (nonatomic) BOOL coreDataUpToDate;
+
 @property (nonatomic, strong) NSArray *currentElimFoods;
 @property (nonatomic, strong) EDHadSymptom *mostRecentHadSymptom;
 
 
 @property (weak, nonatomic) IBOutlet UIView *edStatusView;
+@property (weak, nonatomic) IBOutlet UILabel *eliminatedFoodNumberLabel;
+@property (weak, nonatomic) IBOutlet UITextView *eliminatedFoodListTextView;
+
+@property (weak, nonatomic) IBOutlet UILabel *eliminationFoodChangeLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *symptomFreeLabel;
+
+
 @property (weak, nonatomic) IBOutlet UITableView *edActionsTableView;
 
 @property (nonatomic, strong) UIImage *quickCaptureImage;
-
-@property (nonatomic,strong) UIImage *barcodeImage;
-
+@property (nonatomic, strong) UIImage *barcodeImage;
 @property (nonatomic, strong) UIImage *symptomImage;
-
 @property (nonatomic, strong) UIImage *browseImage;
-
 @property (nonatomic, strong) UIImage *mealDetailsImage;
 
 
@@ -81,7 +88,9 @@
 {
     [super viewWillAppear:animated];
     
-    [self setupCoreData];
+    if (self.coreDataUpToDate == NO) {
+        [self setupCoreData];
+    }
 }
 
 - (void) setupCoreData
@@ -95,18 +104,106 @@
             [EDEliminatedFood setUpDefaultEliminatedFoodsInContext:document.managedObjectContext];
             
             [self performFetch];
+            
+#warning run this on main thread
+            [self updateStatusView];
+            
+            self.coreDataUpToDate = YES;
         }];
     }
     
     else if (self.managedObjectContext) {
         
         [self performFetch];
+        
+        [self updateStatusView];
+        
+        self.coreDataUpToDate = YES;
     }
+
+    
+}
+
+
+- (void) updateStatusView
+{
+    // make the string for the eliminated foods
+    //      - if there are current elim foods then make a string from them
+    if ([self.currentElimFoods count]) {
+        
+        self.eliminatedFoodNumberLabel.text = [NSString stringWithFormat:@"(%i)", [self.currentElimFoods count]];
+        
+        NSMutableArray *elimFoodNamesArray = [@[] mutableCopy];
+        
+        for (int i = 0; i < [self.currentElimFoods count]; i++) {
+            EDEliminatedFood *food = self.currentElimFoods[i];
+            [elimFoodNamesArray addObject:food.eliminatedFood.name];
+        }
+        
+        NSString *elimHeader = [elimFoodNamesArray componentsJoinedByString:@", "];
+        self.eliminatedFoodListTextView.text = elimHeader;
+    }
+    
+    // if there are no current elim foods then need to determine what to do
+    else {
+        
+        // if we are just starting, then we want the user to add foods to elim or to try for a week
+        self.eliminatedFoodNumberLabel.text = @"(0)";
+        self.eliminatedFoodListTextView.text = @"Eliminated Foods";
+        
+        // and present an alert asking the user what they want to do
+            // (1) add elim food
+            // (2) try for a week
+        
+        
+        // if we are finishing then we have a problem
+        
+    }
+    
+    
+    NSString *elimSubText = [NSString stringWithFormat:@"%i days to change Elimination List", [self daysUntilChangeElimFoods]];
+    self.eliminationFoodChangeLabel.text = elimSubText;
+    
+    NSString *symptomText = [self timeSinceSymptom:self.mostRecentHadSymptom];
+    self.symptomFreeLabel.text = symptomText;
+}
+
+- (NSInteger) daysUntilChangeElimFoods
+{
+    return 2;
+}
+
+- (NSString *) timeSinceSymptom:(EDHadSymptom *) hadSymptom
+{
+    if (hadSymptom && hadSymptom.date) {
+        NSDate *symptomDate = hadSymptom.date;
+        
+        NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+        
+        NSUInteger unitFlags = NSHourCalendarUnit | NSDayCalendarUnit;
+        
+        NSDateComponents *components = [currentCalendar components:unitFlags
+                                                          fromDate:symptomDate
+                                                            toDate:[NSDate date] options:0];
+        NSInteger days = [components day];
+        NSInteger hours = [components hour];
+        
+        if (days == 0) {
+            return [NSString stringWithFormat:@"%i hours", hours];
+        }
+        else {
+            return [NSString stringWithFormat:@"%i days, %i hours", days, hours];
+        }
+    }
+    return nil;
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    self.coreDataUpToDate = NO;
 }
 
 

@@ -91,9 +91,12 @@
     
     NSArray *hadSymptoms = [context executeFetchRequest:fetch error:&error];
     
-    EDHadSymptom *mostRecent = hadSymptoms[0];
-    
-    return mostRecent.symptom;
+    if ([hadSymptoms count]) {
+        EDHadSymptom *mostRecent = hadSymptoms[0];
+        
+        return mostRecent;
+    }
+    return nil;
 }
 
 

@@ -116,16 +116,18 @@
     NSArray *allIngredients = [context executeFetchRequest:[EDIngredient fetchAllIngredients] error:&error];
     NSArray *allElim = [context executeFetchRequest:[EDEliminatedFood fetchAllEliminatedFoods] error:&error];
     
+    NSArray *currentElim = [context executeFetchRequest:[EDEliminatedFood fetchAllCurrentEliminatedFoods] error:&error];
+    
     if ([allElim count] < 20) {
         if ([allTypes count]) {
             
-            for (int i=0; i < 6; i++) {
+            for (int i=0; i < 2; i++) {
                 int randMealIndex = arc4random() % ([allTypes count] -1);
                 EDType *typeToElim = allTypes[randMealIndex];
                 [EDEliminatedFood createWithFood:typeToElim startTime:[NSDate date] stopTime:nil forContext:context];
             }
             
-            for (int i=0; i < 10; i++) {
+            for (int i=0; i < 1; i++) {
                 int randMealIndex = arc4random() % ([allIngredients count] -1);
                 EDIngredient *ingrToElim = allIngredients[randMealIndex];
                 [EDEliminatedFood createWithFood:ingrToElim startTime:[NSDate date] stopTime:nil forContext:context];
@@ -185,6 +187,11 @@
     
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:ELIMINATED_FOOD_ENTITY_NAME];
     fetch.predicate = predCurrent;
+    
+    // sort by most recently added to elim foods
+    
+    fetch.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
+    
     //fetch.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"eliminatedFood.name" ascending:YES]];
     
     return fetch;
