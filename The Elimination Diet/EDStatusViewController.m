@@ -8,7 +8,11 @@
 
 #import "EDStatusViewController.h"
 
+#import "EDSearchToEatViewController.h"
+
+
 #import "EDEliminatedAPI.h"
+#import "EDEliminatedAPI+Helpers.h"
 
 #import "EDEliminatedFood+Methods.h"
 #import "EDFood+Methods.h"
@@ -73,6 +77,8 @@
 //    self.fetchRequestCurrentElimFood = [self defaultFetchRequestCurrentElimFood];
 //    self.fetchRequestSymptomFree = [self defaultFetchRequestSymptomFree];
     
+    self.eliminatedFoodListTextView.contentInset = UIEdgeInsetsMake(-10.0,0.0,0,0.0);
+    
     [self setupCoreData];
     
 }
@@ -88,7 +94,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (self.coreDataUpToDate == NO) {
+    if (self.coreDataUpToDate == NO && self.managedObjectContext) { // if we have a MOC but the view isn't up to date
         [self setupCoreData];
     }
 }
@@ -98,27 +104,31 @@
     if (!self.managedObjectContext) {
         
         [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
-            
+            self.coreDataUpToDate = YES;
+    
             [self setManagedObjectContext:document.managedObjectContext];
             
             [EDEliminatedFood setUpDefaultEliminatedFoodsInContext:document.managedObjectContext];
+            [EDHadSymptom setUpDefaultHadSymptomsWithContext:document.managedObjectContext];
             
             [self performFetch];
             
 #warning run this on main thread
-            [self updateStatusView];
             
-            self.coreDataUpToDate = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateStatusView];
+            });
+            
         }];
     }
     
     else if (self.managedObjectContext) {
-        
+        self.coreDataUpToDate = YES;
+
         [self performFetch];
         
         [self updateStatusView];
         
-        self.coreDataUpToDate = YES;
     }
 
     
@@ -129,27 +139,56 @@
 {
     // make the string for the eliminated foods
     //      - if there are current elim foods then make a string from them
+    
+    
+    UIFontDescriptor *descriptor = [[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] fontDescriptor];
+    UIFont *newFont = [UIFont fontWithDescriptor:descriptor size:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline].pointSize + 3];
+    
     if ([self.currentElimFoods count]) {
         
-        self.eliminatedFoodNumberLabel.text = [NSString stringWithFormat:@"(%i)", [self.currentElimFoods count]];
+        self.eliminatedFoodNumberLabel.text = [NSString stringWithFormat:@"(%i) Eliminated", [self.currentElimFoods count]];
         
         NSMutableArray *elimFoodNamesArray = [@[] mutableCopy];
         
         for (int i = 0; i < [self.currentElimFoods count]; i++) {
             EDEliminatedFood *food = self.currentElimFoods[i];
-            [elimFoodNamesArray addObject:food.eliminatedFood.name];
+            
+            NSAttributedString *new = [[NSAttributedString alloc] initWithString:food.eliminatedFood.name attributes:
+                                       @{NSFontAttributeName: newFont,
+                                         NSForegroundColorAttributeName: [UIColor whiteColor],
+                                         NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
+                                         }];
+            
+            [elimFoodNamesArray addObject:new];
         }
         
-        NSString *elimHeader = [elimFoodNamesArray componentsJoinedByString:@", "];
-        self.eliminatedFoodListTextView.text = elimHeader;
+        NSAttributedString *commaSpace = [[NSAttributedString alloc] initWithString:@", " attributes:
+                                          @{NSFontAttributeName: newFont,
+                                            NSForegroundColorAttributeName: [UIColor whiteColor]
+                                            }];
+        
+        NSAttributedString *elimHeader = [elimFoodNamesArray attributedComponentsJoinedByAttributedString:commaSpace];
+//        NSAttributedString *attElimHeader = [[NSAttributedString alloc] initWithString:elimHeader attributes:
+//                                             @{NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline],
+//                                               NSForegroundColorAttributeName: [UIColor whiteColor]
+//                                               }];
+        
+        [self.eliminatedFoodListTextView.textStorage setAttributedString: elimHeader];
+        
     }
     
     // if there are no current elim foods then need to determine what to do
     else {
         
         // if we are just starting, then we want the user to add foods to elim or to try for a week
-        self.eliminatedFoodNumberLabel.text = @"(0)";
-        self.eliminatedFoodListTextView.text = @"Eliminated Foods";
+        self.eliminatedFoodNumberLabel.text = @"(0) Eliminated";
+        
+        NSAttributedString *attElimHeader = [[NSAttributedString alloc] initWithString:@"None" attributes:
+                                             @{NSFontAttributeName: newFont,
+                                               NSForegroundColorAttributeName: [UIColor whiteColor]
+                                               }];
+        
+        [self.eliminatedFoodListTextView.textStorage setAttributedString: attElimHeader];
         
         // and present an alert asking the user what they want to do
             // (1) add elim food
@@ -161,11 +200,11 @@
     }
     
     
-    NSString *elimSubText = [NSString stringWithFormat:@"%i days to change Elimination List", [self daysUntilChangeElimFoods]];
+    NSString *elimSubText = [NSString stringWithFormat:@"%i days to change", [self daysUntilChangeElimFoods]];
     self.eliminationFoodChangeLabel.text = elimSubText;
     
-    NSString *symptomText = [self timeSinceSymptom:self.mostRecentHadSymptom];
-    self.symptomFreeLabel.text = symptomText;
+    NSString *symptomTextTime = [self timeSinceSymptom:self.mostRecentHadSymptom];
+    self.symptomFreeLabel.text = [NSString stringWithFormat:@"%@ since last symptom", symptomTextTime];
 }
 
 - (NSInteger) daysUntilChangeElimFoods
@@ -189,6 +228,9 @@
         NSInteger hours = [components hour];
         
         if (days == 0) {
+            if (hours == 1) {
+                return @"1 hour";
+            }
             return [NSString stringWithFormat:@"%i hours", hours];
         }
         else {
@@ -265,7 +307,7 @@
 
     switch (rowNumber) {
         
-        case 1:
+        case 0:
             cell.textLabel.text = @"Quick Capture";
             if (self.quickCaptureImage) {
                 cell.imageView.image = self.quickCaptureImage;
@@ -273,7 +315,7 @@
             
             break;
             
-        case 2:
+        case 1:
             cell.textLabel.text = @"Barcode Scanner";
             if (self.barcodeImage) {
                 cell.imageView.image = self.barcodeImage;
@@ -282,7 +324,7 @@
             break;
             
             
-        case 3:
+        case 2:
             cell.textLabel.text = @"Symptom";
             if (self.symptomImage) {
                 cell.imageView.image = self.symptomImage;
@@ -290,7 +332,7 @@
             
             break;
             
-        case 4:
+        case 3:
             cell.textLabel.text = @"Browse";
             if (self.browseImage) {
                 cell.imageView.image = self.browseImage;
@@ -299,15 +341,12 @@
             break;
             
             
-        case 5:
+        case 4:
             cell.textLabel.text = @"Enter Meal Details";
             if (self.mealDetailsImage) {
                 cell.imageView.image = self.mealDetailsImage;
             }
             
-            break;
-            
-        default:
             break;
     }
     
@@ -320,29 +359,30 @@
     
     switch (rowNumber) {
             
-        case 1:
-            // quick capture
+        case 0:
+            // QuickCaptureSegue
+            [self performSegueWithIdentifier:@"QuickCaptureSegue" sender:self];
             
             break;
             
-        case 2:
+        case 1:
             // barcode
             
             break;
             
             
-        case 3:
+        case 2:
             // symptom add
             
             break;
             
-        case 4:
+        case 3:
             // browse
-            
+            [self pushToSearchToEat];
             break;
             
             
-        case 5:
+        case 4:
             // meal info add
             
             break;
@@ -352,5 +392,14 @@
     }
 }
 
+
+- (void) pushToSearchToEat
+{
+    EDSearchToEatViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchToEatVC"];
+    
+    searchVC.medicationFind = NO;
+    
+    [self.navigationController pushViewController:searchVC animated:YES];
+}
 
 @end

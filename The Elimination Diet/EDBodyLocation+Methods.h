@@ -8,10 +8,10 @@
 
 
 // appendage is integer
-typedef NS_ENUM(NSUInteger, EDBodyLocationAppendageName) { EDBodyLocationAppendageTorso, EDBodyLocationAppendageLeg, EDBodyLocationAppendageArm, EDBodyLocationAppendageHeadAndNeck, EDBodyLocationAppendageBack};
+typedef NS_ENUM(NSUInteger, EDBodyLocationAppendageName) { EDBodyLocationAppendageTorso, EDBodyLocationAppendageLeg, EDBodyLocationAppendageArm, EDBodyLocationAppendageHeadAndNeck, EDBodyLocationAppendageBack, EDBodyLocationAppendageEntireBody};
 
 // left/right is integer
-typedef NS_ENUM(NSUInteger, EDBodyLocationLeftRight) { EDBodyLocationLeft, EDBodyLocationRight, EDBodyLocationCenter, EDBodyLocationAll};
+typedef NS_ENUM(NSUInteger, EDBodyLocationHorizontal) { EDBodyLocationLeft, EDBodyLocationRight, EDBodyLocationCenter, EDBodyLocationAll};
 
 // location is float between 0 and 1.0 to determine the position along the appendage vertical (-1 means all)
 
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, EDBodyLocationLeftRight) { EDBodyLocationLeft, EDBod
 #pragma mark - Property Creation
 
 + (EDBodyLocation *) createBodyLocationWithAppendage:(EDBodyLocationAppendageName) appendage
-                                       leftRight:(EDBodyLocationLeftRight) leftRight
+                                       leftRight:(EDBodyLocationHorizontal) leftRight
                                    locationFloat:(float) locationFloat
                                       forContext:(NSManagedObjectContext *)context;
 

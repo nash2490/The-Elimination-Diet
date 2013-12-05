@@ -91,7 +91,7 @@
     // key is the name of the part
     // object is array @[appendage, leftRight, location] // @[@(appendage), @(leftRight), @(location)];
     
-    NSArray *defaultSymptomDescriptions = @[@"Joint Pain", @"Muscle Pain", @"Ache", @"Nausea", @"Sharp Pain", @"Fatigue", @"Stiff Joint(s)"];
+    NSArray *defaultSymptomDescriptions = @[@"Joint Pain", @"Muscle Pain", @"Ache", @"Nausea", @"Sharp Pain", @"Fatigue", @"Stiff Joint(s)", @"Cramp"];
     
     
     for (NSString *desc in defaultSymptomDescriptions) {

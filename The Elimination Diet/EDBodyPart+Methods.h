@@ -10,6 +10,12 @@
 
 #define BODY_PART_ENTITY_NAME @"EDBodyPart"
 
+
+
+
+
+
+
 @class EDSymptom, EDSymptomDescription;
 
 
@@ -67,3 +73,46 @@
 - (NSString *) nameFirstLetter;
 
 @end
+
+
+static NSString *edBodyPartGeneral = @"General";
+
+static NSString *edBodyPartHead = @"Head";
+
+static NSString *edBodyPartHeadNeck = @"Neck";
+static NSString *edBodyPartHeadNose = @"Nose";
+static NSString *edBodyPartHeadEyes = @"Eyes";
+static NSString *edBodyPartHeadEars = @"Ears";
+static NSString *edBodyPartHeadMouth = @"Mouth";
+static NSString *edBodyPartHeadThroat = @"Throat";
+
+static NSString *edBodyPartLegFoot = @"Foot";
+static NSString *edBodyPartLegAnkle = @"Ankle";
+static NSString *edBodyPartLegShin = @"Shin";
+static NSString *edBodyPartLegCalf = @"Calf";
+static NSString *edBodyPartLegKnee = @"Knee";
+static NSString *edBodyPartLegThigh = @"Thigh";
+static NSString *edBodyPartLeg = @"Leg";
+
+
+static NSString *edBodyPartArmFingers = @"Fingers";
+static NSString *edBodyPartArmHand = @"Hand";
+static NSString *edBodyPartArmWrist = @"Wrist";
+static NSString *edBodyPartArmElbow = @"Elbow";
+static NSString *edBodyPartArmShoulder = @"Shoulder";
+static NSString *edBodyPartArm = @"Arm";
+
+static NSString *edBodyPartBack= @"Back";
+static NSString *edBodyPartBackLower = @"Lower Back";
+static NSString *edBodyPartBackMid = @"Mid Back";
+static NSString *edBodyPartBackUpper = @"Upper Back";
+
+static NSString *edBodyPartButt = @"Butt";
+
+static NSString *edBodyPartTorsoStomach = @"Stomach";
+static NSString *edBodyPartTorsoChest = @"Chest";
+static NSString *edBodyPartTorsoLungs = @"Lungs";
+static NSString *edBodyPartTorsoHeart = @"Heart";
+static NSString *edBodyPartGroin = @"Groin";
+
+

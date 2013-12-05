@@ -53,7 +53,19 @@
 
 + (void) setUpDefaultHadSymptomsWithContext:(NSManagedObjectContext *)context
 {
+    [EDSymptom setUpDefaultSymptomsInContext:context];
+    NSArray *allSymptoms = [context executeFetchRequest:[EDSymptom fetchAllSymptoms] error:nil];
     
+    for (int j=0; j < 6; j++) {
+        
+        int randTime = arc4random() % 600000;
+        NSDate *date = [NSDate dateWithTimeInterval:-randTime sinceDate:[NSDate date]];
+        
+        int randMealIndex = arc4random() % ([allSymptoms count] -1);
+        EDSymptom *symptom = allSymptoms[randMealIndex];
+        [EDHadSymptom createHadSymptomWithSymptom:symptom atTime:date forContext:context];
+        
+    }
 }
 
 //+ (void) generateRandomEatenMealsInContext: (NSManagedObjectContext *) context

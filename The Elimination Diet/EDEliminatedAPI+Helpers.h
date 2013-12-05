@@ -9,8 +9,10 @@
 #import "EDEliminatedAPI.h"
 
 #import "NSError+MultipleErrors.h"
-#import "NSString+EatDate.h"
 #import "NSSet+MoreSetOperations.h"
+#import "NSString+EatDate.h"
+#import "UIView+EDAdjustView.h"
+#import "NSArray+MHEDMethods.h"
 
 @interface EDEliminatedAPI (Helpers)
 

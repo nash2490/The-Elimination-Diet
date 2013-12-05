@@ -117,7 +117,61 @@
 
 + (void) setUpDefaultSymptomsInContext:(NSManagedObjectContext *) context
 {
-    // no idea about defaults
+    [EDBodyPart setUpDefaultBodyPartsInContext:context];
+    [EDSymptomDescription setUpDefaultSymptomDescriptionsInContext:context];
+    
+    EDSymptomDescription *ache = [EDSymptomDescription createSymptomDescriptionWithName:@"Ache" forContext:context];
+    EDSymptomDescription *nausea = [EDSymptomDescription createSymptomDescriptionWithName:@"Nausea" forContext:context];
+    EDSymptomDescription *musclePain = [EDSymptomDescription createSymptomDescriptionWithName:@"Muscle Pain" forContext:context];
+    EDSymptomDescription *jointPain = [EDSymptomDescription createSymptomDescriptionWithName:@"Joint Pain" forContext:context];
+    EDSymptomDescription *fatigue = [EDSymptomDescription createSymptomDescriptionWithName:@"Fatigue" forContext:context];
+    EDSymptomDescription *cramp = [EDSymptomDescription createSymptomDescriptionWithName:@"Cramp" forContext:context];
+    EDSymptomDescription *sharpPain = [EDSymptomDescription createSymptomDescriptionWithName:@"Sharp Pain" forContext:context];
+    EDSymptomDescription *stiffJoint = [EDSymptomDescription createSymptomDescriptionWithName:@"Stiff Joint(s)" forContext:context];
+
+
+    
+    // Headache
+    EDBodyPart *head = [EDBodyPart createBodyPartWithName:edBodyPartHead forContext:context];
+    [EDSymptom createSymptomWithName:@"Headache" favorite:NO bodyPart:head symptomDescription:ache tags:nil forContext:context];
+    
+    // Stomach ache
+    EDBodyPart *stomach = [EDBodyPart createBodyPartWithName:edBodyPartTorsoStomach forContext:context];
+    [EDSymptom createSymptomWithName:@"Stomachache" favorite:NO bodyPart:stomach symptomDescription:ache tags:nil forContext:context];
+    
+    // General Fatigue
+    EDBodyPart *general = [EDBodyPart createBodyPartWithName:edBodyPartGeneral forContext:context];
+    [EDSymptom createSymptomWithName:@"General Fatigue" favorite:NO bodyPart:general symptomDescription:fatigue tags:nil forContext:context];
+    
+    // Nausea
+    [EDSymptom createSymptomWithName:@"Nausea" favorite:NO bodyPart:stomach symptomDescription:nausea tags:nil forContext:context];
+    
+    // Back Pain (muscle)
+    EDBodyPart *back = [EDBodyPart createBodyPartWithName:edBodyPartBack forContext:context];
+    [EDSymptom createSymptomWithName:@"Back Pain (muscle)" favorite:NO bodyPart:back symptomDescription:musclePain tags:nil forContext:context];
+    
+    // Back Pain (sharp)
+    [EDSymptom createSymptomWithName:@"Back Pain (sharp)" favorite:NO bodyPart:back symptomDescription:sharpPain tags:nil forContext:context];
+    
+    
+    // Leg Pain
+    EDBodyPart *leg = [EDBodyPart createBodyPartWithName:edBodyPartLeg forContext:context];
+    [EDSymptom createSymptomWithName:@"Leg Pain (muscle)" favorite:NO bodyPart:leg symptomDescription:musclePain tags:nil forContext:context];
+    
+    // Knee Joint Pain
+    EDBodyPart *knee = [EDBodyPart createBodyPartWithName:edBodyPartLegKnee forContext:context];
+    [EDSymptom createSymptomWithName:@"Knee Joint Pain" favorite:NO bodyPart:knee symptomDescription:jointPain tags:nil forContext:context];
+    
+    // Leg Cramp
+    [EDSymptom createSymptomWithName:@"Leg Cramp" favorite:NO bodyPart:leg symptomDescription:cramp tags:nil forContext:context];
+    
+    // Hand Cramp
+    EDBodyPart *hand = [EDBodyPart createBodyPartWithName:edBodyPartArmHand forContext:context];
+    [EDSymptom createSymptomWithName:@"Hand Cramp" favorite:NO bodyPart:hand symptomDescription:cramp tags:nil forContext:context];
+    
+    // Hand Stiff Joints
+    [EDSymptom createSymptomWithName:@"Hand Stiff Joints" favorite:NO bodyPart:hand symptomDescription:stiffJoint tags:nil forContext:context];
+    
 }
 
 

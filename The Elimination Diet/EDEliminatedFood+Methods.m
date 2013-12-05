@@ -116,23 +116,38 @@
     NSArray *allIngredients = [context executeFetchRequest:[EDIngredient fetchAllIngredients] error:&error];
     NSArray *allElim = [context executeFetchRequest:[EDEliminatedFood fetchAllEliminatedFoods] error:&error];
     
+    NSMutableArray *mutTemp = [NSMutableArray array];
+    
+    for (EDEliminatedFood *elim in allElim) {
+        [mutTemp addObject:elim.eliminatedFood];
+    }
+    NSArray *allFoodsElim = [mutTemp copy];
+    
     NSArray *currentElim = [context executeFetchRequest:[EDEliminatedFood fetchAllCurrentEliminatedFoods] error:&error];
     
-    if ([allElim count] < 20) {
+    if ([currentElim count] < 10) {
         if ([allTypes count]) {
             
             for (int i=0; i < 2; i++) {
                 int randMealIndex = arc4random() % ([allTypes count] -1);
                 EDType *typeToElim = allTypes[randMealIndex];
-                [EDEliminatedFood createWithFood:typeToElim startTime:[NSDate date] stopTime:nil forContext:context];
+                if (![allFoodsElim containsObject:typeToElim]) {
+                    [EDEliminatedFood createWithFood:typeToElim startTime:[NSDate date] stopTime:nil forContext:context];
+                }
             }
-            
+        }
+        
+        if ([allIngredients count]) {
             for (int i=0; i < 1; i++) {
                 int randMealIndex = arc4random() % ([allIngredients count] -1);
                 EDIngredient *ingrToElim = allIngredients[randMealIndex];
-                [EDEliminatedFood createWithFood:ingrToElim startTime:[NSDate date] stopTime:nil forContext:context];
+
+                if (![allFoodsElim containsObject:ingrToElim]) {
+                    [EDEliminatedFood createWithFood:ingrToElim startTime:[NSDate date] stopTime:nil forContext:context];
+                }
             }
         }
+        
     }
     
     

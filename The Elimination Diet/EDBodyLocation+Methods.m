@@ -31,7 +31,7 @@
 // --------------------------------------------------
 
 + (EDBodyLocation *) createBodyLocationWithAppendage:(EDBodyLocationAppendageName)appendage
-                                           leftRight:(EDBodyLocationLeftRight)leftRight
+                                           leftRight:(EDBodyLocationHorizontal)leftRight
                                        locationFloat:(float)locationFloat
                                           forContext:(NSManagedObjectContext *)context
 {
@@ -105,7 +105,7 @@
 {
     NSFetchRequest *fetch = [self fetchObjectsForEntityName:BODY_LOCATION_ENTITY_NAME];
     
-    fetch.predicate = [NSPredicate predicateWithFormat:@"appendage == %@", appendage];
+    fetch.predicate = [NSPredicate predicateWithFormat:@"appendage == %@", @(appendage)];
     
     return fetch;
 }

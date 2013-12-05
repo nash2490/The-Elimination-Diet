@@ -82,13 +82,19 @@
     }
 }
 
+
+
+
 + (void) setUpDefaultBodyPartsInContext:(NSManagedObjectContext *) context
 {
     // dictionary for creating body parts and location
     // key is the name of the part
-    // object is array @[appendage, leftRight, location] // @[@(appendage), @(leftRight), @(location)];
+    // object is array @[appendage, locationHorizontal, location] // @[@(appendage), @(locationHorizontal), @(location)];
     
-    NSDictionary *defaultBodyParts = @{@"Head": @[@(EDBodyLocationAppendageHeadAndNeck), @(EDBodyLocationAll), @(-1.0)],
+    NSDictionary *defaultBodyParts = @{
+                                       edBodyPartGeneral: @[@(EDBodyLocationAppendageEntireBody), @(EDBodyLocationAll), @(-1.0)],
+                                       
+                                       @"Head": @[@(EDBodyLocationAppendageHeadAndNeck), @(EDBodyLocationAll), @(-1.0)],
                                        @"Neck": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationAll), @(0.0)],
                                        @"Nose": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.5)],
                                        @"Eyes": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationCenter), @(0.75)],

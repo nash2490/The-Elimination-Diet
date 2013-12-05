@@ -33,6 +33,7 @@
 #import "NSSet+MoreSetOperations.h"
 #import "NSString+EatDate.h"
 #import "UIView+EDAdjustView.h"
+#import "NSArray+MHEDMethods.h"
 
 @import CoreData;
 
