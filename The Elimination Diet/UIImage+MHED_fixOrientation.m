@@ -1,14 +1,14 @@
 //
-//  UIImage+fixOrientation.m
+//  UIImage+MHED_fixOrientation.m
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 11/12/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "UIImage+fixOrientation.h"
+#import "UIImage+MHED_fixOrientation.h"
 
-@implementation UIImage (fixOrientation)
+@implementation UIImage (MHED_fixOrientation)
 
 - (UIImage *)fixOrientation {
     

@@ -1,14 +1,14 @@
 //
-//  NSError+MultipleErrors.m
+//  NSError+MHED_MultipleErrors.m
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 8/26/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 
-@implementation NSError (MultipleErrors)
+@implementation NSError (MHED_MultipleErrors)
 
 // generic method to combine errors
 + (NSError *)errorFromOriginalError:(NSError *)originalError error:(NSError *)secondError

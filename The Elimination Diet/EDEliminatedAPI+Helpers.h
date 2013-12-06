@@ -8,8 +8,8 @@
 
 #import "EDEliminatedAPI.h"
 
-#import "NSError+MultipleErrors.h"
-#import "NSSet+MoreSetOperations.h"
+#import "NSError+MHED_MultipleErrors.h"
+#import "NSSet+MHED_MoreSetOperations.h"
 #import "NSString+EatDate.h"
 #import "UIView+EDAdjustView.h"
 #import "NSArray+MHEDMethods.h"

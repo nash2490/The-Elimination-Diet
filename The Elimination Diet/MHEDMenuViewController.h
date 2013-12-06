@@ -8,7 +8,7 @@
 
 #import "EDTableViewController.h"
 
-@interface EDMenuViewController : EDTableViewController
+@interface MHEDMenuViewController : EDTableViewController
 
 @property (nonatomic, strong) NSArray *options;
 

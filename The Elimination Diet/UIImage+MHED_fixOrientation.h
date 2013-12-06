@@ -1,5 +1,5 @@
 //
-//  UIImage+fixOrientation.h
+//  UIImage+MHED_fixOrientation.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 11/12/13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (fixOrientation)
+@interface UIImage (MHED_fixOrientation)
 
 - (UIImage *)fixOrientation;
 

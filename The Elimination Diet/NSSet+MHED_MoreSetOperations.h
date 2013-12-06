@@ -1,5 +1,5 @@
 //
-//  NSSet+MoreSetOperations.h
+//  NSSet+MHED_MoreSetOperations.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 8/19/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSSet (MoreSetOperations)
+@interface NSSet (MHED_MoreSetOperations)
 
 + (NSSet *) unionOfSets:(NSSet *) setOfSets;
 

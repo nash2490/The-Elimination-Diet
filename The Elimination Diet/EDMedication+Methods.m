@@ -17,7 +17,7 @@
 #import "EDRestaurant+Methods.h"
 #import "EDTag+Methods.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 
 @implementation EDMedication (Methods)
 

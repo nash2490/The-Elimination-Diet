@@ -9,7 +9,7 @@
 #import "EDSelectionViewController.h"
 #import "EDTimeAndDescriptionCell.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 #import "EDDocumentHandler.h"
 #import "NSString+EatDate.h"
 

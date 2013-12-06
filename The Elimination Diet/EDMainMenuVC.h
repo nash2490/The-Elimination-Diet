@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDMenuViewController.h"
+#import "MHEDMenuViewController.h"
 
-@interface EDMainMenuVC : EDMenuViewController
+@interface EDMainMenuVC : MHEDMenuViewController
 
 - (id) initWithDefaultOptions;
 @end

@@ -15,7 +15,7 @@
 
 #import "EDTag+Methods.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 
 #import "EDEliminatedIngredient+Methods.h"
 

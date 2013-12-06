@@ -9,7 +9,7 @@
 #import "EDEvent+Methods.h"
 #import "EDFood+Methods.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 
 #define EVENT_ENTITY_NAME @"EDEvent"
 

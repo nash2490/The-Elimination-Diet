@@ -16,8 +16,8 @@
 #import "EDIngredient+Methods.h"
 #import "EDEliminatedType+Methods.h"
 
-#import "NSSet+MoreSetOperations.h"
-#import "NSError+MultipleErrors.h"
+#import "NSSet+MHED_MoreSetOperations.h"
+#import "NSError+MHED_MultipleErrors.h"
 
 @implementation EDType (Methods)
 

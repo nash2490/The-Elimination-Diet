@@ -32,7 +32,7 @@
 
 #import "NSString+EatDate.h"
 
-#import "UIImage+fixOrientation.h"
+#import "UIImage+MHED_fixOrientation.h"
 
 
 #import "EDShowHideCell.h"

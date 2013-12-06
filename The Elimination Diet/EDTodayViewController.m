@@ -11,7 +11,7 @@
 #import "EDTimeAndDescriptionCell.h"
 
 #import "NSString+EatDate.h"
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 #import "EDDocumentHandler.h"
 
 #import "EDEatenMealTableViewController.h"

@@ -77,7 +77,7 @@
 //    self.fetchRequestCurrentElimFood = [self defaultFetchRequestCurrentElimFood];
 //    self.fetchRequestSymptomFree = [self defaultFetchRequestSymptomFree];
     
-    self.eliminatedFoodListTextView.contentInset = UIEdgeInsetsMake(-10.0,0.0,0,0.0);
+    self.eliminatedFoodListTextView.contentInset = UIEdgeInsetsMake(-7.0,0.0,0,0.0);
     
     [self setupCoreData];
     
@@ -146,7 +146,7 @@
     
     if ([self.currentElimFoods count]) {
         
-        self.eliminatedFoodNumberLabel.text = [NSString stringWithFormat:@"(%i) Eliminated", [self.currentElimFoods count]];
+        self.eliminatedFoodNumberLabel.text = [NSString stringWithFormat:@"Avoid - (%i)", [self.currentElimFoods count]];
         
         NSMutableArray *elimFoodNamesArray = [@[] mutableCopy];
         
@@ -181,7 +181,7 @@
     else {
         
         // if we are just starting, then we want the user to add foods to elim or to try for a week
-        self.eliminatedFoodNumberLabel.text = @"(0) Eliminated";
+        self.eliminatedFoodNumberLabel.text = @"Avoid - (0) ";
         
         NSAttributedString *attElimHeader = [[NSAttributedString alloc] initWithString:@"None" attributes:
                                              @{NSFontAttributeName: newFont,
@@ -326,6 +326,7 @@
             
         case 2:
             cell.textLabel.text = @"Symptom";
+            cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
             if (self.symptomImage) {
                 cell.imageView.image = self.symptomImage;
             }
@@ -333,7 +334,7 @@
             break;
             
         case 3:
-            cell.textLabel.text = @"Browse";
+            cell.textLabel.text = @"Browse Food";
             if (self.browseImage) {
                 cell.imageView.image = self.browseImage;
             }

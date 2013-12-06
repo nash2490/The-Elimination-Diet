@@ -21,7 +21,7 @@
 #import "EDSymptom+Methods.h"
 #import "EDHadSymptom+Methods.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 #import "NSString+EatDate.h"
 
 

@@ -1,5 +1,5 @@
 //
-//  NSError+MultipleErrors.h
+//  NSError+MHED_MultipleErrors.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 8/26/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSError (MultipleErrors)
+@interface NSError (MHED_MultipleErrors)
 
 + (NSError *)errorFromOriginalError:(NSError *)originalError error:(NSError *)secondError;
 

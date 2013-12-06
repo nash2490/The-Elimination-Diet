@@ -21,7 +21,7 @@
 #import "EDHadSymptom+Methods.h"
 #import "EDSymptomDescription+Methods.h"
 
-#import "NSError+MultipleErrors.h"
+#import "NSError+MHED_MultipleErrors.h"
 #import "NSString+EatDate.h"
 
 @implementation EDBodyLocation (Methods)
