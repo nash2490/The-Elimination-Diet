@@ -13,7 +13,7 @@
 #import "EDEliminatedAPI.h"
 #import "EDEliminatedAPI+Searching.h"
 
-@interface MHEDBrowseFoodViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface MHEDBrowseViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
 
 @property (nonatomic) SearchBarScope searchScope;

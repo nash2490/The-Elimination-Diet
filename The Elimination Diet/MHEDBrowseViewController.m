@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "MHEDBrowseFoodViewController.h"
+#import "MHEDBrowseViewController.h"
 
 #import "EDTableComponents.h"
 
@@ -29,7 +29,7 @@ static NSString *simpleTableCellIdentifier = @"FoodSearchLabelCellIdentifier";
 static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
 
 
-@interface MHEDBrowseFoodViewController ()
+@interface MHEDBrowseViewController ()
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic, strong) NSArray *searchResults;
@@ -37,7 +37,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
 
 @end
 
-@implementation MHEDBrowseFoodViewController
+@implementation MHEDBrowseViewController
 
 
 
