@@ -23,7 +23,7 @@
 
 #import "EDCameraViewController.h"
 
-#import "UIView+EDAdjustView.h"
+#import "UIView+MHED_AdjustView.h"
 
 #define SEARCH_VIEW_CONTROLLER @"SearchToEatVC"
 

@@ -30,7 +30,7 @@
 
 #import "EDDocumentHandler.h"
 
-#import "NSString+EatDate.h"
+#import "NSString+MHED_EatDate.h"
 
 #import "UIImage+MHED_fixOrientation.h"
 

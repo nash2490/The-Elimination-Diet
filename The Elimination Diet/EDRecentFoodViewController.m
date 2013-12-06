@@ -16,7 +16,7 @@
 #import "EDType+Methods.h"
 #import "EDIngredient+Methods.h"
 
-#import "NSString+EatDate.h"
+#import "NSString+MHED_EatDate.h"
 
 #define EATEN_MEAL_ENTITY @"EDEatenMeal"
 #define EATEN_MEAL_TABLECELL @"EDEatenMealTableCell"

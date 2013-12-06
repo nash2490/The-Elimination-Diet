@@ -31,9 +31,9 @@
 
 #import "NSError+MHED_MultipleErrors.h"
 #import "NSSet+MHED_MoreSetOperations.h"
-#import "NSString+EatDate.h"
-#import "UIView+EDAdjustView.h"
-#import "NSArray+MHEDMethods.h"
+#import "NSString+MHED_EatDate.h"
+#import "UIView+MHED_AdjustView.h"
+#import "NSArray+MHED_Methods.h"
 
 @import CoreData;
 

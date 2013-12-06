@@ -46,7 +46,7 @@ typedef enum {NoButton = 0, DoneButton, AcceptButton, NextButton, CancelButton, 
 
 
 #import <UIKit/UIKit.h>
-#import "UIView+EDAdjustView.h"
+#import "UIView+MHED_AdjustView.h"
 
 
 @interface EDViewController : UIViewController <UITextFieldDelegate, UISearchBarDelegate>

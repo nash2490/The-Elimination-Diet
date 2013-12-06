@@ -1,14 +1,14 @@
 //
-//  NSArray+MHEDMethods.m
+//  NSArray+MHED_Methods.m
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 12/4/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "NSArray+MHEDMethods.h"
+#import "NSArray+MHED_Methods.h"
 
-@implementation NSArray (MHEDMethods)
+@implementation NSArray (MHED_Methods)
 
 - (NSAttributedString *) attributedComponentsJoinedByAttributedString:(NSAttributedString *)joinString
 {

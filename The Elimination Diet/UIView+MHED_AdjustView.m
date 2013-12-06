@@ -1,14 +1,14 @@
 //
-//  UIView+EDAdjustView.m
+//  UIView+MHED_AdjustView.m
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 6/20/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "UIView+EDAdjustView.h"
+#import "UIView+MHED_AdjustView.h"
 
-@implementation UIView (EDAdjustView)
+@implementation UIView (MHED_AdjustView)
 
 - (void) edSetOrigin:(CGPoint)aPoint
 {

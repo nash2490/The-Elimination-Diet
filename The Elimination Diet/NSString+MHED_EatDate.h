@@ -1,5 +1,5 @@
 //
-//  NSString+EatDate.h
+//  NSString+MHED_EatDate.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 5/28/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (EatDate)
+@interface NSString (MHED_EatDate)
 
 + (NSString *) createUniqueID;
 

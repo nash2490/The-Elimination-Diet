@@ -22,7 +22,7 @@
 #import "EDHadSymptom+Methods.h"
 
 #import "NSError+MHED_MultipleErrors.h"
-#import "NSString+EatDate.h"
+#import "NSString+MHED_EatDate.h"
 
 
 

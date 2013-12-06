@@ -11,7 +11,7 @@
 
 #import "NSError+MHED_MultipleErrors.h"
 #import "EDDocumentHandler.h"
-#import "NSString+EatDate.h"
+#import "NSString+MHED_EatDate.h"
 
 
 static NSString *selectionCellIdentifier = @"Selection Cell Identifier";

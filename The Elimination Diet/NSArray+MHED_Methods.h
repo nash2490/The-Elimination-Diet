@@ -1,5 +1,5 @@
 //
-//  NSArray+MHEDMethods.h
+//  NSArray+MHED_Methods.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 12/4/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSArray (MHEDMethods)
+@interface NSArray (MHED_Methods)
 
 - (NSAttributedString *) attributedComponentsJoinedByAttributedString: (NSAttributedString *) joinString;
 

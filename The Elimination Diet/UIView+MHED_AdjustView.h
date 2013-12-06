@@ -1,5 +1,5 @@
 //
-//  UIView+EDAdjustView.h
+//  UIView+MHED_AdjustView.h
 //  The Elimination Diet
 //
 //  Created by Justin Kahn on 6/20/13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (EDAdjustView)
+@interface UIView (MHED_AdjustView)
 
 - (void) edSetOrigin: (CGPoint) aPoint;
 - (void) edSetOriginX: (CGFloat) x;

@@ -14,7 +14,7 @@
 
 #import "EDDocumentHandler.h"
 
-#import "NSString+EatDate.h"
+#import "NSString+MHED_EatDate.h"
 
 #define edPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define edDatePickerTag              99     // view tag identifiying the date picker view
