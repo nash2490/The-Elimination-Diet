@@ -117,7 +117,7 @@
 {
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.reuseIdentifier == edDateCellID)
+    if (cell.reuseIdentifier == mhedDateCellID)
     {
         [self displayInlineDatePickerForRowAtIndexPath:indexPath];
         
@@ -125,15 +125,15 @@
     else
     {
         NSDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[edCellIDKey];
+        NSString *cellID = itemData[mhedCellIDKey];
         
-        if ([cellID isEqualToString:edRestaurantCellID]) {
+        if ([cellID isEqualToString:mhedRestaurantCellID]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];
             cellAtIndexPath.highlighted = YES;
             // perform segue to restaurant vc and pass on the restaurant, mealsList, ingredientsList, and whether this is medication or meal
         }
         
-        else if ([cellID isEqualToString:edAddMealsAndIngredientsCellID]) {
+        else if ([cellID isEqualToString:mhedAddMealsAndIngredientsCellID]) {
             if (indexPath.row == 0) { // then we use the add meals cell
                 [self performSegueWithIdentifier:@"AddMoreFoodSegue" sender:self];
             }
@@ -142,7 +142,7 @@
             /* For use with removal later
              
              else if (indexPath.row >=1) { // then we use the detail meals cell
-             cell = [tableView dequeueReusableCellWithIdentifier:edDetailMealsAndIngredientsCellID];
+             cell = [tableView dequeueReusableCellWithIdentifier:mhedDetailMealsAndIngredientsCellID];
              NSInteger foodIndex = indexPath.row - 1;
              
              
@@ -170,23 +170,23 @@
     
 }
 /*
-// Override to support conditional editing of the table view.
+// Override to support conditional mhediting of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
+    // Return NO if you do not want the specified item to be mheditable.
     return YES;
 }
 */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+// Override to support mhediting the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)mheditingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (mheditingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    else if (mheditingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }

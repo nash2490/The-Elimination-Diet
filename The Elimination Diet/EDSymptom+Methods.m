@@ -132,22 +132,22 @@
 
     
     // Headache
-    EDBodyPart *head = [EDBodyPart createBodyPartWithName:edBodyPartHead forContext:context];
+    EDBodyPart *head = [EDBodyPart createBodyPartWithName:mhedBodyPartHead forContext:context];
     [EDSymptom createSymptomWithName:@"Headache" favorite:NO bodyPart:head symptomDescription:ache tags:nil forContext:context];
     
     // Stomach ache
-    EDBodyPart *stomach = [EDBodyPart createBodyPartWithName:edBodyPartTorsoStomach forContext:context];
+    EDBodyPart *stomach = [EDBodyPart createBodyPartWithName:mhedBodyPartTorsoStomach forContext:context];
     [EDSymptom createSymptomWithName:@"Stomachache" favorite:NO bodyPart:stomach symptomDescription:ache tags:nil forContext:context];
     
     // General Fatigue
-    EDBodyPart *general = [EDBodyPart createBodyPartWithName:edBodyPartGeneral forContext:context];
+    EDBodyPart *general = [EDBodyPart createBodyPartWithName:mhedBodyPartGeneral forContext:context];
     [EDSymptom createSymptomWithName:@"General Fatigue" favorite:NO bodyPart:general symptomDescription:fatigue tags:nil forContext:context];
     
     // Nausea
     [EDSymptom createSymptomWithName:@"Nausea" favorite:NO bodyPart:stomach symptomDescription:nausea tags:nil forContext:context];
     
     // Back Pain (muscle)
-    EDBodyPart *back = [EDBodyPart createBodyPartWithName:edBodyPartBack forContext:context];
+    EDBodyPart *back = [EDBodyPart createBodyPartWithName:mhedBodyPartBack forContext:context];
     [EDSymptom createSymptomWithName:@"Back Pain (muscle)" favorite:NO bodyPart:back symptomDescription:musclePain tags:nil forContext:context];
     
     // Back Pain (sharp)
@@ -155,18 +155,18 @@
     
     
     // Leg Pain
-    EDBodyPart *leg = [EDBodyPart createBodyPartWithName:edBodyPartLeg forContext:context];
+    EDBodyPart *leg = [EDBodyPart createBodyPartWithName:mhedBodyPartLeg forContext:context];
     [EDSymptom createSymptomWithName:@"Leg Pain (muscle)" favorite:NO bodyPart:leg symptomDescription:musclePain tags:nil forContext:context];
     
     // Knee Joint Pain
-    EDBodyPart *knee = [EDBodyPart createBodyPartWithName:edBodyPartLegKnee forContext:context];
+    EDBodyPart *knee = [EDBodyPart createBodyPartWithName:mhedBodyPartLegKnee forContext:context];
     [EDSymptom createSymptomWithName:@"Knee Joint Pain" favorite:NO bodyPart:knee symptomDescription:jointPain tags:nil forContext:context];
     
     // Leg Cramp
     [EDSymptom createSymptomWithName:@"Leg Cramp" favorite:NO bodyPart:leg symptomDescription:cramp tags:nil forContext:context];
     
     // Hand Cramp
-    EDBodyPart *hand = [EDBodyPart createBodyPartWithName:edBodyPartArmHand forContext:context];
+    EDBodyPart *hand = [EDBodyPart createBodyPartWithName:mhedBodyPartArmHand forContext:context];
     [EDSymptom createSymptomWithName:@"Hand Cramp" favorite:NO bodyPart:hand symptomDescription:cramp tags:nil forContext:context];
     
     // Hand Stiff Joints

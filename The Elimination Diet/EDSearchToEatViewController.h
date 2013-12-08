@@ -21,7 +21,7 @@
 @interface EDSearchToEatViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
 
-@property (nonatomic) SearchBarScope searchScope;
+@property (nonatomic) MHEDSearchBarScopeType searchScope;
 
 @property (nonatomic, weak) id <EDCreationDelegate> delegate;
 

@@ -42,9 +42,9 @@
         
         for (UIImage *img in images) {
             
-            EDImage *edImage = [EDImage createFromImage:img inContext:self.managedObjectContext];
+            EDImage *mhedImage = [EDImage createFromImage:img inContext:self.managedObjectContext];
             
-            [self addImagesObject:edImage];
+            [self addImagesObject:mhedImage];
         }
     }
 }

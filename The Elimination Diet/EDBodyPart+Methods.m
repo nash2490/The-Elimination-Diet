@@ -92,7 +92,7 @@
     // object is array @[appendage, locationHorizontal, location] // @[@(appendage), @(locationHorizontal), @(location)];
     
     NSDictionary *defaultBodyParts = @{
-                                       edBodyPartGeneral: @[@(EDBodyLocationAppendageEntireBody), @(EDBodyLocationAll), @(-1.0)],
+                                       mhedBodyPartGeneral: @[@(EDBodyLocationAppendageEntireBody), @(EDBodyLocationAll), @(-1.0)],
                                        
                                        @"Head": @[@(EDBodyLocationAppendageHeadAndNeck), @(EDBodyLocationAll), @(-1.0)],
                                        @"Neck": @[@(EDBodyLocationAppendageHeadAndNeck ), @(EDBodyLocationAll), @(0.0)],

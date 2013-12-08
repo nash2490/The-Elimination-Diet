@@ -75,44 +75,44 @@
 @end
 
 
-static NSString *edBodyPartGeneral = @"General";
+static NSString *mhedBodyPartGeneral = @"General";
 
-static NSString *edBodyPartHead = @"Head";
+static NSString *mhedBodyPartHead = @"Head";
 
-static NSString *edBodyPartHeadNeck = @"Neck";
-static NSString *edBodyPartHeadNose = @"Nose";
-static NSString *edBodyPartHeadEyes = @"Eyes";
-static NSString *edBodyPartHeadEars = @"Ears";
-static NSString *edBodyPartHeadMouth = @"Mouth";
-static NSString *edBodyPartHeadThroat = @"Throat";
+static NSString *mhedBodyPartHeadNeck = @"Neck";
+static NSString *mhedBodyPartHeadNose = @"Nose";
+static NSString *mhedBodyPartHeadEyes = @"Eyes";
+static NSString *mhedBodyPartHeadEars = @"Ears";
+static NSString *mhedBodyPartHeadMouth = @"Mouth";
+static NSString *mhedBodyPartHeadThroat = @"Throat";
 
-static NSString *edBodyPartLegFoot = @"Foot";
-static NSString *edBodyPartLegAnkle = @"Ankle";
-static NSString *edBodyPartLegShin = @"Shin";
-static NSString *edBodyPartLegCalf = @"Calf";
-static NSString *edBodyPartLegKnee = @"Knee";
-static NSString *edBodyPartLegThigh = @"Thigh";
-static NSString *edBodyPartLeg = @"Leg";
+static NSString *mhedBodyPartLegFoot = @"Foot";
+static NSString *mhedBodyPartLegAnkle = @"Ankle";
+static NSString *mhedBodyPartLegShin = @"Shin";
+static NSString *mhedBodyPartLegCalf = @"Calf";
+static NSString *mhedBodyPartLegKnee = @"Knee";
+static NSString *mhedBodyPartLegThigh = @"Thigh";
+static NSString *mhedBodyPartLeg = @"Leg";
 
 
-static NSString *edBodyPartArmFingers = @"Fingers";
-static NSString *edBodyPartArmHand = @"Hand";
-static NSString *edBodyPartArmWrist = @"Wrist";
-static NSString *edBodyPartArmElbow = @"Elbow";
-static NSString *edBodyPartArmShoulder = @"Shoulder";
-static NSString *edBodyPartArm = @"Arm";
+static NSString *mhedBodyPartArmFingers = @"Fingers";
+static NSString *mhedBodyPartArmHand = @"Hand";
+static NSString *mhedBodyPartArmWrist = @"Wrist";
+static NSString *mhedBodyPartArmElbow = @"Elbow";
+static NSString *mhedBodyPartArmShoulder = @"Shoulder";
+static NSString *mhedBodyPartArm = @"Arm";
 
-static NSString *edBodyPartBack= @"Back";
-static NSString *edBodyPartBackLower = @"Lower Back";
-static NSString *edBodyPartBackMid = @"Mid Back";
-static NSString *edBodyPartBackUpper = @"Upper Back";
+static NSString *mhedBodyPartBack= @"Back";
+static NSString *mhedBodyPartBackLower = @"Lower Back";
+static NSString *mhedBodyPartBackMid = @"Mid Back";
+static NSString *mhedBodyPartBackUpper = @"Upper Back";
 
-static NSString *edBodyPartButt = @"Butt";
+static NSString *mhedBodyPartButt = @"Butt";
 
-static NSString *edBodyPartTorsoStomach = @"Stomach";
-static NSString *edBodyPartTorsoChest = @"Chest";
-static NSString *edBodyPartTorsoLungs = @"Lungs";
-static NSString *edBodyPartTorsoHeart = @"Heart";
-static NSString *edBodyPartGroin = @"Groin";
+static NSString *mhedBodyPartTorsoStomach = @"Stomach";
+static NSString *mhedBodyPartTorsoChest = @"Chest";
+static NSString *mhedBodyPartTorsoLungs = @"Lungs";
+static NSString *mhedBodyPartTorsoHeart = @"Heart";
+static NSString *mhedBodyPartGroin = @"Groin";
 
 

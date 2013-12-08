@@ -16,7 +16,7 @@
 @interface EDLargeImageCell : UITableViewCell
 
 
-@property (weak, nonatomic) IBOutlet iCarousel *edCarousel;
+@property (weak, nonatomic) IBOutlet iCarousel *mhedCarousel;
 
 @property (weak, nonatomic) IBOutlet UIButton *takeAnotherPictureButton;
 @property (weak, nonatomic) IBOutlet UIButton *deletePictureButton;

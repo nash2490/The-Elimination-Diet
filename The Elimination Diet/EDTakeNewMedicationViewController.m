@@ -104,7 +104,7 @@
 {
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.reuseIdentifier == edDateCellID)
+    if (cell.reuseIdentifier == mhedDateCellID)
     {
         [self displayInlineDatePickerForRowAtIndexPath:indexPath];
         
@@ -112,15 +112,15 @@
     else
     {
         NSDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[edCellIDKey];
+        NSString *cellID = itemData[mhedCellIDKey];
         
-        if ([cellID isEqualToString:edRestaurantCellID]) {
+        if ([cellID isEqualToString:mhedRestaurantCellID]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];
             cellAtIndexPath.highlighted = YES;
             // perform segue to restaurant vc and pass on the restaurant, mealsList, ingredientsList, and whether this is medication or meal
         }
         
-        else if ([cellID isEqualToString:edAddMedsAndIngredientsCellID]) {
+        else if ([cellID isEqualToString:mhedAddMedsAndIngredientsCellID]) {
             if (indexPath.row == 0) { // then we use the add meals cell
                 [self performSegueWithIdentifier:@"AddMoreMedicationSegue" sender:self];
             }
@@ -129,7 +129,7 @@
             /* For use with removal later
              
              else if (indexPath.row >=1) { // then we use the detail meals cell
-             cell = [tableView dequeueReusableCellWithIdentifier:edDetailMealsAndIngredientsCellID];
+             cell = [tableView dequeueReusableCellWithIdentifier:mhedDetailMealsAndIngredientsCellID];
              NSInteger foodIndex = indexPath.row - 1;
              
              

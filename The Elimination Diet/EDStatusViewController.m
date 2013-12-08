@@ -37,7 +37,7 @@
 @property (nonatomic, strong) EDHadSymptom *mostRecentHadSymptom;
 
 
-@property (weak, nonatomic) IBOutlet UIView *edStatusView;
+@property (weak, nonatomic) IBOutlet UIView *mhedStatusView;
 @property (weak, nonatomic) IBOutlet UILabel *eliminatedFoodNumberLabel;
 @property (weak, nonatomic) IBOutlet UITextView *eliminatedFoodListTextView;
 
@@ -46,7 +46,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *symptomFreeLabel;
 
 
-@property (weak, nonatomic) IBOutlet UITableView *edActionsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *mhedActionsTableView;
 
 @property (nonatomic, strong) UIImage *quickCaptureImage;
 @property (nonatomic, strong) UIImage *barcodeImage;
@@ -71,7 +71,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"Table View is good ? = %d", (self.edActionsTableView != nil));
+    NSLog(@"Table View is good ? = %d", (self.mhedActionsTableView != nil));
 	// Do any additional setup after loading the view.
     
 //    self.fetchRequestCurrentElimFood = [self defaultFetchRequestCurrentElimFood];

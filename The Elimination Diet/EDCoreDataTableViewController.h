@@ -61,15 +61,15 @@
 
 ///
 /// Must return an array of distinct NSNumber ints in [0, 1, ..., # of sections - 1]
-- (NSArray *) edSections;
+- (NSArray *) mhedSections;
 
 ///
-- (NSArray *)edSectionIndexTitles;
+- (NSArray *)mhedSectionIndexTitles;
 
 ///
-- (id) edObjectAtIndexPath: (NSIndexPath *) indexPath;
+- (id) mhedObjectAtIndexPath: (NSIndexPath *) indexPath;
 
 ///
-- (id) edObjectWithoutFRCFromIndexPath: (NSIndexPath *) indexPath;
+- (id) mhedObjectWithoutFRCFromIndexPath: (NSIndexPath *) indexPath;
 
 @end

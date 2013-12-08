@@ -345,7 +345,7 @@
     if (self.sortBy == ByTags) {
         NSInteger originalSection = section;
         if (self.customSectionOrdering) {
-            originalSection = [[self edSections][section] integerValue];
+            originalSection = [[self mhedSections][section] integerValue];
         }
         EDTag *tagForSection = self.fetchedResultsController.fetchedObjects[originalSection];
         
@@ -413,7 +413,7 @@
     
     if (self.tableFoodType == MealFoodType) {
         cellIdentifier = MEAL_TABLECELL;
-        EDMeal *mealForIndexPath = [self edObjectAtIndexPath:indexPath];
+        EDMeal *mealForIndexPath = [self mhedObjectAtIndexPath:indexPath];
         cellTitle = mealForIndexPath.name;
         
         NSString *tagsDescription = @"";
@@ -426,7 +426,7 @@
     }
     else if (self.tableFoodType == IngredientFoodType) {
         cellIdentifier = INGREDIENT_TABLECELL;
-        EDIngredient *ingredientForIndexPath = [self edObjectAtIndexPath:indexPath];
+        EDIngredient *ingredientForIndexPath = [self mhedObjectAtIndexPath:indexPath];
         cellTitle = ingredientForIndexPath.name;
         
         NSString *tagsDescription = @"";
@@ -439,7 +439,7 @@
     
     else if (self.tableFoodType == MedicationFoodType) {
         
-        EDMedication *objectForIndexPath = [self edObjectAtIndexPath:indexPath];
+        EDMedication *objectForIndexPath = [self mhedObjectAtIndexPath:indexPath];
 
         cellIdentifier = MEDICATION__TABLECELL;
         EDMedication *medForIndexPath = (EDMedication *) objectForIndexPath;
@@ -470,7 +470,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedObject = [self edObjectAtIndexPath:indexPath];
+    self.selectedObject = [self mhedObjectAtIndexPath:indexPath];
     
     if (self.delegate) {
         
@@ -625,7 +625,7 @@
 
 // reorder based on the sort we choose
 // Must return an array of distinct NSNumber ints in [0, 1, ..., # of sections - 1]
-- (NSArray *) edSections
+- (NSArray *) mhedSections
 {
     if (self.reorderedSections) {
         return self.reorderedSections;
@@ -673,13 +673,13 @@
     return reorder;
 }
 
-- (NSArray *)edSectionIndexTitles
+- (NSArray *)mhedSectionIndexTitles
 {
     
-    NSMutableArray *indexTitles = [[self edSections] mutableCopy];
+    NSMutableArray *indexTitles = [[self mhedSections] mutableCopy];
     
-    for (int i =0; i < [[self edSections] count];  i++) {
-        NSInteger originalSection = [(NSNumber *)[self edSections][i] integerValue];
+    for (int i =0; i < [[self mhedSections] count];  i++) {
+        NSInteger originalSection = [(NSNumber *)[self mhedSections][i] integerValue];
         id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][originalSection];
         
         NSString *sectionName = [sectionInfo name];
@@ -692,11 +692,11 @@
     return [indexTitles copy];
 }
 
-- (id) edObjectAtIndexPath: (NSIndexPath *) indexPath
+- (id) mhedObjectAtIndexPath: (NSIndexPath *) indexPath
 {
     if (self.tableFoodType == MealFoodType) {
         if (self.sortBy == ByRecent) {
-            EDEatenMeal *eatenMealForIndexPath = [super edObjectAtIndexPath:indexPath];
+            EDEatenMeal *eatenMealForIndexPath = [super mhedObjectAtIndexPath:indexPath];
             return eatenMealForIndexPath.meal;
         }
     }
@@ -708,15 +708,15 @@
     else if (self.tableFoodType == MedicationFoodType)
     {
         if (self.sortBy == ByRecent) {
-            EDTakenMedication *takenMedForIndexPath = [super edObjectAtIndexPath:indexPath];
+            EDTakenMedication *takenMedForIndexPath = [super mhedObjectAtIndexPath:indexPath];
             return takenMedForIndexPath.medication;
         }
     }
     
-    return [super edObjectAtIndexPath:indexPath];
+    return [super mhedObjectAtIndexPath:indexPath];
 }
 
-- (id) edObjectWithoutFRCFromIndexPath:(NSIndexPath *)indexPath
+- (id) mhedObjectWithoutFRCFromIndexPath:(NSIndexPath *)indexPath
 {
     
     if (self.tableFoodType == MealFoodType) {

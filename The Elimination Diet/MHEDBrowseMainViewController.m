@@ -1,13 +1,12 @@
 //
-//  EDSearchFoodViewController.m
+//  MHEDBrowseOptionsViewController.m
 //  The Elimination Diet
 //
-//  Created by Justin Kahn on 10/15/13.
+//  Created by Justin Kahn on 12/6/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDSearchToEatViewController.h"
-
+#import "MHEDBrowseMainViewController.h"
 
 #import "EDTableComponents.h"
 
@@ -26,23 +25,15 @@
 
 #import "EDMedication+Methods.h"
 
-static NSString *simpleTableCellIdentifier = @"FoodSearchLabelCellIdentifier";
-static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
-
-@interface EDSearchToEatViewController ()
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
-@property (nonatomic, strong) NSArray *searchResults;
-@property (nonatomic, strong) NSArray *defaultSections;
+@interface MHEDBrowseMainViewController ()
 
 @end
 
-@implementation EDSearchToEatViewController
+@implementation MHEDBrowseMainViewController
 
-
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -59,38 +50,12 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.mheditButtonItem;
     
-    if (self.restaurant) {
-        
-    }
+    NSArray *foodSection = @[@"Meals", @"Ingredients", @"Ingredient Types", @"Restaurants"];
     
-    self.searchBar.delegate = self;
+    NSArray *symptomsSection = @[@"Symptoms", @"Symptom Type", @"Body Part"];
     
-    if (self.medicationFind) {
-        NSArray *medicationSection = @[@"Recent", @"Favorites", @"Tags", @"Name"];
-        self.defaultSections = @[medicationSection];
-        self.title = @"Medication";
-    }
-    
-    else {
-        NSArray *mealsSection = @[@"Recent", @"Restaurants", @"Favorites", @"Tags", @"By Ingredient Types", @"By Name"];
-        
-        NSArray *ingredientsSection = @[@"By Types", @"Favorites", @"Tags", @"By Name"];
-        
-        self.defaultSections = @[mealsSection, ingredientsSection];
-        self.title = @"Food";
-
-    }
-    
-    
-    
-    
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    
+    self.browseOptions = @[foodSection, symptomsSection];
+    self.title = @"Browse";
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,6 +64,10 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
+
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
@@ -106,9 +75,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return 1;
     }
-    else if (self.medicationFind) {
-        return 1;
-    }
+    
     else {
         return 2;
     }
@@ -123,30 +90,13 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
         return nil;
     }
     
-    else if (self.medicationFind) {
-        header = @"Sort By:";
+    else if (section == 0) {
+        header = @"Food";
     }
     
-    else {
-        NSString *restaurantName = self.restaurant.name ? [NSString stringWithFormat:@"Meals For %@", self.restaurant.name] : @"Meals";
-        
-        switch (section) {
-            case 0:
-                header = restaurantName;
-                break;
-                
-            case 1:
-                header = @"Ingredients";
-                break;
-//            case 2:
-//                header = @"Medication";
-//                break;
-            default:
-                
-                break;
-        }
+    else if (section == 1) {
+        header = @"Symptoms";
     }
-    
     
     return header;
 }
@@ -169,7 +119,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
         
     }
     else {
-        return [self.defaultSections[section] count];
+        return [self.browseOptions[section] count];
     }
 }
 
@@ -189,9 +139,9 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:searchResultCellIdentifier];
         }
         
-//        NSLog(@"section %d, row %d", indexPath.section, indexPath.row);
-//        NSLog(@"%d", [self.searchResults count]);
-//        NSLog(@"%@", [self.searchResults[indexPath.row] name]);
+        //        NSLog(@"section %d, row %d", indexPath.section, indexPath.row);
+        //        NSLog(@"%d", [self.searchResults count]);
+        //        NSLog(@"%@", [self.searchResults[indexPath.row] name]);
         
         EDFood *foodForIndexPath = self.searchResults[indexPath.row];
         
@@ -215,12 +165,12 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
         else if ([self.searchResults[indexPath.row] isKindOfClass:[EDMedication class]]) {
             foodClass = @"(medication) ";
         }
-
+        
         
         // creates foodClass text label with grey color
         NSAttributedString *foodClassAttributed = [[NSAttributedString alloc] initWithString:foodClass
                                                                                   attributes:@{ NSFontAttributeName : titleLabelFont, NSForegroundColorAttributeName : [UIColor grayColor]}];
-
+        
         NSRange searchTextRange = [name rangeOfString:self.searchBar.text options:NSCaseInsensitiveSearch];
         
         NSMutableAttributedString *mutNameAttributed = [[NSMutableAttributedString alloc] initWithString:name
@@ -279,7 +229,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableCellIdentifier];
         }
         
-        NSArray *sectionArray = self.defaultSections[indexPath.section];
+        NSArray *sectionArray = self.browseOptions[indexPath.section];
         cell.textLabel.text = sectionArray[indexPath.row];
         cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     }
@@ -339,6 +289,8 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
  
  */
 
+
+
 #pragma mark - Table View Delegate
 
 // required this because of issues with the index path for searchDisplayController
@@ -352,44 +304,6 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     }
 }
 
-- (void) popToDelegate
-{
-    CGRect addMealFrame = self.view.frame;
-    addMealFrame.origin.x = -addMealFrame.size.width;
-    
-    CGRect eatMealFrame = self.view.frame;
-    
-    /*
-     [UIView animateWithDuration:0.75
-     animations:^{
-     
-     [UIView setAnimationDuration:0.5];
-     [UIView setAnimationDelay:0.0];
-     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-     
-     self.navigationController.view.frame = addMealFrame;
-     [self.navigationController popToViewController:(UIViewController *)self.delegate animated:NO];
-     
-     // [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.navigationController.view cache:NO];
-     }];
-     
-     */
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         [UIView setAnimationDuration:0.5];
-                         [UIView setAnimationDelay:0.0];
-                         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                         
-                         self.navigationController.view.frame = addMealFrame;
-                         //[self.navigationController popToViewController:(UIViewController *)self.delegate animated:NO];
-                         // [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.navigationController.view cache:NO];
-                         
-                     } completion:^(BOOL finished) {
-                         self.navigationController.view.frame = eatMealFrame;
-                         [self.navigationController popToViewController:(UIViewController *)self.delegate animated:NO];
-                         
-                     }];
-}
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -398,8 +312,8 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     
     if (self.delegate) {
         // if the delegate is set then we either
-            // (a) add the meal/ingredient and pop back to the delegate VC
-            // (b) pass the delegate to the next VC
+        // (a) add the meal/ingredient and pop back to the delegate VC
+        // (b) pass the delegate to the next VC
         
         
         if (tableView == self.searchDisplayController.searchResultsTableView) {
@@ -435,7 +349,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                     [self.delegate addToIngredientsList:@[self.searchResults[indexPath.row]]];
                     [self popToDelegate];
                 }
-
+                
             }
             
         }
@@ -444,7 +358,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
         else { // if this wasn't a search selection then we display what we selected
             
             [self performSegueWithIdentifier:@"MealSegue" sender:indexPath];
-
+            
         }
     }
     
@@ -452,15 +366,15 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     
     else {
         // if there is no delegate then we either
-            // (a) segue to the eatMealVC, passing along the meal/ingredient
-            // (b) segue to the next VC, passing the search parameters along
+        // (a) segue to the eatMealVC, passing along the meal/ingredient
+        // (b) segue to the next VC, passing the search parameters along
         
         if (tableView == self.searchDisplayController.searchResultsTableView) {
             // we want to segue based on the item selected
             // Type = display of food with this type (meals and ingredients)
             // (meal, ingr, medication) = add to meal we want to eat
             // restaurant = meals at restaurant
-        
+            
             
             if (!self.medicationFind)
             {
@@ -505,6 +419,8 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     
     
 }
+
+
 
 #pragma mark - Storyboard Segues
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -573,7 +489,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                 else if (index.row == 1) { // by favs
                     destinationVC.sortBy = ByFavorite;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
-
+                    
                 }
                 
                 else if (index.row == 2) { // by Tags
@@ -581,11 +497,11 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
                     
                 }
-
+                
                 else if (index.row == 3) { // by name
                     destinationVC.sortBy = ByName;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-
+                    
                 }
                 
                 destinationVC.title = destinationTitle;
@@ -596,7 +512,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
         else {
             destinationVC.medicationFind = NO;
             NSString *destinationTitle = @"Meals";
-
+            
             if (index.section == 0) { // meals
                 
                 destinationVC.tableFoodType = MealFoodType;
@@ -604,13 +520,13 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                 if (index.row == 0) { // recent meals
                     destinationVC.sortBy = ByRecent;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Recent"];
-
+                    
                 }
                 
                 else if (index.row == 1) { // by Restaurant
                     destinationVC.sortBy = ByRestaurant;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Restaurant"];
-
+                    
                 }
                 else if (index.row == 2) { // by fav
                     destinationVC.sortBy = ByFavorite;
@@ -630,7 +546,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                 else if (index.row == 5) { // by name
                     destinationVC.sortBy = ByName;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-
+                    
                 }
                 
             }
@@ -642,12 +558,12 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                 if (index.row == 0) { // types
                     destinationVC.sortBy = ByTypes;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Type"];
-
+                    
                 }
                 else if (index.row == 1) { // by favs
                     destinationVC.sortBy = ByFavorite;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
-
+                    
                 }
                 
                 else if (index.row == 2) { // by tags
@@ -659,7 +575,7 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
                 else if (index.row == 3) { // by name
                     destinationVC.sortBy = ByName;
                     destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-
+                    
                 }
             }
             
@@ -672,127 +588,6 @@ static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
     else if ([segue.identifier isEqualToString:nil]) {
         
     }
-}
-
-
-#pragma mark - UISearchBarDelegate and Helper methods -
-
-// helper method
-- (void) performSearchForText: (NSString *) text
-{    
-    self.searchResults = [EDEliminatedAPI searchResultsForString:text inScope:self.searchScope];
-}
-
-
-- (void) updateSearchResults
-{
-    [self performSearchForText:self.searchBar.text];
-}
-
-
-// Editing Text
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    // -search as the user types and shows a list
-    
-    // searches through tags, food names (meals, ingredients, types, restaurants),
-    
-    [self performSearchForText:searchText];
-    
-}
-
-- (BOOL) searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    // Just returns yes for now
-    return YES;
-}
-
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-    //
-    return YES;
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    // show scope bar
-    self.searchBar.showsScopeBar = YES;
-}
-
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
-{
-    return YES;
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    [self.searchBar resignFirstResponder];
-    
-}
-
-// Clicking Buttons
-- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
-{
-    
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    self.searchResults = @[];
-    self.searchBar.showsScopeBar = FALSE;
-}
-
-- (void)searchBarResultsListButtonClicked:(UISearchBar *)searchBar
-{
-    
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    // perform the search and display the results
-}
-
-
-// Scope Button
-- (void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
-{
-    // changes the objects fetched by the search of the selected scope
-    
-    switch (selectedScope) {
-        case 0: // all
-            self.searchScope = MHEDSearchBarScopeFoodAll;
-            break;
-            
-        case 1: // meals
-            self.searchScope = MHEDSearchBarScopeFoodMeals;
-            break;
-            
-        case 2: // ingredients
-            self.searchScope = MHEDSearchBarScopeFoodIngredients;
-            break;
-            
-        case 3: // medication
-            self.searchScope = MHEDSearchBarScopeFoodMedication;
-            break;
-            
-        default:
-            self.searchScope = MHEDSearchBarScopeFoodAll;
-            break;
-    }
-    
-    [self updateSearchResults];
-}
-
-#pragma mark - UISearchDisplayController Delegate Methods
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    // Tells the table data source to reload when text changes
-    
-    return YES;
-}
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    // Tells the table data source to reload when scope bar selection changes
-    return YES;
 }
 
 @end

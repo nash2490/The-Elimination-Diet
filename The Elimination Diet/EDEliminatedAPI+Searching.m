@@ -68,7 +68,7 @@
 }
 
 
-+ (NSArray *) searchResultsForString:(NSString *)text inScope:(SearchBarScope)scope;
++ (NSArray *) searchResultsForString:(NSString *)text inScope:(MHEDSearchBarScopeType)scope;
 {
     __block NSArray *fetchResults = [[NSArray alloc] init];
     
@@ -78,40 +78,40 @@
             
             NSFetchRequest *searchFetch;
             
-            if (scope == SearchScopeAll)
+            if (scope == MHEDSearchBarScopeFoodAll)
             {
                 searchFetch = [EDFood fetchObjectsForEntityName:FOOD_ENTITY_NAME forSearchString:text];
             }
             
-            else if (scope == SearchScopeMeals)
+            else if (scope == MHEDSearchBarScopeFoodMeals)
             {
                 searchFetch = [EDMeal fetchObjectsForEntityName:MEAL_ENTITY_NAME forSearchString:text];
 
             }
             
-            else if (scope == SearchScopeIngredients)
+            else if (scope == MHEDSearchBarScopeFoodIngredients)
             {
                 searchFetch = [EDIngredient fetchObjectsForEntityName:INGREDIENT_ENTITY_NAME forSearchString:text];
             }
             
-            else if (scope == SearchScopeTypes)
+            else if (scope == MHEDSearchBarScopeFoodTypes)
             {
                 searchFetch = [EDType fetchObjectsForEntityName:TYPE_ENTITY_NAME forSearchString:text];
                 
             }
             
-            else if (scope == SearchScopeRestaurants)
+            else if (scope == MHEDSearchBarScopeRestaurants)
             {
                 searchFetch = [EDRestaurant fetchObjectsForEntityName:RESTAURANT_ENTITY_NAME forSearchString:text];
                 
             }
             
-            else if (scope == SearchScopeTags)
+            else if (scope == MHEDSearchBarScopeTags)
             {
                 searchFetch = [EDEliminatedAPI fetchObjectsForEntityName:TAG_ENTITY_NAME nameContainingText:text];
             }
             
-            else if (scope == SearchScopeMedication)
+            else if (scope == MHEDSearchBarScopeFoodMedication)
             {
                 // nothing just yet
                 
@@ -141,44 +141,44 @@
 //            
 //            NSFetchRequest *searchFetch;
 //            
-//            if (scope == SearchScopeAll)
+//            if (scope == MHEDSearchBarScopeFoodAll)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:FOOD_ENTITY_NAME forSearchString:text];
 //            }
 //            
-//            else if (scope == SearchScopeMeals)
+//            else if (scope == MHEDSearchBarScopeFoodMeals)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:MEAL_ENTITY_NAME forSearchString:text];
 //            }
 //            
-//            else if (scope == SearchScopeIngredients)
+//            else if (scope == MHEDSearchBarScopeFoodIngredients)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:INGREDIENT_ENTITY_NAME forSearchString:text];
 //            }
 //            
-//            else if (scope == SearchScopeTypes)
+//            else if (scope == MHEDSearchBarScopeFoodTypes)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:TYPE_ENTITY_NAME forSearchString:text];
 //                
 //            }
 //            
-//            else if (scope == SearchScopeRestaurants)
+//            else if (scope == MHEDSearchBarScopeRestaurants)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:RESTAURANT_ENTITY_NAME forSearchString:text];
 //                
 //            }
 //            
-//            else if (scope == SearchScopeTags)
+//            else if (scope == MHEDSearchBarScopeTags)
 //            {
 //                searchFetch = [EDTag fetchSuggestedTagsForString:text];
 //            }
 //            
-//            else if (scope == SearchScopeMedication)
+//            else if (scope == MHEDSearchBarScopeFoodMedication)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:MEDICATION_ENTITY_NAME forSearchString:text];
 //            }
 //            
-//            else if (scope == SearchScopeNonMedication)
+//            else if (scope == MHEDSearchBarScopeFoodNonMedication)
 //            {
 //                searchFetch = [EDFood fetchObjectsForEntityName:FOOD_ENTITY_NAME forSearchString:text];
 //            }
@@ -186,7 +186,7 @@
 //            fetchResults = [context executeFetchRequest:searchFetch error:nil];
 //            
 //            
-//            if (scope == SearchScopeNonMedication) { // we need to remove all medication after the fetch
+//            if (scope == MHEDSearchBarScopeFoodNonMedication) { // we need to remove all medication after the fetch
 //                
 //                NSIndexSet *indexSet = [fetchResults indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
 //                    if ([obj isKindOfClass:[EDMedication class]]) {

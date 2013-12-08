@@ -8,7 +8,7 @@
 
 #import "EDEliminatedAPI.h"
 
-typedef NS_ENUM(NSUInteger, SearchBarScope) {SearchScopeAll, SearchScopeMeals, SearchScopeIngredients, SearchScopeTypes, SearchScopeRestaurants, SearchScopeTags, SearchScopeMedication, SearchScopeNonMedication};
+typedef NS_ENUM(NSUInteger, MHEDSearchBarScopeType) {MHEDSearchBarScopeFoodAll, MHEDSearchBarScopeFoodMeals, MHEDSearchBarScopeFoodIngredients, MHEDSearchBarScopeFoodTypes, MHEDSearchBarScopeRestaurants, MHEDSearchBarScopeTags, MHEDSearchBarScopeFoodMedication, MHEDSearchBarScopeFoodNonMedication, MHEDSearchBarScopeSymptomsAll};
 
 @interface EDEliminatedAPI (Searching)
 
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, SearchBarScope) {SearchScopeAll, SearchScopeMeals, S
 // basic searching
 
 // returns a few possible results for the given string in the given scope
-+ (NSArray *) searchResultsForString: (NSString *) text inScope: (SearchBarScope) scope;
++ (NSArray *) searchResultsForString: (NSString *) text inScope: (MHEDSearchBarScopeType) scope;
 
 //// returns a few possible results for the given string in the given scope
 //+ (NSArray *) searchResultsExcludingFavoritesForString: (NSString *) text inScope: (SearchBarScope) scope ;

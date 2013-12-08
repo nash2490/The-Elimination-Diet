@@ -18,18 +18,18 @@
 
 
 
-#define edTitleKey      @"title"    // key for obtaining the data source item's title
-#define edDateKey        @"date"    // key for obtaining the data source item's date value
-#define edDetailKey     @"detail"   // key for the data source item's detail text
-#define edCellIDKey     @"cellID"   // key for the type of cell to use
+#define mhedTitleKey      @"title"    // key for obtaining the data source item's title
+#define mhedDateKey        @"date"    // key for obtaining the data source item's date value
+#define mhedDetailKey     @"detail"   // key for the data source item's detail text
+#define mhedCellIDKey     @"cellID"   // key for the type of cell to use
 
-#define edCellStyleKey  @"cellStyle" // key for the style of the cell
+#define mhedCellStyleKey  @"cellStyle" // key for the style of the cell
 
-#define edHeaderKey     @"header" // key for obtaining the header if the object is a section header
+#define mhedHeaderKey     @"header" // key for obtaining the header if the object is a section header
 
-#define edNoHeader      @"no header" // key to tell table not to display a header for the section
+#define mhedNoHeader      @"no header" // key to tell table not to display a header for the section
 
-#define edHideShowKey   @"hide/show" // key to tell boolean value of hideshow cell
+#define mhedHideShowKey   @"hide/show" // key to tell boolean value of hideshow cell
 
 
 

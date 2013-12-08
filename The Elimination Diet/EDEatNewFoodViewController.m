@@ -16,21 +16,21 @@
 
 #import "NSString+MHED_EatDate.h"
 
-#define edPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
-#define edDatePickerTag              99     // view tag identifiying the date picker view
+#define mhedPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
+#define mhedDatePickerTag              99     // view tag identifiying the date picker view
 
-#define edTitleKey       @"title"   // key for obtaining the data source item's title
-#define edDateKey        @"date"    // key for obtaining the data source item's date value
-#define edCellIDKey      @"cellID"  // key for the type of cell to use
+#define mhedTitleKey       @"title"   // key for obtaining the data source item's title
+#define mhedDateKey        @"date"    // key for obtaining the data source item's date value
+#define mhedCellIDKey      @"cellID"  // key for the type of cell to use
 
 
 
-static NSString *edDateCellID = @"DateCell";     // the cells with the start or end date
-static NSString *edDatePickerID = @"DatePicker"; // the cell containing the date picker
-static NSString *edTagCellID = @"TagsCell";
-static NSString *edImageAndNameCellID = @"ImageAndNameCell";
-static NSString *edRestaurantCellID = @"RestaurantCell";
-static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
+static NSString *mhedDateCellID = @"DateCell";     // the cells with the start or end date
+static NSString *mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
+static NSString *mhedTagCellID = @"TagsCell";
+static NSString *mhedImageAndNameCellID = @"ImageAndNameCell";
+static NSString *mhedRestaurantCellID = @"RestaurantCell";
+static NSString *mhedMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
 
 @interface EDEatNewFoodViewController ()
 
@@ -86,15 +86,15 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     [super viewDidLoad];
     
     // setup our data source
-    NSMutableDictionary *dateDict = [@{ edTitleKey : @"Date",
-                                       edDateKey : [NSDate date],
-                                       edCellIDKey : edDateCellID} mutableCopy];
+    NSMutableDictionary *dateDict = [@{ mhedTitleKey : @"Date",
+                                       mhedDateKey : [NSDate date],
+                                       mhedCellIDKey : mhedDateCellID} mutableCopy];
     
-    NSMutableDictionary *restaurantDict = [@{ edTitleKey : @"Restaurant",
-                                              edCellIDKey : edRestaurantCellID} mutableCopy];
+    NSMutableDictionary *restaurantDict = [@{ mhedTitleKey : @"Restaurant",
+                                              mhedCellIDKey : mhedRestaurantCellID} mutableCopy];
     
-    NSMutableDictionary *tagsDict = [@{ edTitleKey : @"Tags",
-                                        edCellIDKey : edTagCellID} mutableCopy];
+    NSMutableDictionary *tagsDict = [@{ mhedTitleKey : @"Tags",
+                                        mhedCellIDKey : mhedTagCellID} mutableCopy];
     
     
     self.dataArray = @[tagsDict, dateDict, restaurantDict];
@@ -104,7 +104,7 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
-    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:edDatePickerID];
+    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedDatePickerID];
     self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
     
     // if the local changes while in the background, we need to be notified so we can update the date
@@ -158,7 +158,7 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     
     UITableViewCell *checkDatePickerCell =
     [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:targetedRow inSection:indexPath.section]];
-    UIDatePicker *checkDatePicker = (UIDatePicker *)[checkDatePickerCell viewWithTag:edDatePickerTag];
+    UIDatePicker *checkDatePicker = (UIDatePicker *)[checkDatePickerCell viewWithTag:mhedDatePickerTag];
     
     hasDatePicker = (checkDatePicker != nil);
     return hasDatePicker;
@@ -172,13 +172,13 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     {
         UITableViewCell *associatedDatePickerCell = [self.tableView cellForRowAtIndexPath:self.datePickerIndexPath];
         
-        UIDatePicker *targetedDatePicker = (UIDatePicker *)[associatedDatePickerCell viewWithTag:edDatePickerTag];
+        UIDatePicker *targetedDatePicker = (UIDatePicker *)[associatedDatePickerCell viewWithTag:mhedDatePickerTag];
         if (targetedDatePicker != nil)
         {
             // we found a UIDatePicker in this cell, so update it's date value
             //
             NSDictionary *itemData = self.dataArray[self.datePickerIndexPath.row - 1];
-            [targetedDatePicker setDate:[itemData valueForKey:edDateKey] animated:NO];
+            [targetedDatePicker setDate:[itemData valueForKey:mhedDateKey] animated:NO];
         }
     }
 }
@@ -211,7 +211,7 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     NSDictionary *itemData = self.dataArray[modelRow];
 
     
-    if ([itemData[edCellIDKey] isEqualToString:edDateCellID] )
+    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID] )
     {
         hasDate = YES;
     }
@@ -266,49 +266,49 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     {
         // the indexPath is the one containing the inline date picker the current/opened date picker cell
             // used because we don't define the datePicker in self.dataArray
-        cellID = edDatePickerID;
+        cellID = mhedDatePickerID;
     }
 
     else
     {
-        cellID = itemData[edCellIDKey];
+        cellID = itemData[mhedCellIDKey];
     }
     
     cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     
     
     
-    cell.textLabel.text = [itemData valueForKey:edTitleKey];
+    cell.textLabel.text = [itemData valueForKey:mhedTitleKey];
     
-    if ([cellID isEqualToString:edDatePickerID]) {
+    if ([cellID isEqualToString:mhedDatePickerID]) {
         cell.textLabel.text = nil;
     }
     
     // proceed to configure our cell
-    if ([cellID isEqualToString:edDateCellID])
+    if ([cellID isEqualToString:mhedDateCellID])
     {
         // we have either start or end date cells, populate their date field
         //
-        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:edDateKey]];
+        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:mhedDateKey]];
     }
-    else if ([cellID isEqualToString:edRestaurantCellID])
+    else if ([cellID isEqualToString:mhedRestaurantCellID])
     {
         // this cell is a non-date cell, just assign it's text label
         //
-        cell.textLabel.text = [itemData valueForKey:edTitleKey];
+        cell.textLabel.text = [itemData valueForKey:mhedTitleKey];
     }
     
-    else if ([cellID isEqualToString:edTagCellID])
+    else if ([cellID isEqualToString:mhedTagCellID])
     {
         
     }
     
-    else if ([cellID isEqualToString:edImageAndNameCellID])
+    else if ([cellID isEqualToString:mhedImageAndNameCellID])
     {
         
     }
     
-    else if ([cellID isEqualToString:edMealsAndIngredientsCellID])
+    else if ([cellID isEqualToString:mhedMealsAndIngredientsCellID])
     {
         
     }
@@ -395,7 +395,7 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.reuseIdentifier == edDateCellID)
+    if (cell.reuseIdentifier == mhedDateCellID)
     {
         [self displayInlineDatePickerForRowAtIndexPath:indexPath];
 
@@ -434,7 +434,7 @@ static NSString *edMealsAndIngredientsCellID = @"MealsAndIngredientsCell";
     
     // update our data model
     NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
-    [itemData setValue:targetedDatePicker.date forKey:edDateKey];
+    [itemData setValue:targetedDatePicker.date forKey:mhedDateKey];
     
     // update the cell's date string
     cell.detailTextLabel.text = [self.dateFormatter stringFromDate:targetedDatePicker.date];

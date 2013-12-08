@@ -47,7 +47,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // self.navigationItem.rightBarButtonItem = self.mheditButtonItem;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -279,7 +279,7 @@
 #pragma mark - Sections and reordering
 
 // Must return an array of distinct NSNumber ints in [0, 1, ..., # of sections - 1]
-- (NSArray *) edSections
+- (NSArray *) mhedSections
 {
     if (self.reorderedSections) {
         return self.reorderedSections;
@@ -324,10 +324,10 @@
 - (void) updateReorderedSections
 {
     self.reorderedSections = nil;
-    self.reorderedSections = [self edSections];
+    self.reorderedSections = [self mhedSections];
 }
 
-- (NSArray *)edSectionIndexTitles
+- (NSArray *)mhedSectionIndexTitles
 {
     if (self.reorderedSectionIndexTitles) {
         return self.reorderedSectionIndexTitles;
@@ -337,7 +337,7 @@
     return [[NSArray alloc] init];
 }
 
-- (id) edObjectAtIndexPath: (NSIndexPath *) indexPath
+- (id) mhedObjectAtIndexPath: (NSIndexPath *) indexPath
 {
     if ([[self.fetchedResultsController sections] count] > 0) {
         
@@ -345,7 +345,7 @@
         if (self.customSectionOrdering) {
             // section corresponds to the display location, so we need to find the old section
             // the row will not change
-            NSInteger originalSection = [(NSNumber *)[self edSections][indexPath.section] integerValue];
+            NSInteger originalSection = [(NSNumber *)[self mhedSections][indexPath.section] integerValue];
             
             originalIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:originalSection];
             
@@ -353,7 +353,7 @@
         
         if (!self.populatedTableUsingFRC) { // if we want to get the objects using other means than the FRC
             
-            return [self edObjectWithoutFRCFromIndexPath:originalIndexPath];
+            return [self mhedObjectWithoutFRCFromIndexPath:originalIndexPath];
         }
         
         else {
@@ -369,7 +369,7 @@
 }
 
 //
-- (id) edObjectWithoutFRCFromIndexPath: (NSIndexPath *) indexPath
+- (id) mhedObjectWithoutFRCFromIndexPath: (NSIndexPath *) indexPath
 {
     // override in subclass if you want to use this feature
     
@@ -395,7 +395,7 @@
     if ([[self.fetchedResultsController sections] count] > 0) {
         if (self.customSectionOrdering) {
             // section corresponds to the display location, so we need to find the old section
-            NSInteger originalSection = [(NSNumber *)[self edSections][section] integerValue];
+            NSInteger originalSection = [(NSNumber *)[self mhedSections][section] integerValue];
             id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][originalSection];
             return [sectionInfo numberOfObjects];
         }
@@ -418,7 +418,7 @@
         
         if (self.customSectionOrdering) {
             // section corresponds to the display location, so we need to find the old section
-            NSInteger originalSection = [(NSNumber *)[self edSections][section] integerValue];
+            NSInteger originalSection = [(NSNumber *)[self mhedSections][section] integerValue];
             id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][originalSection];
             return [sectionInfo name];
         }
@@ -440,7 +440,7 @@
     if (self.customSectionOrdering) {
         // we get the section index of the section header that has 'title' as a substring
         
-        NSUInteger sectionIndex = [[self edSections] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSUInteger sectionIndex = [[self mhedSections] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             
             if ([[self.fetchedResultsController sections] count] > 0) {
                 NSInteger objectIndex = [(NSNumber *)obj integerValue]; // the object at idx is the index of the section in the unordered sections from the FRC
@@ -461,7 +461,7 @@
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     if (self.customSectionOrdering) {
-        return [self edSectionIndexTitles];
+        return [self mhedSectionIndexTitles];
     }
     return [self.fetchedResultsController sectionIndexTitles];
 }

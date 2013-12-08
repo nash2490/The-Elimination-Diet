@@ -10,63 +10,63 @@
 
 @implementation UIView (MHED_AdjustView)
 
-- (void) edSetOrigin:(CGPoint)aPoint
+- (void) mhedSetOrigin:(CGPoint)aPoint
 {
     CGRect newFrame = self.frame;
     newFrame.origin = aPoint;
     self.frame = newFrame;
 }
 
-- (void) edSetOriginX:(CGFloat)x
+- (void) mhedSetOriginX:(CGFloat)x
 {
     CGRect newFrame = self.frame;
     newFrame.origin.x = x;
     self.frame = newFrame;
 }
 
-- (void) edSetOriginY:(CGFloat)y
+- (void) mhedSetOriginY:(CGFloat)y
 {
     CGRect newFrame = self.frame;
     newFrame.origin.y = y;
     self.frame = newFrame;
 }
 
-- (void) edSetBoundsSize:(CGSize)aSize
+- (void) mhedSetBoundsSize:(CGSize)aSize
 {
     CGRect newBounds = self.bounds;
     newBounds.size = aSize;
     self.bounds = newBounds;
 }
 
-- (void) edSetBoundsWidth:(CGFloat)width
+- (void) mhedSetBoundsWidth:(CGFloat)width
 {
     CGRect newFrame = self.bounds;
     newFrame.size.width = width;
     self.bounds = newFrame;
 }
 
-- (void) edSetBoundsHeight:(CGFloat)height
+- (void) mhedSetBoundsHeight:(CGFloat)height
 {
     CGRect newFrame = self.bounds;
     newFrame.size.height = height;
     self.bounds = newFrame;
 }
 
-- (void) edSetFrameSize:(CGSize)aSize
+- (void) mhedSetFrameSize:(CGSize)aSize
 {
     CGRect newFrame = self.frame;
     newFrame.size = aSize;
     self.frame = newFrame;
 }
 
-- (void) edSetFrameWidth:(CGFloat)width
+- (void) mhedSetFrameWidth:(CGFloat)width
 {
     CGRect newFrame = self.frame;
     newFrame.size.width = width;
     self.frame = newFrame;
 }
 
-- (void) edSetFrameHeight:(CGFloat)height
+- (void) mhedSetFrameHeight:(CGFloat)height
 {
     CGRect newFrame = self.frame;
     newFrame.size.height = height;

@@ -10,17 +10,17 @@
 
 @interface UIView (MHED_AdjustView)
 
-- (void) edSetOrigin: (CGPoint) aPoint;
-- (void) edSetOriginX: (CGFloat) x;
-- (void) edSetOriginY: (CGFloat) y;
+- (void) mhedSetOrigin: (CGPoint) aPoint;
+- (void) mhedSetOriginX: (CGFloat) x;
+- (void) mhedSetOriginY: (CGFloat) y;
 
-- (void) edSetBoundsSize: (CGSize) aSize;
-- (void) edSetBoundsWidth: (CGFloat) width;
-- (void) edSetBoundsHeight: (CGFloat) height;
+- (void) mhedSetBoundsSize: (CGSize) aSize;
+- (void) mhedSetBoundsWidth: (CGFloat) width;
+- (void) mhedSetBoundsHeight: (CGFloat) height;
 
-- (void) edSetFrameSize: (CGSize) aSize;
-- (void) edSetFrameWidth: (CGFloat) width;
-- (void) edSetFrameHeight: (CGFloat) height;
+- (void) mhedSetFrameSize: (CGSize) aSize;
+- (void) mhedSetFrameWidth: (CGFloat) width;
+- (void) mhedSetFrameHeight: (CGFloat) height;
 
 CGPoint CGPointAdd(CGPoint p1, CGPoint p2);
 CGPoint CGPointPlusSize(CGPoint point, CGSize size);

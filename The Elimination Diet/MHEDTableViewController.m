@@ -1,20 +1,22 @@
 //
-//  EDCreationViewController.m
+//  MHEDTableViewController.m
 //  The Elimination Diet
 //
-//  Created by Justin Kahn on 10/29/13.
+//  Created by Justin Kahn on 12/7/13.
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
-#import "EDCreationViewController.h"
+#import "MHEDTableViewController.h"
 
 #import "EDSearchToEatViewController.h"
 
 #import "EDTableComponents.h"
 
+// custom cells
 #import "EDTagCell.h"
 #import "EDMealAndMedicationSegmentedControlCell.h"
 #import "EDImageAndNameCell.h"
+#import "EDShowHideCell.h"
 
 #import "EDTag+Methods.h"
 #import "EDRestaurant+Methods.h"
@@ -22,36 +24,29 @@
 #import "EDMeal+Methods.h"
 #import "EDIngredient+Methods.h"
 #import "EDEatenMeal+Methods.h"
-
 #import "EDMedication+Methods.h"
 #import "EDTakenMedication+Methods.h"
-
 #import "EDImage+Methods.h"
 
 #import "EDDocumentHandler.h"
-
 #import "NSString+MHED_EatDate.h"
-
 #import "UIImage+MHED_fixOrientation.h"
 
 
-#import "EDShowHideCell.h"
+
 
 @import MobileCoreServices;
 
 
-
-@interface EDCreationViewController ()
-
+@interface MHEDTableViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 - (IBAction)doneButtonPress:(id)sender;
 
 
-
-
 @end
 
-@implementation EDCreationViewController
+@implementation MHEDTableViewController
+
 
 - (NSMutableArray *) images
 {
@@ -147,7 +142,7 @@
     //                                    mhedCellIDKey : mhedTagCellID} mutableCopy];
     
     
-     return @[dateDict, mealsAndIngredientsDict, nameDict, restaurantDict ];
+    return @[dateDict, mealsAndIngredientsDict, nameDict, restaurantDict ];
     
     
     
@@ -249,7 +244,7 @@
 
 - (void) setUpBeforeTableLoad
 {
-
+    
 }
 
 
@@ -536,66 +531,66 @@
 {
     NSDictionary *itemData = self.dataArray[section];
     
-     if (section == self.datePickerIndexPath.section && [self hasInlineDatePicker]) {
+    if (section == self.datePickerIndexPath.section && [self hasInlineDatePicker]) {
         return 2;
     }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
-         // rows are the meals + ingredients + add row
-         
-         if ([self respondsToSelector:@selector(ingredientsList)] &&
-             [self respondsToSelector:@selector(mealsList)]) {
-             
-             NSUInteger rowCount = [self.mealsList count] + [self.ingredientsList count] + 1;
-             if ([self.mealsList count]) {
-                 rowCount++;
-             }
-             if ([self.ingredientsList count]) {
-                 rowCount++;
-             }
-             return rowCount;
-         }
-         
-         return 0;
+    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+        // rows are the meals + ingredients + add row
+        
+        if ([self respondsToSelector:@selector(ingredientsList)] &&
+            [self respondsToSelector:@selector(mealsList)]) {
+            
+            NSUInteger rowCount = [self.mealsList count] + [self.ingredientsList count] + 1;
+            if ([self.mealsList count]) {
+                rowCount++;
+            }
+            if ([self.ingredientsList count]) {
+                rowCount++;
+            }
+            return rowCount;
+        }
+        
+        return 0;
     }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
-         // rows are the meds + ingredients + add row
-         
-         if ([self respondsToSelector:@selector(ingredientsList)] &&
-             [self respondsToSelector:@selector(parentMedicationsList)]) {
-             
-             NSUInteger rowCount = [self.parentMedicationsList count] + [self.ingredientsList count] + 1;
-             if ([self.parentMedicationsList count]) {
-                 rowCount++;
-             }
-             if ([self.ingredientsList count]) {
-                 rowCount++;
-             }
-             return rowCount;
-         }
-         
-         return 0;
-         
-         
-     }
+    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
+        // rows are the meds + ingredients + add row
+        
+        if ([self respondsToSelector:@selector(ingredientsList)] &&
+            [self respondsToSelector:@selector(parentMedicationsList)]) {
+            
+            NSUInteger rowCount = [self.parentMedicationsList count] + [self.ingredientsList count] + 1;
+            if ([self.parentMedicationsList count]) {
+                rowCount++;
+            }
+            if ([self.ingredientsList count]) {
+                rowCount++;
+            }
+            return rowCount;
+        }
+        
+        return 0;
+        
+        
+    }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedShowHideCellID]) {
-         
-         BOOL hidden = [itemData[mhedHideShowKey] boolValue];
-         
-         // if the row is hidden then we only have 1
-         if (hidden) {
-             return 1;
-         }
-         
-         // else then both
-         else if(!hidden){
-             return 2;
-         }
-         
-         
-     }
+    else if ([itemData[mhedCellIDKey] isEqualToString:mhedShowHideCellID]) {
+        
+        BOOL hidden = [itemData[mhedHideShowKey] boolValue];
+        
+        // if the row is hidden then we only have 1
+        if (hidden) {
+            return 1;
+        }
+        
+        // else then both
+        else if(!hidden){
+            return 2;
+        }
+        
+        
+    }
     
     return 1;
 }
@@ -803,7 +798,7 @@
     else if ([cellID isEqualToString:mhedAddMealsAndIngredientsCellID] &&
              [self respondsToSelector:@selector(mealsList)] &&
              [self respondsToSelector:@selector(ingredientsList)]) {
-
+        
         if (indexPath.row == 0) { // then we use the add meals cell
             cell.detailTextLabel.text = @"Add";
         }
@@ -824,8 +819,8 @@
             NSInteger foodIndex = indexPath.row - 2;
             
             if (foodIndex < [self.mealsList count]) {
-                    EDMeal *mealForIndex = self.mealsList[foodIndex];
-                    cell.textLabel.text = mealForIndex.name;
+                EDMeal *mealForIndex = self.mealsList[foodIndex];
+                cell.textLabel.text = mealForIndex.name;
             }
             
             else { // if foodIndex = 0 then so is [self.mealsList count] = 0 and then we already have a cell for the ingredients separator
@@ -939,7 +934,7 @@
             
             EDLargeImageCell *imageCell = (EDLargeImageCell *)cell;
             imageCell.delegate = self;
-
+            
             if (!self.mhedCarousel) {
                 self.mhedCarousel = imageCell.mhedCarousel;
                 
@@ -963,7 +958,7 @@
             }
             
             
-           
+            
         }
         
         else {
@@ -1276,7 +1271,7 @@
     if (NSEqualRanges(wordRange, textView.selectedRange) == FALSE &&
         wordRange.location + wordRange.length > 0) {
         textView.selectedRange = wordRange;
-
+        
     }
     
 }
@@ -1294,7 +1289,7 @@
 - (void) nameTextViewEditable: (UITextView *) textView
 {
     if (textView) {
-        textView.editable = YES;
+        textView.mheditable = YES;
     }
 }
 
@@ -1453,16 +1448,16 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
-//    //create a numbered view
-//    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 200.0f)];
-//    view.backgroundColor = [UIColor lightGrayColor];
-//    UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
-//    label.text = [NSString stringWithFormat:@"%i", index];
-//    label.backgroundColor = [UIColor clearColor];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.font = [label.font fontWithSize:50];
-//    [view addSubview:label];
-//    return view;
+    //    //create a numbered view
+    //    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 200.0f)];
+    //    view.backgroundColor = [UIColor lightGrayColor];
+    //    UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
+    //    label.text = [NSString stringWithFormat:@"%i", index];
+    //    label.backgroundColor = [UIColor clearColor];
+    //    label.textAlignment = NSTextAlignmentCenter;
+    //    label.font = [label.font fontWithSize:50];
+    //    [view addSubview:label];
+    //    return view;
     
     //view = [[UIImageView alloc] initWithImage:self.images[index]];
     
@@ -1489,14 +1484,14 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
         originalImage.imageOrientation == UIImageOrientationDown) {
         //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 * SCREEN_RATIO, 130.0f)];
         //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:LARGE_IMAGE_CAROUSEL_MAX_IMAGE_HEIGHT andWidth:LARGE_IMAGE_CAROUSEL_MAX_IMAGE_WIDTH];
+        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
         
     }
     else if (originalImage.imageOrientation == UIImageOrientationRight ||
              originalImage.imageOrientation == UIImageOrientationLeft){
         //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 / SCREEN_RATIO, 130.0f)];
         //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:LARGE_IMAGE_CAROUSEL_MAX_IMAGE_HEIGHT andWidth:LARGE_IMAGE_CAROUSEL_MAX_IMAGE_WIDTH];
+        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
         
     }
     
@@ -1571,9 +1566,9 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
         NSInteger imageIndex = self.mhedCarousel.currentItemIndex;
         
         // remove image from the array,
-//        NSMutableArray *mutImages = [self.images mutableCopy];
-//        [mutImages removeObjectAtIndex:(NSUInteger)imageIndex];
-//        self.images = [mutImages copy];
+        //        NSMutableArray *mutImages = [self.images mutableCopy];
+        //        [mutImages removeObjectAtIndex:(NSUInteger)imageIndex];
+        //        self.images = [mutImages copy];
         
         
         [self.mhedCarousel removeItemAtIndex:imageIndex animated:YES];
@@ -1628,9 +1623,9 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType
 {
     // clear any existing imagePicker
-//    if (self.imagePickerController) {
-//        self.imagePickerController = nil;
-//    }
+    //    if (self.imagePickerController) {
+    //        self.imagePickerController = nil;
+    //    }
     
     
     // initialize
@@ -1642,7 +1637,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     
     else {
         [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-
+        
     }
     
     //[self presentViewController:imagePickerController animated:YES completion:nil];
@@ -1682,7 +1677,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     }
     
     // set mhediting
-    imagePickerController.editing = NO;
+    imagePickerController.mhediting = NO;
     
     // set delegate
     imagePickerController.delegate = self;
@@ -1757,8 +1752,8 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     if (![self.images count]) {
         self.cameraCanceled = YES;
         [self dismissViewControllerAnimated:YES completion:NULL];
-       //[self.navigationController popToRootViewControllerAnimated:YES];
-
+        //[self.navigationController popToRootViewControllerAnimated:YES];
+        
     }
     
     else
@@ -1771,10 +1766,10 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 
 - (void)finishAndUpdate
 {
-//    if (self.imagePickerController) {
-//        
-//        
-//    }
+    //    if (self.imagePickerController) {
+    //
+    //
+    //    }
     self.imagePickerController = nil;
     [self dismissViewControllerAnimated:YES completion:^{
         //self.imagePickerController = nil;
@@ -1821,7 +1816,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 {
     if ([self respondsToSelector:@selector(mealsList)] &&
         [self respondsToSelector:@selector(ingredientsList)]) {
-    
+        
         if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
         {
             // also should check the restaurant
@@ -1834,7 +1829,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             }];
             
         }
-    
+        
         else if ([self.mealsList count] == 0 && [self.ingredientsList count] == 1)
         { // then we only ate the 1 ingredient so we want the name to be just a meal with the ingredient
             [self.managedObjectContext performBlockAndWait:^{
@@ -1869,7 +1864,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
                 [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
             }];
         }
-    
+        
     }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -1882,14 +1877,14 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             [self respondsToSelector:@selector(ingredientsList)]) {
             
             if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0) {
-                textView.editable = NO;
+                textView.mheditable = NO;
             }
             else {
-                textView.editable = YES;
+                textView.mheditable = YES;
             }
         }
         else {
-            textView.editable = YES;
+            textView.mheditable = YES;
         }
     }
 }
@@ -1904,7 +1899,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             EDMeal *meal = self.mealsList[0];
             return meal.name;
         }
-    
+        
         else if ([self.mealsList count] == 0 && [self.ingredientsList count] == 1) {
             EDIngredient *ingr = self.ingredientsList[0];
             return [NSString stringWithFormat:@"Meal with %@", ingr.name];
@@ -2040,9 +2035,9 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
                                               date:(NSDate *)date
 {
     NSMutableDictionary *cellDict = [@{mhedCellIDKey : cellID ,
-                                                     mhedTitleKey : headerTitle,
-                                                     mhedDetailKey : detailString,
-                                                     mhedDateKey : date} mutableCopy];
+                                       mhedTitleKey : headerTitle,
+                                       mhedDetailKey : detailString,
+                                       mhedDateKey : date} mutableCopy];
     return cellDict;
 }
 
@@ -2062,28 +2057,28 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
         {
             // also should check the restaurant
             // but anyways, this means we don't need to create a new meal
-        
+            
             
             [self.managedObjectContext performBlockAndWait:^{
-            
+                
                 [EDTakenMedication createWithMedication:self.parentMedicationsList[0] onDate:self.date1 inContext:self.managedObjectContext];
             }];
-        
+            
         }
-    
+        
         else if ([self.parentMedicationsList count] > 0 || [self.ingredientsList count] > 0)
         { // we need to create a new med first
             [self.managedObjectContext performBlockAndWait:^{
-            
+                
                 EDMedication *newMed = [EDMedication createMedicationWithName:self.objectName ingredientsAdded:[NSSet setWithArray:self.ingredientsList] medicationParents:[NSSet setWithArray:self.parentMedicationsList] company:self.restaurant tags:nil forContext:self.managedObjectContext];
                 
                 if ([self.images count]) {
                     [newMed addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
                 }
-        
+                
                 [EDTakenMedication createWithMedication:newMed onDate:self.date1 inContext:self.managedObjectContext];
             }];
-    }
+        }
     }
     
     
@@ -2095,14 +2090,14 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 {
     if (textView) {
         
-        textView.editable = YES;
+        textView.mheditable = YES;
     }
 }
 
 - (NSString *) medNameAsDefault
 {
     return [NSString stringWithFormat:@"Medication at %@", [self eatDateAsString:self.date1]];
-
+    
 }
 - (NSString *) medNameForDisplay
 {

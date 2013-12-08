@@ -28,9 +28,9 @@
 @property (nonatomic) FoodTypeForTable tableFoodType;
 
 // Must return an array of distinct NSNumber ints in [0, 1, ..., # of sections - 1]
-- (NSArray *) edSections;
-- (NSArray *)edSectionIndexTitles;
-- (id) edObjectAtIndexPath: (NSIndexPath *) indexPath;
+- (NSArray *) mhedSections;
+- (NSArray *)mhedSectionIndexTitles;
+- (id) mhedObjectAtIndexPath: (NSIndexPath *) indexPath;
 
 
 @end

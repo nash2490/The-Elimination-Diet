@@ -10,7 +10,6 @@
 
 #import "EDMainMenuVC.h"
 
-#import "EDTodayViewController.h"
 #import "EDSelectMealsViewController.h"
 
 #import "EDTypeTableViewController.h"
@@ -59,20 +58,19 @@
     //[self.tabBarController setViewControllers:@[self.mainNavController, mapNav]];
     
     */
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UITabBarController *recordViewController = [mainStoryboard instantiateInitialViewController];
-    //UIViewController *recentVC= [mainStoryboard instantiateViewControllerWithIdentifier:@"hello"];
-   // [self.tabBarController setViewControllers:@[recentVC]];
+//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+//    UITabBarController *recordViewController = [mainStoryboard instantiateInitialViewController];
+//    //UIViewController *recentVC= [mainStoryboard instantiateViewControllerWithIdentifier:@"hello"];
+//   // [self.tabBarController setViewControllers:@[recentVC]];
+//
+//    
+//    //EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
+//
+//    
+//    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:todayView];
 
     
-    //EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
-
-    
-    EDTodayViewController *todayView = [[EDTodayViewController alloc] initWithNibName:nil bundle:nil];
-    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:todayView];
-
-    
-    [self.window setRootViewController:recordViewController];
+    //[self.window setRootViewController:recordViewController];
     
     return YES;
 }
@@ -95,7 +93,7 @@
        // NSURL *documentsFolder = [urls objectAtIndex:0];
         //NSString *filePath = [[documentsFolder path] stringByAppendingString:@"FoodLogData.archive"];
         
-        //EDData *data = [EDData eddata];
+        //EDData *data = [EDData mheddata];
         
         //BOOL archiveSuccess = [NSKeyedArchiver archiveRootObject:data toFile:filePath];
        // NSLog(@"Archive Success = %d", archiveSuccess);

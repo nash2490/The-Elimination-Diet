@@ -210,13 +210,13 @@
         //      - show the user the most recent occurence (past, current, future)
         //          - if the adjust the START TIME and it now overlaps
         NSString *dateErrorString = @"Date is not set";
-        NSMutableDictionary *edEventInfo = [NSMutableDictionary dictionary];
-        edEventInfo[NSLocalizedFailureReasonErrorKey] = dateErrorString;
-        edEventInfo[NSValidationObjectErrorKey] = self;
+        NSMutableDictionary *mhedEventInfo = [NSMutableDictionary dictionary];
+        mhedEventInfo[NSLocalizedFailureReasonErrorKey] = dateErrorString;
+        mhedEventInfo[NSValidationObjectErrorKey] = self;
         
         NSError *eliminationOverlapError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                                code:NSManagedObjectValidationError
-                                                           userInfo:edEventInfo];
+                                                           userInfo:mhedEventInfo];
         
         // if there was no previous error, return the new error
         if (*error == nil) {

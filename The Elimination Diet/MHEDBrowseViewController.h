@@ -8,23 +8,32 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EDEatNewMealViewController.h"
+//#import "EDEatNewMealViewController.h"
 
 #import "EDEliminatedAPI.h"
 #import "EDEliminatedAPI+Searching.h"
 
+
+static NSString *simpleTableCellIdentifier = @"FoodSearchLabelCellIdentifier";
+static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
+
 @interface MHEDBrowseViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
 
-@property (nonatomic) SearchBarScope searchScope;
+@property (nonatomic) MHEDSearchBarScopeType searchScope;
 
-@property (nonatomic, weak) id <EDCreationDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
-@property (nonatomic, strong) EDRestaurant *restaurant;
-@property (nonatomic) BOOL medicationFind;
-@property (nonatomic, strong) NSArray *medicationList;
-@property (nonatomic, strong) NSArray *mealsList;
-@property (nonatomic, strong) NSArray *ingredientsList;
+@property (nonatomic, strong) NSArray *searchResults;
+@property (nonatomic, strong) NSArray *browseOptions;
+
+//@property (nonatomic, weak) id <EDCreationDelegate> delegate;
+
+//@property (nonatomic, strong) EDRestaurant *restaurant;
+//@property (nonatomic) BOOL medicationFind;
+//@property (nonatomic, strong) NSArray *medicationList;
+//@property (nonatomic, strong) NSArray *mealsList;
+//@property (nonatomic, strong) NSArray *ingredientsList;
 
 
 #pragma mark - UISearchBarDelegate methods -
