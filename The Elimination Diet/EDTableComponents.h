@@ -15,21 +15,42 @@
 #import <Foundation/Foundation.h>
 
 
+static NSString *mhedTableComponentSectionKey = @"section"; // for the section that we are in
+static NSString *mhedTableComponentTitleKey = @"title"; // key for obtaining the data source item's title
+static NSString *mhedTableComponentDateKey = @"date";     // key for obtaining the data source item's date value
+static NSString *mhedTableComponentDetailKey = @"detail";   // key for the data source item's detail text
+static NSString *mhedTableComponentCellIDKey = @"cellID";   // key for the type of cell to use
+static NSString *mhedTableComponentCellStyleKey = @"cellStyle"; // key for the style of the cell
+static NSString *mhedTableComponentMainHeaderKey = @"main Header"; // key for obtaining the header if the object is a section
+static NSString *mhedTableComponentNoHeaderBooleanKey = @"no Header"; // key to tell table not to display a header for the section
+//
+static NSString *mhedTableComponentSubHeadersKey = @"sub headers"; // key to get array of sub headers
+static NSString *mhedTableComponentHideShowBooleanKey = @"hide/show"; // key to tell boolean value of hideshow cell
+//
+
+static NSString *mhedTableComponentObjectsDictionaryItemTypesKey = @"objects dictionary types"; // key to tell what keys are used in objectsDictionary -- value is array ordered to the order we want
+
+static NSString *mhedTableComponentSegmentedControlIndexKey = @"segmented Control Key"; // key to tell the index of the segmented control's selected segment
 
 
 
-#define mhedTitleKey      @"title"    // key for obtaining the data source item's title
-#define mhedDateKey        @"date"    // key for obtaining the data source item's date value
-#define mhedDetailKey     @"detail"   // key for the data source item's detail text
-#define mhedCellIDKey     @"cellID"   // key for the type of cell to use
 
-#define mhedCellStyleKey  @"cellStyle" // key for the style of the cell
+//#define mhedTitleKey      @"title"    // key for obtaining the data source item's title
+//#define mhedDateKey        @"date"    // key for obtaining the data source item's date value
+//#define mhedDetailKey     @"detail"   // key for the data source item's detail text
+//#define mhedCellIDKey     @"cellID"   // key for the type of cell to use
+//
+//#define mhedCellStyleKey  @"cellStyle" // key for the style of the cell
+//
+//#define mhedHeaderKey     @"header" // key for obtaining the header if the object is a section header
+//
+//#define mhedNoHeader      @"no header" // key to tell table not to display a header for the section
+//
+//#define mhedHideShowKey   @"hide/show" // key to tell boolean value of hideshow cell
+//
+//#define mhedObjectsDictionaryItemTypesKey   @"objects dictionary types" // key to tell what keys are used in objectsDictionary -- value is array ordered to the order we want
 
-#define mhedHeaderKey     @"header" // key for obtaining the header if the object is a section header
 
-#define mhedNoHeader      @"no header" // key to tell table not to display a header for the section
-
-#define mhedHideShowKey   @"hide/show" // key to tell boolean value of hideshow cell
 
 
 

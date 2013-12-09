@@ -88,6 +88,7 @@
 		6CD236CE1834817600102959 /* EDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236CD1834817600102959 /* EDImage.m */; };
 		6CD236D11834818C00102959 /* EDFood.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD236D01834818C00102959 /* EDFood.m */; };
 		6CD321B217E0BB2F0085922F /* EDType.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CD321B117E0BB2F0085922F /* EDType.m */; };
+		6CE41AC11854221500457B14 /* MHEDCarouselImageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE41AC01854221500457B14 /* MHEDCarouselImageTableViewController.m */; };
 		6CE51DD4183EA848004C7ABC /* EDHadSymptom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */; };
 		6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DD9183EA848004C7ABC /* EDSymptomDescription.m */; };
 		6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DDC183EA9BD004C7ABC /* EDBodyPart+Methods.m */; };
@@ -263,6 +264,8 @@
 		6CD236D01834818C00102959 /* EDFood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDFood.m; sourceTree = "<group>"; };
 		6CD321B017E0BB2F0085922F /* EDType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDType.h; sourceTree = "<group>"; };
 		6CD321B117E0BB2F0085922F /* EDType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDType.m; sourceTree = "<group>"; };
+		6CE41ABF1854221500457B14 /* MHEDCarouselImageTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDCarouselImageTableViewController.h; sourceTree = "<group>"; };
+		6CE41AC01854221500457B14 /* MHEDCarouselImageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDCarouselImageTableViewController.m; sourceTree = "<group>"; };
 		6CE51DCE183E9E21004C7ABC /* EDDataModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EDDataModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		6CE51DD2183EA848004C7ABC /* EDHadSymptom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDHadSymptom.h; sourceTree = "<group>"; };
 		6CE51DD3183EA848004C7ABC /* EDHadSymptom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDHadSymptom.m; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 		6C1354CB17F3547200AD6A4E /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				6CE41ABF1854221500457B14 /* MHEDCarouselImageTableViewController.h */,
+				6CE41AC01854221500457B14 /* MHEDCarouselImageTableViewController.m */,
 				6C2B76C01854028800881902 /* MHEDCameraMealCaptureViewController.h */,
 				6C2B76C11854028800881902 /* MHEDCameraMealCaptureViewController.m */,
 				6C2B76C3185402CF00881902 /* MHEDMealInformationEnterViewController.h */,
@@ -439,11 +444,11 @@
 				6C2B76B518528F3D00881902 /* MHEDBrowseSymptomsViewController.m */,
 				6C3619B21821ED0F00791E49 /* EDAddTableViewController.h */,
 				6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */,
-				6CA03B3518511FCE00057CA3 /* MHEDBrowseViewController.h */,
 				6C2B76B71852C6EA00881902 /* MHEDBrowseMapViewController.h */,
 				6C2B76B81852C6EA00881902 /* MHEDBrowseMapViewController.m */,
 				6C2B76BA1852C71B00881902 /* MHEDBrowseSymptomViewController.h */,
 				6C2B76BB1852C71B00881902 /* MHEDBrowseSymptomViewController.m */,
+				6CA03B3518511FCE00057CA3 /* MHEDBrowseViewController.h */,
 				6CA03B3618511FCE00057CA3 /* MHEDBrowseViewController.m */,
 				6C2B76AE185262FF00881902 /* MHEDBrowseMainViewController.h */,
 				6C2B76AF185262FF00881902 /* MHEDBrowseMainViewController.m */,
@@ -757,6 +762,7 @@
 				6C8B3656181ABFAA00B022F3 /* EDEliminatedAPI+Searching.m in Sources */,
 				6CAEC09917A8441700649199 /* EDHadSymptom+Methods.m in Sources */,
 				6CD236CE1834817600102959 /* EDImage.m in Sources */,
+				6CE41AC11854221500457B14 /* MHEDCarouselImageTableViewController.m in Sources */,
 				6C4C8501183527BC00D8DDE7 /* EDImage+Methods.m in Sources */,
 				6CAEC09F17A844D400649199 /* EDIngredient+Methods.m in Sources */,
 				6CAEC0A517A8452500649199 /* EDMeal+Methods.m in Sources */,

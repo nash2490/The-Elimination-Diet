@@ -124,7 +124,7 @@
     else
     {
         NSDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[mhedCellIDKey];
+        NSString *cellID = itemData[mhedTableComponentCellIDKey];
         
         if ([cellID isEqualToString:mhedRestaurantCellID]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];

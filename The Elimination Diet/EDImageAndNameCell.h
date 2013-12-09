@@ -16,6 +16,7 @@
 - (BOOL) textViewShouldBeginEditing;
 - (void) textEnter: (UITextView *) textView;
 
+@optional
 - (UIImage *) imageForThumbnail;
 
 @end

@@ -27,7 +27,8 @@
 }
 
 - (IBAction)handleTakeAnotherPictureButton:(id)sender {
-    [self.delegate handleTakeAnotherPictureButton:sender];
-
+    if ([self.delegate respondsToSelector:@selector(handleTakeAnotherPictureButton:)]) {
+        [self.delegate handleTakeAnotherPictureButton:sender];
+    }
 }
 @end

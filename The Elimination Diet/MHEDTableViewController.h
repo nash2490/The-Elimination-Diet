@@ -6,6 +6,34 @@
 //  Copyright (c) 2013 Justin Kahn. All rights reserved.
 //
 
+
+/// process to use this class
+/*
+ 
+ Sections of Table 
+ --------------------
+ The sections of the table are dictated in self.dataArray
+    - each section is determined by a dictionary
+            - EDTableComponents outlines the keys that can be used in the dictionary
+    
+    - tableView: cellForRowAtIndexPath: determines the cell based on the section etc.
+ 
+ 
+ 
+ 
+ Subclass Notes
+ -------------------
+ 
+    Deallocation
+    -----------------
+        override mhed_Dealloc calling [super mhed_Dealloc] and add anything new
+ 
+ */
+
+
+
+
+
 #import <UIKit/UIKit.h>
 
 // custom cells
@@ -22,102 +50,103 @@
 
 //#import "iCarousel.h"
 
-static double mhedCarouselCellDefaultSize = 250.0;
-static double mhedCarouselImageMaxHeight = 200.0;
-static double mhedCarouselImageMaxWidth = 280.0;
-
-static double mhedPickerAnimationDuration = 0.40;  // duration for the animation to slide the date picker into view
-static double mhedDatePickerTag = 99;    // view tag identifiying the date picker view
 
 
 
-//
-static NSString *mhedDateCellID = @"DateCell";     // the cells with the start or end date
-static NSString *mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
-
-static NSString *mhedValueCellID = @"ValueCell";
-static NSString *mhedValuePickerCellID = @"ValuePickerCell";
-
-static NSString *mhedTagCellID = @"TagCell";
-static NSString *mhedImageAndNameCellID = @"ImageAndNameCell";
-static NSString *mhedRestaurantCellID = @"RestaurantCell";
-static NSString *mhedAddMealsAndIngredientsCellID = @"AddMealsAndIngredientsCell";
-static NSString *mhedDetailMealsAndIngredientsCellID = @"DetailMealsAndIngredientsCell";
-
-static NSString *mhedAddMedsAndIngredientsCellID = @"AddMedsAndIngredientsCell";
-static NSString *mhedDetailMedsAndIngredientsCellID = @"DetailMedsAndIngredientsCell";
-
-static NSString *mhedAddObjectsCellID = @"AddObjectsCell";
-static NSString *mhedDetailObjectsCellID = @"DetailedObjectsCellID";
-
-static NSString *mhedLargeImageCellID = @"LargeImageCell";
-static NSString *mhedImageButtonCellID = @"ImageButtonCell";
-
-static NSString *mhedShowHideCellID = @"ShowHideCell";
+//static double mhedPickerAnimationDuration = 0.40;  // duration for the animation to slide the date picker into view
+//static double mhedDatePickerTag = 99;    // view tag identifiying the date picker view
 
 
-static NSString *mhedMealAndMedicationSegmentedControlCellID = @"MealAndMedicationSegmentedControlCell";
 
-static NSString *mhedReminderCellID = @"ReminderCell";
+// Cell IDs and Section IDs (sometimes we don't need if a section is just the cell)
 
-static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
+static NSString *mhedTableSectionIDDateSection = @"Date Section";
+static NSString *mhedTableCellIDDateCell = @"DateCell";     // the cells with the start or end date
+static NSString *mhedTableCellIDDatePickerCell = @"DatePicker"; // the cell containing the date picker
 
+static NSString *mhedTableCellIDValueCell = @"ValueCell";
+static NSString *mhedTableCellIDValuePickerCell = @"ValuePickerCell";
+
+static NSString *mhedTableCellIDTagCell = @"TagCell";
+static NSString *mhedTableCellIDImageAndNameCell = @"ImageAndNameCell";
+static NSString *mhedTableCellIDRestaurantCell = @"RestaurantCell";
+
+static NSString *mhedTableSectionIDLargeImageSection = @"Large Image Section";
+static NSString *mhedTableCellIDLargeImageCell = @"LargeImageCell";
+static NSString *mhedTableCellIDImageButtonCell = @"ImageButtonCell";
+static NSString *mhedTableCellIDShowHideCell = @"ShowHideCell";
+
+static NSString *mhedTableSectionIDObjectsSection = @"Objects Section";
+
+static NSString *mhedTableCellIDAddMealsAndIngredientsCell = @"AddMealsAndIngredientsCell";
+static NSString *mhedTableCellIDDetailMealsAndIngredientsCell = @"DetailMealsAndIngredientsCell";
+
+static NSString *mhedTableCellIDAddMedsAndIngredientsCell = @"AddMedsAndIngredientsCell";
+static NSString *mhedTableCellIDDetailMedsAndIngredientsCell = @"DetailMedsAndIngredientsCell";
+
+static NSString *mhedTableCellIDMealAndMedicationSegmentedControlCell = @"MealAndMedicationSegmentedControlCell";
+static NSString *mhedTableCellIDDetailMealMedCell = @"DetailMealMedCell";
+
+static NSString *mhedTableCellIDReminderCell = @"ReminderCell";
+
+static NSString *mhedTableCellIDDefaultDetailCell = @"Default Detail Cell";
+
+
+// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
+static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
+static NSString *mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
+static NSString *mhedObjectsDictionaryMedicationKey = @"Medication List Key";
+static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+
+//typedef NS_OPTIONS(NSUInteger, mhedObjectsDictionaryItemType) {
+//    mhedObjectsDictionaryItemTypeMeals = 1 << 0,
+//    mhedObjectsDictionaryItemTypeIngredients = 1 << 1,
+//    mhedObjectsDictionaryItemTypeMedications = 1 << 2,
+//    mhedObjectsDictionaryItemTypeSymptoms = 1 << 3,
+//};
 
 @class EDRestaurant;
 
 
 
-@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, iCarouselDataSource, iCarouselDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EDImageButtonCellDelegate, EDShowHideCellDelegate>
+@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, UINavigationControllerDelegate>
 
 
 
 // Core Data
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-// ????
 
 //@property (nonatomic, weak) id <EDCreationDelegate> delegate;
 
-@property (nonatomic) BOOL cameraCanceled; // says if we just called cancel
 
 @property (nonatomic, strong) NSArray *dataArray;
 
 @property (nonatomic) BOOL keyboardVisible;
 
-@property (nonatomic) BOOL medication;
 
-@property (nonatomic, strong) UIImagePickerController *imagePickerController;
-
-@property (nonatomic, strong) NSArray *capturedImages;
-
-// Image cell
-@property (nonatomic, strong) NSMutableArray *images;
-@property (nonatomic, strong) UIImage *objectImage;
-@property (nonatomic, weak) iCarousel *mhedCarousel;
-@property (nonatomic, strong) NSMutableArray *carouselImages;
-
-
-// Name Cell
+// Name
 @property (nonatomic, strong) NSString *objectName;
 @property (nonatomic) BOOL defaultName;
 @property (weak, nonatomic) UITextView *objectNameTextView;
 
 
-// Tags cell
+// Tags
 @property (nonatomic, strong) NSArray *tagsList;
 @property (nonatomic, weak) UITextView *tagTextView;
 @property (nonatomic) BOOL favorite;
 
+// Meal Medication Segmented Control
+@property (nonatomic, weak) UISegmentedControl *mealMedicationSegmentedControl;
+@property (nonatomic) BOOL medication;
 
-// Restaurant Cell
+// Restaurant
 @property (nonatomic, strong) EDRestaurant *restaurant;
 
-// Meal and Ingredient Cell
-//@property (nonatomic, strong) NSArray *mealsList;
-//@property (nonatomic, strong) NSArray *ingredientsList;
+// Objects - Food, medication, symptoms, etc.
+@property (nonatomic, strong) NSDictionary *objectsDictionary;
 
-
-// Date Cell
+// Date
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDate *date1;
 
@@ -125,6 +154,18 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
 @property (assign) NSInteger pickerCellRowHeight;
 
+#pragma mark - Objects Dictionary Methods
+- (NSArray *) mealsList;
+- (void) setNewMealsList: (NSArray *) newMealsList;
+- (void) addToMealsList: (NSArray *) meals;
+
+- (NSArray *) ingredientsList;
+- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+- (void) addToIngredientsList: (NSArray *) ingredients;
+
+- (NSArray *) medicationsList;
+- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+- (void) addToMedicationsList: (NSArray *) medications;
 
 #pragma mark - Tag cell Delegate and DataSource methods
 - (void) textView:(UITextView *) textView didSelectRange: (NSRange) range;
@@ -143,7 +184,7 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 - (BOOL) textViewShouldBeginEditing;
 - (void) textEnter:(UITextView *)textView;
 
-- (UIImage *) imageForThumbnail;
+- (UIImage *) thumbnailForImage:(UIImage *) image;
 
 #pragma mark - EDSelectTagsDelegate methods
 
@@ -153,7 +194,7 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 
 - (void) handleMealAndMedicationSegmentedControl: (id) sender;
 
-#pragma mark - Picker Methods
+#pragma mark - Date Picker Methods
 
 - (BOOL)hasPickerForIndexPath:(NSIndexPath *)indexPath;
 - (void)updateDatePicker;
@@ -164,24 +205,76 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 - (void)toggleDatePickerForSelectedIndexPath:(NSIndexPath *)indexPath;
 
 
-#pragma mark - LargeImageCell and iCarousel data and delegate
 
 
 
-#pragma mark - EDImageButtonCell delegate
-- (void) handleTakeAnotherPictureButton: (id) sender;
-- (void) handleDeletePictureButton:(id)sender;
-
-#pragma mark - EDShowHideButton Cell Delegate
-- (void) handleShowHideButtonPress:(id)sender;
 
 
-#pragma mark - UIImagePickerController methods
+#pragma mark - Table Cell setup
 
 
+- (UITableViewCell *) tableView:(UITableView *) tableView
+                 datePickerCell:(UITableViewCell *)currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
 
-- (void)showImagePickerForCamera:(id)sender;
-- (UIImagePickerController *) imagePickerControllerForSourceType: (UIImagePickerControllerSourceType) sourceType;
+- (UITableViewCell *) tableView:(UITableView *)tableView
+                dateDisplayCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+           imageIconAndNameCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+                 restaurantCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+     addMealsAndIngredientsCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+addMedicationAndIngredientsCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+            favoriteAndTagsCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+
+- (UITableViewCell *) tableView:(UITableView *)tableView
+mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
+                  forDictionary:(NSDictionary *) itemDictionary;
+
+#pragma mark - Default Cell Dictionaries
+
+- (NSMutableDictionary *) dateSectionDictionary:(NSDate *) date;
+- (NSMutableDictionary *) imageAndNameSectionDictionary;
+- (NSMutableDictionary *) mealAndIngredientSectionDictionary;
+- (NSMutableDictionary *) restaurantSectionDictionary;
+
+- (NSMutableDictionary *) tagSectionDictionary;
+
+- (NSMutableDictionary *) mealAndMedicationSegmentedControllSectionDictionary;
+
+- (NSMutableDictionary *) objectsSectionDictionaryWithMainHeader: (NSString *) mainHeader
+                                  withObjectsDictionaryItemTypes: (NSArray *) itemTypes
+                                                  withSubHeaders:(NSArray *) subHeaders;
+
+- (NSMutableDictionary *) reminderSectionDictionary;
+- (NSMutableDictionary *) detailMealMedicationSectionDictionary;
+
+- (NSMutableDictionary *) sectionDictionaryWithSectionID: (NSString *) sectionID
+                                                  cellID:(NSString *)cellID
+                                             headerTitle:(NSString *)headerTitle
+                                            detailString:(NSString *)detailString
+                                                    date:(NSDate *)date;
+
+//- (NSMutableDictionary *) sectionDictionaryWithCellID:(NSString *) cellID
+//                                       headerTitle:(NSString *) headerTitle
+//                                      detailString:(NSString *) detailString
+//                                              date:(NSDate *) date;
+//
 
 
 #pragma mark - Optional Setup Methods to call in VDL etc. (optional override)
@@ -206,54 +299,9 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 - (void) handleDoneButton;
 
 
-#pragma mark - Default Cell Dictionaries
-
-- (NSMutableDictionary *) dateCellDictionary:(NSDate *) date;
-- (NSMutableDictionary *) imageAndNameCellDictionary;
-- (NSMutableDictionary *) mealAndIngredientCellDictionary;
-- (NSMutableDictionary *) restaurantCellDictionary;
-
-- (NSMutableDictionary *) tagCellDictionary;
-
-- (NSMutableDictionary *) largeImageCellDictionary;
-- (NSMutableDictionary *) imageButtonCellDictionary;
-- (NSMutableDictionary *) showHideCellDictionary;
-
-- (NSMutableDictionary *) mealAndMedicationSegmentedControllCellDictionary;
-
-- (NSMutableDictionary *) reminderCellDictionary;
-- (NSMutableDictionary *) detailMealMedCellDictionary;
-
-- (NSMutableDictionary *) cellDictionaryWithCellID:(NSString *) cellID
-                                       headerTitle:(NSString *) headerTitle
-                                      detailString:(NSString *) detailString
-                                              date:(NSDate *) date;
-
-
-#pragma mark - Default Meal Methods
-//---------------------------
-- (void) handleMealDoneButton;
-- (NSString *) mealNameAsDefault;
-- (NSString *) mealNameForDisplay;
-- (void) mealNameTextViewEditable: (UITextView *) textView;
-
-
-
-
-
-#pragma mark - Default Medication Methods
-// ---------------------------------------
-- (void) handleMedDoneButton;
-- (NSString *) medNameAsDefault;
-- (NSString *) medNameForDisplay;
-
-- (void) medNameTextViewEditable: (UITextView *) textView;
-
-
-- (NSMutableDictionary *) medAndIngredientCellDictionary;
-
-
 #pragma mark - Subclass methods to Override
+
+- (void) mhed_Dealloc;
 
 // override numberOfRows, and most other table delegate and data source methods
 
@@ -266,5 +314,32 @@ static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 /// called before table is reloaded in VWA,
 - (void) setUpBeforeTableLoad;
 //
+
+// called in tableView: cellForRowAtIndexPath:, loads the cells from their corresponeding methods
+// override if you want to
+        // - add a new type of cell
+        // - change some functionality of methods that cannot be changed from overriding their custom method
+- (UITableViewCell *) mhedTableView:(UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath;
+
+
+#pragma mark - Default Meal Methods
+//---------------------------
+- (void) handleMealDoneButton;
+- (NSString *) mealNameAsDefault;
+- (NSString *) mealNameForDisplay;
+- (void) mealNameTextViewEditable: (UITextView *) textView;
+
+
+#pragma mark - Default Medication Methods
+// ---------------------------------------
+- (void) handleMedicationDoneButton;
+- (NSString *) medicationNameAsDefault;
+- (NSString *) medicationNameForDisplay;
+
+- (void) medicationNameTextViewEditable: (UITextView *) textView;
+
+
+//- (NSMutableDictionary *) medAndIngredientCellDictionary;
+
 
 @end

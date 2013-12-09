@@ -14,7 +14,7 @@
 #import "EDEliminatedAPI+Searching.h"
 
 
-static NSString *simpleTableCellIdentifier = @"FoodSearchLabelCellIdentifier";
+static NSString *simpleTableCellIdentifier = @"SimpleLabelCellIdentifier";
 static NSString *searchResultCellIdentifier = @"SearchResultCellIdentifier";
 
 @interface MHEDBrowseViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>

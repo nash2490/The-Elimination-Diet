@@ -120,7 +120,7 @@
 {
     NSIndexPath *headerIndexPath = [EDTableComponents headerRowForSection:section];
     
-    NSString *headerString = [self objectValueForKey:mhedHeaderKey forRowAtIndexPath:headerIndexPath];
+    NSString *headerString = [self objectValueForKey:mhedTableComponentMainHeaderKey forRowAtIndexPath:headerIndexPath];
     
     if (headerString) {
         return headerString;
@@ -132,7 +132,7 @@
 
 - (NSString *) titleForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-    NSString *titleString = [self objectValueForKey:mhedTitleKey forRowAtIndexPath:indexPath];
+    NSString *titleString = [self objectValueForKey:mhedTableComponentTitleKey forRowAtIndexPath:indexPath];
     
     if (titleString) {
         return titleString;
@@ -145,7 +145,7 @@
 
 - (NSString *) cellIDForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-    NSString *string = [self objectValueForKey:mhedCellIDKey forRowAtIndexPath:indexPath];
+    NSString *string = [self objectValueForKey:mhedTableComponentCellIDKey forRowAtIndexPath:indexPath];
     
     if (string) {
         return string;
@@ -158,7 +158,7 @@
 - (UITableViewCellStyle) cellStyleForRowAtIndexPath: (NSIndexPath *) indexPath
 {
     
-    NSNumber *cellStyleNumber = [self objectValueForKey:mhedCellStyleKey forRowAtIndexPath:indexPath];
+    NSNumber *cellStyleNumber = [self objectValueForKey:mhedTableComponentCellStyleKey forRowAtIndexPath:indexPath];
     
     if (cellStyleNumber) {
         UITableViewCellStyle cellStyle = [cellStyleNumber integerValue];
@@ -190,7 +190,7 @@
 
 - (NSString *) detailTextForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-    NSString *string = [self objectValueForKey:mhedDetailKey forRowAtIndexPath:indexPath];
+    NSString *string = [self objectValueForKey:mhedTableComponentDetailKey forRowAtIndexPath:indexPath];
     
     if (string) {
         return string;
@@ -203,7 +203,7 @@
 
 - (NSDate *) dateForRowAtIndexPath: (NSIndexPath *) indexPath
 {
-    NSDate *date = [self objectValueForKey:mhedDateKey forRowAtIndexPath:indexPath];
+    NSDate *date = [self objectValueForKey:mhedTableComponentDateKey forRowAtIndexPath:indexPath];
     
     if (date) {
         return date;
@@ -222,7 +222,7 @@
     if ([self.tableArray count] >= section) {
         NSArray *sectionArray = self.tableArray[section];
         
-        if ([key isEqualToString:mhedHeaderKey]) { // then the index is unadjusted
+        if ([key isEqualToString:mhedTableComponentMainHeaderKey]) { // then the index is unadjusted
             
         }
         

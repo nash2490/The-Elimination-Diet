@@ -48,30 +48,6 @@
 @implementation MHEDTableViewController
 
 
-- (NSMutableArray *) images
-{
-    if (!_images) {
-        _images = [[NSMutableArray alloc] init];
-    }
-    return _images;
-}
-
-- (NSArray *) capturedImages
-{
-    if (!_capturedImages) {
-        _capturedImages = [[NSArray alloc] init];
-    }
-    return _capturedImages;
-}
-
-- (NSMutableArray *) carouselImages
-{
-    if (!_carouselImages) {
-        _carouselImages = [[NSMutableArray alloc] init];
-    }
-    return _carouselImages;
-}
-
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -123,20 +99,20 @@
 {
     self.date1 = [NSDate date];
     
-    NSMutableDictionary *dateDict = [@{ mhedTitleKey : @"Date",
-                                        mhedDateKey : self.date1,
-                                        mhedCellIDKey : mhedDateCellID} mutableCopy];
+    NSMutableDictionary *dateDict = [@{ mhedTableComponentTitleKey: @"Date",
+                                        mhedTableComponentDateKey : self.date1,
+                                        mhedTableComponentCellIDKey : mhedTableCellIDDateCell} mutableCopy];
     
     
     
-    NSMutableDictionary *nameDict = [@{ mhedTitleKey : @"Name and Image",
-                                        mhedCellIDKey : mhedImageAndNameCellID} mutableCopy];
+    NSMutableDictionary *nameDict = [@{ mhedTableComponentTitleKey : @"Name and Image",
+                                        mhedTableComponentCellIDKey : mhedTableCellIDImageAndNameCell} mutableCopy];
     
-    NSMutableDictionary *mealsAndIngredientsDict = [@{ mhedTitleKey : @"Meals and Ingredients",
-                                                       mhedCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
+    NSMutableDictionary *mealsAndIngredientsDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
+                                                       mhedTableComponentCellIDKey : mhedTableCellIDAddMealsAndIngredientsCell} mutableCopy];
     
-    NSMutableDictionary *restaurantDict = [@{ mhedTitleKey : @"Restaurant",
-                                              mhedCellIDKey : mhedRestaurantCellID} mutableCopy];
+    NSMutableDictionary *restaurantDict = [@{ mhedTableComponentTitleKey : @"Restaurant",
+                                              mhedTableComponentCellIDKey : mhedTableCellIDRestaurantCell} mutableCopy];
     
     //NSMutableDictionary *tagsDict = [@{ mhedTitleKey : @"Tags",
     //                                    mhedCellIDKey : mhedTagCellID} mutableCopy];
@@ -149,16 +125,7 @@
     
 }
 
-- (void) setupDateAndDatePickerCell
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
-    self.dateFormatter = dateFormatter;
-    
-    // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
-    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedDatePickerID];
-    self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
-}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -167,6 +134,11 @@
 }
 
 - (void)dealloc
+{
+    [self mhed_Dealloc];
+}
+
+- (void) mhed_Dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSCurrentLocaleDidChangeNotification
@@ -181,14 +153,8 @@
                                              selector:@selector(keyboardDidHide:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
-    
-    self.mhedCarousel.delegate = nil;
-    self.mhedCarousel.dataSource = nil;
-    
-    self.imagePickerController = nil;
-    self.delegate = nil;
-    
 }
+
 
 
 - (void)keyboardDidShow: (NSNotification *) notif
@@ -216,12 +182,12 @@
         
     }
     
-    // if the first time we get info directly from previous and not from delegate
-    // but then we want to set self as delegate for future
-    if (!self.delegate) {
-        self.delegate = self;
-    }
-    
+//    // if the first time we get info directly from previous and not from delegate
+//    // but then we want to set self as delegate for future
+//    if (!self.delegate) {
+//        self.delegate = self;
+//    }
+//    
     
     if (!self.managedObjectContext) {
         [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
@@ -240,6 +206,7 @@
     
     //[self.tableView reloadData];
 }
+
 
 
 - (void) setUpBeforeTableLoad
@@ -261,7 +228,19 @@
 }
 
 
-#pragma mark - Picker View
+#pragma mark - Date Picker View
+
+
+- (void) setupDateAndDatePickerCell
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
+    self.dateFormatter = dateFormatter;
+    
+    // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
+    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
+    self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
+}
 
 /*! Determines if the given indexPath has a cell below it with a UIDatePicker.
  
@@ -330,7 +309,7 @@
     NSDictionary *itemData = self.dataArray[modelSection];
     
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]
         && indexPath.row == 0) // only if the row is also the first
     {
         hasDate = YES;
@@ -442,7 +421,7 @@
 
 - (void) handleDoneButton
 {
-    [self handleMealDoneButton];
+    //[self handleMealDoneButton];
 }
 
 
@@ -476,7 +455,7 @@
     NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
     
     self.date1 = targetedDatePicker.date;
-    [itemData setValue:self.date1 forKey:mhedDateKey];
+    [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
     
     // update the cell's date string
     cell.detailTextLabel.text = [self eatDateAsString:self.date1];
@@ -495,28 +474,60 @@
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *itemData = self.dataArray[indexPath.section];
+    NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+    if ([sectionID isEqualToString:mhedTableSectionIDObjectsSection]){
         
-        if (indexPath.row == 1) { // always a food separator row
-            return 1;
-            
+        if (indexPath.row == 0) {
+            return 0;
         }
         
-        else if (indexPath.row >1) {
-            NSInteger foodIndex = indexPath.row - 2;
+        NSArray *itemTypes = itemData[mhedTableComponentObjectsDictionaryItemTypesKey];
+        
+        NSArray *headerLocations = @[@1];
+        
+        for (int i = 0; i < [itemTypes count]; i++) {
+            // get string for item type
+            NSString *itemKey = itemTypes[i];
             
-            if ([self respondsToSelector:@selector(mealsList)]) {
-                
-                if (foodIndex && foodIndex == [self.mealsList count]){ // the ingredient section seperator row
-                    return 1;
-                }
-                else {
-                    return 2;
-                }
-            }
+            // get array of objects using key
+            NSArray *objectsOfType = self.objectsDictionary[itemKey];
+            
+            // the next header location is count + 1, which would correspond to the subHeader i + 1
+            headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
+        }
+        
+        // if the row is a header then...
+        if ([headerLocations containsObject:@(indexPath.row)]) {
+            return 1;
+        }
+        
+        else { // row is object row
+            return 2;
         }
     }
+    
+//    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDAddMealsAndIngredientsCell]) {
+//        
+//        if (indexPath.row == 1) { // always a food separator row
+//            return 1;
+//            
+//        }
+//        
+//        else if (indexPath.row >1) {
+//            NSInteger foodIndex = indexPath.row - 2;
+//            
+//            if ([self respondsToSelector:@selector(mealsList)]) {
+//                
+//                if (foodIndex && foodIndex == [self.mealsList count]){ // the ingredient section seperator row
+//                    return 1;
+//                }
+//                else {
+//                    return 2;
+//                }
+//            }
+//        }
+//    }
     return 1;
 }
 
@@ -535,49 +546,60 @@
         return 2;
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
-        // rows are the meals + ingredients + add row
+    else if ([itemData[mhedTableComponentSectionKey] isEqualToString:mhedTableSectionIDObjectsSection]) {
+        // rows are = add row + sum(objects in arrays of objectDictionary)
         
-        if ([self respondsToSelector:@selector(ingredientsList)] &&
-            [self respondsToSelector:@selector(mealsList)]) {
-            
-            NSUInteger rowCount = [self.mealsList count] + [self.ingredientsList count] + 1;
-            if ([self.mealsList count]) {
-                rowCount++;
-            }
-            if ([self.ingredientsList count]) {
-                rowCount++;
-            }
-            return rowCount;
+        NSUInteger rowCount = 1;
+        
+        // for every array we sum the number of objects
+        for (NSString *objectType in [self.objectsDictionary allKeys]) {
+            rowCount += [self.objectsDictionary[objectType] count];
+            rowCount++; // this adds a row for the sub header
         }
-        
-        return 0;
+        return rowCount;
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
-        // rows are the meds + ingredients + add row
-        
-        if ([self respondsToSelector:@selector(ingredientsList)] &&
-            [self respondsToSelector:@selector(parentMedicationsList)]) {
-            
-            NSUInteger rowCount = [self.parentMedicationsList count] + [self.ingredientsList count] + 1;
-            if ([self.parentMedicationsList count]) {
-                rowCount++;
-            }
-            if ([self.ingredientsList count]) {
-                rowCount++;
-            }
-            return rowCount;
-        }
-        
-        return 0;
-        
-        
-    }
+//    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDAddMealsAndIngredientsCell]) {
+//        // rows are the meals + ingredients + add row
+//        
+//        if ([self respondsToSelector:@selector(ingredientsList)] &&
+//            [self respondsToSelector:@selector(mealsList)]) {
+//            
+//            NSUInteger rowCount = [self.mealsList count] + [self.ingredientsList count] + 1;
+//            if ([self.mealsList count]) {
+//                rowCount++;
+//            }
+//            if ([self.ingredientsList count]) {
+//                rowCount++;
+//            }
+//            return rowCount;
+//        }
+//        
+//        return 0;
+//    }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedShowHideCellID]) {
+//    else if ([itemData[mhedCellIDKey] isEqualToString:mhedTableCellIDAddMedsAndIngredientsCell]) {
+//        // rows are the meds + ingredients + add row
+//        
+//        if ([self respondsToSelector:@selector(ingredientsList)] &&
+//            [self respondsToSelector:@selector(parentMedicationsList)]) {
+//            
+//            NSUInteger rowCount = [self.parentMedicationsList count] + [self.ingredientsList count] + 1;
+//            if ([self.parentMedicationsList count]) {
+//                rowCount++;
+//            }
+//            if ([self.ingredientsList count]) {
+//                rowCount++;
+//            }
+//            return rowCount;
+//        }
+//        
+//        return 0;
+//    }
+    
+    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDShowHideCell]) {
         
-        BOOL hidden = [itemData[mhedHideShowKey] boolValue];
+        BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
         
         // if the row is hidden then we only have 1
         if (hidden) {
@@ -604,10 +626,21 @@
     NSDictionary *itemData = self.dataArray[section];
     
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]) {
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]) {
         return 0.1;
     }
-    else if ([itemData[mhedTitleKey] isEqualToString:@""]){
+    
+    else if ([itemData[mhedTableComponentNoHeaderBooleanKey]  isEqual: @NO])
+    {
+        return 0.1;
+    }
+    
+    else if ([itemData[mhedTableComponentMainHeaderKey] isEqualToString:@""])
+    {
+        return 0.1;
+    }
+    
+    else if ([itemData[mhedTableComponentTitleKey] isEqualToString:@""]){
         NSLog(@"header should be nothing");
         return 0.1;
     }
@@ -618,99 +651,105 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-    NSString *cellID = itemData[mhedCellIDKey];
+    //NSString *cellID = itemData[mhedTableComponentCellIDKey];
+    NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
-    if ([cellID isEqualToString:mhedImageAndNameCellID]) {
+    if ([sectionID isEqualToString:mhedTableSectionIDDateSection]) {
+        if ([self indexPathHasPicker:indexPath]) {
+            return self.pickerCellRowHeight;
+        }
+    }
+    
+    else if ([sectionID isEqualToString:mhedTableCellIDImageAndNameCell]) {
         return 79;
     }
     
-    else if ([cellID isEqualToString:mhedShowHideCellID]) {
-        
-        BOOL hidden = [itemData[mhedHideShowKey] boolValue];
-        
-        // if the row is hidden and this is the showHide cell then it is normal size
-        if (hidden) {
-            
-        }
-        
-        // else, if the row is shown and it is the showHideCell it is larger
-        else if(!hidden && indexPath.row == 0){
-            return LARGE_IMAGE_CELL_DEFAULT_SIZE;
-        }
-        
-        
-    }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedLargeImageCellID]) {
-        
-        
-        return LARGE_IMAGE_CELL_DEFAULT_SIZE;
-    }
-    
-    
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedTagCellID]) {
+    else if ([sectionID isEqualToString:mhedTableCellIDTagCell]) {
         return 47;
     }
     
-    else if ([self indexPathHasPicker:indexPath]) {
-        return self.pickerCellRowHeight;
-    }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+    
+    else if ([sectionID isEqualToString:mhedTableSectionIDObjectsSection]){
         
-        if (indexPath.row == 1) { // always a food separator row
+        if (indexPath.row == 0) {
+            return tableView.rowHeight;
+        }
+        
+        NSArray *itemTypes = itemData[mhedTableComponentObjectsDictionaryItemTypesKey];
+        
+        NSArray *headerLocations = @[@1];
+        
+        for (int i = 0; i < [itemTypes count]; i++) {
+            // get string for item type
+            NSString *itemKey = itemTypes[i];
+            
+            // get array of objects using key
+            NSArray *objectsOfType = self.objectsDictionary[itemKey];
+            
+            // the next header location is count + 1, which would correspond to the subHeader i + 1
+            headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
+        }
+        
+        // if the row is a header then...
+        if ([headerLocations containsObject:@(indexPath.row)]) {
             return 20;
-            
         }
         
-        else if (indexPath.row >1) {
-            NSInteger foodIndex = indexPath.row - 2;
-            
-            if ([self respondsToSelector:@selector(mealsList)]) {
-                if (foodIndex && foodIndex == [self.mealsList count]){ // the ingredient section seperator row
-                    return 20;
-                }
-            }
-            
+        else { // row is object row
+            return tableView.rowHeight;
         }
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
-        
-        if (indexPath.row == 1) { // always a food separator row
-            return 20;
-            
-        }
-        
-        else if (indexPath.row >1) {
-            NSInteger foodIndex = indexPath.row - 2;
-            
-            if ([self respondsToSelector:@selector(parentMedicationsList)]) {
-                if (foodIndex && foodIndex == [self.parentMedicationsList count]){ // the ingredient section seperator row
-                    return 20;
-                }
-            }
-            
-        }
-    }
+//    else if (sectionID isEqualToString:mhedTableCellIDAddMealsAndIngredientsCell]) {
+//        
+//        if (indexPath.row == 1) { // always a food separator row
+//            return 20;
+//            
+//        }
+//        
+//        else if (indexPath.row >1) {
+//            NSInteger foodIndex = indexPath.row - 2;
+//            
+//            if ([self respondsToSelector:@selector(mealsList)]) {
+////                if (foodIndex && foodIndex == [self.mealsList count]){ // the ingredient section seperator row
+////                    return 20;
+////                }
+//            }
+//            
+//        }
+//    }
     
-    return self.tableView.rowHeight;
+    
+    return tableView.rowHeight;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSDictionary *itemData = self.dataArray[section];
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]) {
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]) {
         return nil;
     }
     else {
-        return itemData[mhedTitleKey];
+        return itemData[mhedTableComponentMainHeaderKey];
     }
 }
 
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self mhedTableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Default"];
+    }
+    
+    return cell;
+}
+
+- (UITableViewCell *) mhedTableView:(UITableView *) tableView cellForRowAtIndexPath: (NSIndexPath *) indexPath
 {
     // if we have a date picker open whose cell is above the cell we want to update, Or we are at the datePicker
     // then the data we want corresponds to self.dataArray[row - 1]
@@ -725,24 +764,26 @@
     
     NSMutableDictionary *itemData = self.dataArray[modelSection];
     
-    NSString *cellID = itemData[mhedCellIDKey];
+    NSString *cellID = itemData[mhedTableComponentCellIDKey];
+    NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
     UITableViewCell *cell = nil;
     if ([self indexPathHasPicker:indexPath])
     {
         // the indexPath is the one containing the inline date picker the current/opened date picker cell
         // used because we don't define the datePicker in self.dataArray
-        cellID = mhedDatePickerID;
+        cellID = mhedTableCellIDDatePickerCell;
     }
-    
-    cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cellID) {
+        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    }
     
     if (!cell) {
         
         UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
         
-        if (itemData[mhedCellStyleKey]) {
-            cellStyle = [itemData[mhedCellStyleKey] integerValue];
+        if (itemData[mhedTableComponentCellStyleKey]) {
+            cellStyle = [itemData[mhedTableComponentCellStyleKey] integerValue];
         }
         
         cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellID];
@@ -750,256 +791,147 @@
     
     
     
-    
-    if ([cellID isEqualToString:mhedDatePickerID]) {
-        cell.textLabel.text = nil;
-        
-        UIDatePicker *checkDatePicker = (UIDatePicker *)[cell viewWithTag:mhedDatePickerTag];
-        [checkDatePicker setMaximumDate: [EDEvent endOfDay:[NSDate date]]];
-    }
-    
-    // proceed to configure our cell
-    else if ([cellID isEqualToString:mhedDateCellID])
-    {
-        // we have either start or end date cells, populate their date field
-        //
-        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:mhedDateKey]];
-    }
-    
-    else if ([cellID isEqualToString:mhedImageAndNameCellID]) {
-        
-        ((EDImageAndNameCell *) cell).imageView.image = self.objectImage;
-        //((EDImageAndNameCell *) cell).nameTextView.text = self.foodName;
-        
-        self.objectNameTextView = ((EDImageAndNameCell *) cell).nameTextView;
-        ((EDImageAndNameCell *) cell).delegate = self;
-        self.objectNameTextView.text = [self objectNameForDisplay];
-        
-        if (self.objectNameTextView) {
-            
-            [self nameTextViewEditable:self.objectNameTextView];
-            
-            if (self.defaultName) {
-                self.objectNameTextView.textColor = [UIColor grayColor];
-            }
-            else {
-                self.objectNameTextView.textColor = [UIColor blackColor];
-            }
+    // Based On Sections
+    // -----------
+    if ([sectionID isEqualToString:mhedTableSectionIDDateSection]) {
+        if ([cellID isEqualToString:mhedTableCellIDDatePickerCell]) {
+            cell = [self tableView:tableView datePickerCell:cell forDictionary:itemData];
         }
         
-        [(EDImageAndNameCell *)cell loadImageView];
-        
+        // proceed to configure our cell
+        else if ([cellID isEqualToString:mhedTableCellIDDateCell])
+        {
+            cell = [self tableView:tableView dateDisplayCell:cell forDictionary:itemData];
+        }
     }
     
-    else if ([cellID isEqualToString:mhedRestaurantCellID]) {
-        cell.textLabel.text = self.restaurant.name;
-    }
-    
-    else if ([cellID isEqualToString:mhedAddMealsAndIngredientsCellID] &&
-             [self respondsToSelector:@selector(mealsList)] &&
-             [self respondsToSelector:@selector(ingredientsList)]) {
+    else if ([sectionID isEqualToString:mhedTableSectionIDObjectsSection]) {
         
         if (indexPath.row == 0) { // then we use the add meals cell
             cell.detailTextLabel.text = @"Add";
-        }
-        
-        else if (indexPath.row == 1) { // we use the seperator for the first type
-            cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
-            if ([self.mealsList count]) { // there is at least 1 meal so we use the meal seperator
-                cell.textLabel.text = @"Meals";
-            }
-            else {
-                cell.textLabel.text = @"Ingredients";
-            }
-            
-        }
-        
-        else if (indexPath.row >1) { // then we use the detail meals cell
-            cell = [tableView dequeueReusableCellWithIdentifier:mhedDetailMealsAndIngredientsCellID];
-            NSInteger foodIndex = indexPath.row - 2;
-            
-            if (foodIndex < [self.mealsList count]) {
-                EDMeal *mealForIndex = self.mealsList[foodIndex];
-                cell.textLabel.text = mealForIndex.name;
-            }
-            
-            else { // if foodIndex = 0 then so is [self.mealsList count] = 0 and then we already have a cell for the ingredients separator
-                
-                
-                if (foodIndex && foodIndex == [self.mealsList count]){
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
-                    cell.textLabel.text = @"Ingredients";
-                }
-                
-                else {
-                    foodIndex -= [self.mealsList count];
-                    if ([self.mealsList count]) {
-                        foodIndex--;
-                    }
-                    EDIngredient *ingredientForIndex = self.ingredientsList[foodIndex];
-                    cell.textLabel.text = ingredientForIndex.name;
-                }
-            }
-            
-            
-        }
-        
-    }
-    
-    else if ([cellID isEqualToString:mhedAddMedsAndIngredientsCellID] &&
-             [self respondsToSelector:@selector(parentMedicationsList)] &&
-             [self respondsToSelector:@selector(ingredientsList)]) {
-        
-        if (indexPath.row == 0) { // then we use the add meals cell
-            cell.detailTextLabel.text = @"Add";
-        }
-        
-        else if (indexPath.row == 1) { // we use the seperator for the first type
-            cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
-            if ([self.parentMedicationsList count]) { // there is at least 1 meal so we use the meal seperator
-                cell.textLabel.text = @"Medications";
-            }
-            else {
-                cell.textLabel.text = @"Ingredients";
-            }
-            
-        }
-        
-        else if (indexPath.row >1) { // then we use the detail meals cell
-            cell = [tableView dequeueReusableCellWithIdentifier:mhedDetailMedsAndIngredientsCellID];
-            NSInteger foodIndex = indexPath.row - 2;
-            
-            if (foodIndex < [self.parentMedicationsList count]) {
-                EDMedication *medForIndex = self.parentMedicationsList[foodIndex];
-                cell.textLabel.text = medForIndex.name;
-            }
-            
-            else { // if foodIndex = 0 then so is [self.mealsList count] = 0 and then we already have a cell for the ingredients separator
-                if (foodIndex && foodIndex == [self.parentMedicationsList count]){
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
-                    cell.textLabel.text = @"Ingredients";
-                }
-                else {
-                    foodIndex -= [self.parentMedicationsList count];
-                    if ([self.parentMedicationsList count]) {
-                        foodIndex--;
-                    }
-                    EDIngredient *ingredientForIndex = self.ingredientsList[foodIndex];
-                    cell.textLabel.text = ingredientForIndex.name;
-                }
-                
-            }
-            
-            
-        }
-        
-    }
-    
-    else if ([cellID isEqualToString:mhedTagCellID]) {
-        
-        UITextView *tagTextView = ((EDTagCell *)cell).tagsTextView;
-        ((EDTagCell *)cell).delegate = self;
-        if (tagTextView) {
-            self.tagTextView = tagTextView;
-        }
-        if ([self.tagsList count] && self.tagTextView) {
-            NSAttributedString *attTagsString = [self tagsString];
-            
-            tagTextView.attributedText = attTagsString;
-        }
-    }
-    
-    
-    
-    
-    
-    else if ([cellID isEqualToString:mhedImageButtonCellID]) {
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        
-        EDImageButtonCell *buttonCell = (EDImageButtonCell *)cell;
-        buttonCell.delegate = self;
-    }
-    
-    else if ([cellID isEqualToString:mhedShowHideCellID]) {
-        
-        BOOL hide = [itemData[mhedHideShowKey] boolValue];
-        
-        // if the image is shown and the row is 0
-        if (!hide && indexPath.row == 0) {
-            
-            cellID = mhedLargeImageCellID;
-            
-            cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-            
-            EDLargeImageCell *imageCell = (EDLargeImageCell *)cell;
-            imageCell.delegate = self;
-            
-            if (!self.mhedCarousel) {
-                self.mhedCarousel = imageCell.mhedCarousel;
-                
-                
-                
-                self.mhedCarousel.type = iCarouselTypeCoverFlow2;
-                [self.mhedCarousel scrollToItemAtIndex:0 animated:NO];
-                
-                self.mhedCarousel.scrollSpeed = 0.5;
-                self.mhedCarousel.decelerationRate = 0.5;
-                
-                self.mhedCarousel.delegate = self;
-                self.mhedCarousel.dataSource = self;
-            }
-            else {
-                imageCell.mhedCarousel = self.mhedCarousel;
-                
-                if ([self.images count]) {
-                    [self.mhedCarousel scrollToItemAtIndex:[self.images count] animated:YES];
-                }
-            }
-            
-            
-            
         }
         
         else {
-            cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+            // determine if row is object or sub header
             
-            EDShowHideCell *buttonCell = (EDShowHideCell *)cell;
-            buttonCell.cellHidden = hide;
-            buttonCell.delegate = self;
+            //
+            NSArray *itemTypes = itemData[mhedTableComponentObjectsDictionaryItemTypesKey];
             
-            [buttonCell updateShowHide];
+            NSArray *headerLocations = @[@1];
+            
+            for (int i = 0; i < [itemTypes count]; i++) {
+                // get string for item type
+                NSString *itemKey = itemTypes[i];
+                
+                // get array of objects using key
+                NSArray *objectsOfType = self.objectsDictionary[itemKey];
+                
+                // the next header location is count + 1, which would correspond to the subHeader i + 1
+                headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
+            }
+            
+            // if the row is a header then...
+            if ([headerLocations containsObject:@(indexPath.row)]) {
+                
+                cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
+
+                NSUInteger headerIndex = [headerLocations indexOfObject:@(indexPath.row)];
+                NSArray *headers = itemData[mhedTableComponentSubHeadersKey];
+                cell.textLabel.text = headers[headerIndex];
+            }
+            
+            // otherwise it is an object row
+            else {
+                
+                // determine the sub section the row belongs to
+                NSUInteger subSectionIndex = 0;
+                
+                // add row to header locations
+                NSArray *tempArray = [headerLocations arrayByAddingObject:@(indexPath.row)];
+                
+                // sort the temp array
+                NSArray *sortedArray = [tempArray sortedArrayUsingComparator: ^(id obj1, id obj2) {
+                    
+                    if ([obj1 integerValue] > [obj2 integerValue]) {
+                        return (NSComparisonResult)NSOrderedDescending;
+                    }
+                    
+                    if ([obj1 integerValue] < [obj2 integerValue]) {
+                        return (NSComparisonResult)NSOrderedAscending;
+                    }
+                    return (NSComparisonResult)NSOrderedSame;
+                }];
+                
+                // find location of row, which is also the subsection
+                subSectionIndex = [sortedArray indexOfObject:@(indexPath.row)];
+                NSString *subSectionType = itemTypes[subSectionIndex];
+                
+                // Now we get the object
+                
+                NSNumber *headerIndex = headerLocations[subSectionIndex -1];
+                
+                NSUInteger objectTrueIndex = indexPath.row - ([headerIndex unsignedIntegerValue] + 1);
+                
+                NSArray *objectsArray = self.objectsDictionary[subSectionType];
+
+                id rowObject = objectsArray[objectTrueIndex];
+                
+                // Now we deal with the cell
+                
+                cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDetailMealsAndIngredientsCell];
+                
+                if ([rowObject respondsToSelector:@selector(name)]) {
+                    cell.textLabel.text = [rowObject name];
+                }
+                
+            }
+            
         }
-        
+    
     }
     
     
-    else if ([cellID isEqualToString:mhedMealAndMedicationSegmentedControlCellID]) {
+    
+     if ([cellID isEqualToString:mhedTableCellIDTagCell]) {
+        
+        cell = [self tableView:tableView favoriteAndTagsCell:cell forDictionary:itemData];
+    }
+    
+    
+    
+    
+    else if ([cellID isEqualToString:mhedTableCellIDImageAndNameCell]) {
+        
+        cell = [self tableView:tableView imageIconAndNameCell:cell forDictionary:itemData];
+        
+    }
+    
+    else if ([cellID isEqualToString:mhedTableCellIDRestaurantCell]) {
+        cell = [self tableView:tableView restaurantCell:cell forDictionary:itemData];
+    }
+    
+    
+    
+    
+    
+    else if ([cellID isEqualToString:mhedTableCellIDMealAndMedicationSegmentedControlCell]) {
+        
+        cell = [self tableView:tableView mealAndMedicationSegmentedControlCell:cell forDictionary:itemData];
+    }
+    
+    else if ([cellID isEqualToString:mhedTableCellIDReminderCell]) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         
-        UISegmentedControl *control = [(EDMealAndMedicationSegmentedControlCell *)cell segControl];
         
-        control.selectedSegmentIndex = self.medication;
-        [(EDMealAndMedicationSegmentedControlCell *)cell setDelegate:self];
     }
     
-    else if ([cellID isEqualToString:mhedReminderCellID]) {
+    
+    
+    else if ([cellID isEqualToString:mhedTableCellIDDetailMealMedCell]) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:cellID];
         
-        
-    }
-    
-    else if ([cellID isEqualToString:mhedDetailMealMedCellID]) {
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        
-        
-    }
-    
-    else {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Default]"];
     }
     
     
@@ -1011,7 +943,7 @@
     return cell;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     if(cell.selectionStyle == UITableViewCellSelectionStyleNone){
         return nil;
@@ -1021,11 +953,15 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
+    [self mhedTableView:tableView didSelectRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+}
+
+- (void) mhedTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.reuseIdentifier == mhedDateCellID)
+    if (cell.reuseIdentifier == mhedTableCellIDDateCell)
     {
         [self displayInlineDatePickerForRowAtIndexPath:indexPath];
         
@@ -1033,15 +969,15 @@
     else
     {
         NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[mhedCellIDKey];
+        NSString *cellID = itemData[mhedTableComponentCellIDKey];
         
-        if ([cellID isEqualToString:mhedRestaurantCellID]) {
+        if ([cellID isEqualToString:mhedTableCellIDRestaurantCell]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];
             cellAtIndexPath.highlighted = YES;
             // perform segue to restaurant vc and pass on the restaurant, mealsList, ingredientsList, and whether this is medication or meal
         }
         
-        else if ([cellID isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+        else if ([cellID isEqualToString:mhedTableCellIDAddMealsAndIngredientsCell]) {
             if (indexPath.row == 0) { // then we use the add meals cell
                 [self performSegueWithIdentifier:@"AddMoreFoodSegue" sender:self];
             }
@@ -1069,23 +1005,18 @@
              */
         }
         
-        else if ([cellID isEqualToString:mhedTagCellID]) {
+        else if ([cellID isEqualToString:mhedTableCellIDTagCell]) {
             if (indexPath.row == 0) {
                 // add tag
             }
         }
         
-        else if ([cellID isEqualToString:mhedShowHideCellID]) {
+        else if ([cellID isEqualToString:mhedTableCellIDShowHideCell]) {
             
         }
         
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-    
-    
 }
-
-
 
 
 
@@ -1145,11 +1076,6 @@
 #pragma mark - Storyboard Segues
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
-    if ([segue.identifier isEqualToString:@"AddMoreFoodSegue"]) {
-        EDSearchToEatViewController *destinationVC = segue.destinationViewController;
-        destinationVC.delegate = self.delegate;
-    }
     
     if ([segue.identifier isEqualToString:@"AddTagSegue"]) {
         EDSelectTagsViewController *destinationVC = segue.destinationViewController;
@@ -1250,16 +1176,107 @@
     }
 }
 
-- (UIImage *) objectImage
+
+- (NSArray *) mealsList
 {
-    return _objectImage;
+//    if (!_mealsList) {
+//        _mealsList = [[NSArray alloc] init];
+//    }
+//    return _mealsList;
+    
+    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    
 }
 
-- (void) setNewObjectImage: (UIImage *) newObjectImage
+- (void) setNewMealsList: (NSArray *) newMealsList
 {
-    if (newObjectImage) {
-        self.objectImage = newObjectImage;
-    }
+//    if (newMealsList) {
+//        self.mealsList = newMealsList;
+//    }
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:newMealsList forKey:mhedObjectsDictionaryMealsKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+}
+
+- (void) addToMealsList: (NSArray *) meals
+{
+//    if (meals) {
+//        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
+//        for (EDTag *tag in [meals[0] tags]) {
+//            NSLog(@"tag name = %@", tag.name);
+//        }
+//    }
+    
+    
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
+    
+    [self setNewMealsList:newList];
+}
+
+
+- (NSArray *) ingredientsList
+{
+//    if (!_ingredientsList) {
+//        _ingredientsList = [[NSArray alloc] init];
+//    }
+//    return _ingredientsList;
+
+    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
+}
+
+
+
+
+- (void) setNewIngredientsList: (NSArray *) newIngredientsList
+{
+//    if (newIngredientsList) {
+//        self.ingredientsList = newIngredientsList;
+//    }
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:newIngredientsList forKey:mhedObjectsDictionaryIngredientsKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+}
+
+
+
+
+- (void) addToIngredientsList: (NSArray *) ingredients
+{
+//    if (ingredients) {
+//        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
+//    }
+    
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
+    
+    [self setNewIngredientsList:newList];
+}
+
+
+- (NSArray *) medicationsList
+{
+    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
+}
+
+- (void) setNewMedicationsList: (NSArray *) newMedicationsList
+{
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:newMedicationsList forKey:mhedObjectsDictionaryMedicationKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+}
+
+- (void) addToMedicationsList: (NSArray *) medications
+{
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
+    
+    [self setNewMedicationsList:newList];
 }
 
 
@@ -1289,7 +1306,7 @@
 - (void) nameTextViewEditable: (UITextView *) textView
 {
     if (textView) {
-        textView.mheditable = YES;
+        textView.editable = YES;
     }
 }
 
@@ -1373,12 +1390,11 @@
     return [self mealNameForDisplay];
 }
 
-
-
-- (UIImage *) imageForThumbnail
+- (UIImage *) thumbnailForImage:(UIImage *) image
 {
-    if ([self.images count]) {
-        return self.images[0];
+    if (image) {
+        return image;
+        //return self.images[0];
     }
     
     else {
@@ -1407,465 +1423,419 @@
 
 - (void) handleMealAndMedicationSegmentedControl: (id) sender
 {
-    if ([sender isKindOfClass:[UISegmentedControl class]]) {
-        NSInteger selectedSegment = [(UISegmentedControl *)sender selectedSegmentIndex];
-        self.medication = selectedSegment;
-        NSLog(@" Creation is now Medication = %i", self.medication);
-    }
+//    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+//        NSInteger selectedSegment = [(UISegmentedControl *)sender selectedSegmentIndex];
+//        self.medication = selectedSegment;
+//        NSLog(@" Creation is now Medication = %i", self.medication);
+//    }
 }
 
 
 
-#pragma mark - LargeImageCell and iCarousel data and delegate
 
-- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
-{
-    NSLog(@"number of carousel items = %i", [self.carouselImages count]);
-    return [self.carouselImages count];
-}
 
-static inline double radians (double degrees) {return degrees * M_PI/180;}
-UIImage* rotate(UIImage* src, UIImageOrientation orientation)
+
+
+
+
+
+
+
+
+
+#pragma mark - Table Cell setup
+
+
+- (UITableViewCell *) tableView: (UITableView *) tableView datePickerCell:(UITableViewCell *)currentCell forDictionary:(NSDictionary *) itemDictionary
 {
-    UIGraphicsBeginImageContext(src.size);
+    UITableViewCell *cell = currentCell;
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (context, radians(90));
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (context, radians(-90));
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (context, radians(90));
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
     }
     
-    [src drawAtPoint:CGPointMake(0, 0)];
-    
-    return UIGraphicsGetImageFromCurrentImageContext();
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
-{
-    //    //create a numbered view
-    //    view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 200.0f)];
-    //    view.backgroundColor = [UIColor lightGrayColor];
-    //    UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
-    //    label.text = [NSString stringWithFormat:@"%i", index];
-    //    label.backgroundColor = [UIColor clearColor];
-    //    label.textAlignment = NSTextAlignmentCenter;
-    //    label.font = [label.font fontWithSize:50];
-    //    [view addSubview:label];
-    //    return view;
-    
-    //view = [[UIImageView alloc] initWithImage:self.images[index]];
-    
-    //UIImage *displayImage = [UIImage alloc] initwith
-    
-    
-    // use this to size the image
-    //UIImage *displayImage = [self convertImageForCarousel:self.images[index]];
-    // OR this to get it if it is already made
-    UIImage *displayImage = self.carouselImages[index];
-    
-    view = [[UIImageView alloc] initWithImage:displayImage];
-    return view;
-}
-
-
-- (UIImage *) convertImageForCarousel:(UIImage *) originalImage
-{
-    UIImage *displayImage;
-    
-    //[originalImage fixOrientation];
-    
-    if (originalImage.imageOrientation == UIImageOrientationUp ||
-        originalImage.imageOrientation == UIImageOrientationDown) {
-        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 * SCREEN_RATIO, 130.0f)];
-        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
+    if (cell) {
+        cell.textLabel.text = nil;
         
-    }
-    else if (originalImage.imageOrientation == UIImageOrientationRight ||
-             originalImage.imageOrientation == UIImageOrientationLeft){
-        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 / SCREEN_RATIO, 130.0f)];
-        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
-        
+        UIDatePicker *checkDatePicker = (UIDatePicker *)[cell viewWithTag:mhedDatePickerTag];
+        [checkDatePicker setMaximumDate: [EDEvent endOfDay:[NSDate date]]];
     }
     
-    return displayImage;
+    return cell;
 }
 
-
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+- (UITableViewCell *) tableView:(UITableView *)tableView dateDisplayCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
 {
-    switch (option)
-    {
-        case iCarouselOptionWrap:
-        {
-            return NO;
-        }
-            
-        case iCarouselOptionSpacing:
-        {
-            return 0.5;
-        }
-            
-        default:
-        {
-            return value;
-        }
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDateCell];
     }
-}
-
-- (void)carouselWillBeginDragging:(iCarousel *)carousel
-{
-	NSLog(@"Carousel will begin dragging");
-}
-
-- (void)carouselDidEndDragging:(iCarousel *)carousel willDecelerate:(BOOL)decelerate
-{
-	NSLog(@"Carousel did end dragging and %@ decelerate", decelerate? @"will": @"won't");
-}
-
-- (void)carouselWillBeginDecelerating:(iCarousel *)carousel
-{
-	NSLog(@"Carousel will begin decelerating");
-}
-
-- (void)carouselDidEndDecelerating:(iCarousel *)carousel
-{
-	NSLog(@"Carousel did end decelerating");
-}
-
-- (void)carouselWillBeginScrollingAnimation:(iCarousel *)carousel
-{
-	NSLog(@"Carousel will begin scrolling");
-}
-
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
-{
-	NSLog(@"Carousel did end scrolling");
-}
-
-
-#pragma mark - EDImageButtonCell delegate
-- (void) handleTakeAnotherPictureButton: (id) sender
-{
-    [self showImagePickerForCamera:self];
-}
-
-- (void) handleDeletePictureButton:(id)sender
-{
-    if ([self.images count]) {
-        // show alert
-        
-        // get the index of the image displayed
-        NSInteger imageIndex = self.mhedCarousel.currentItemIndex;
-        
-        // remove image from the array,
-        //        NSMutableArray *mutImages = [self.images mutableCopy];
-        //        [mutImages removeObjectAtIndex:(NSUInteger)imageIndex];
-        //        self.images = [mutImages copy];
-        
-        
-        [self.mhedCarousel removeItemAtIndex:imageIndex animated:YES];
-        
-        [self.images removeObjectAtIndex:(NSUInteger)imageIndex];
-        [self.carouselImages removeObjectAtIndex:(NSUInteger) imageIndex];
+    
+    if (cell) {
+        // we have either start or end date cells, populate their date field
         //
+        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemDictionary valueForKey:mhedTableComponentDateKey]];
     }
     
+    return cell;
 }
 
-
-#pragma mark - EDShowHideCell delegate
-- (void) handleShowHideButtonPress:(id) sender
+- (UITableViewCell *) tableView:(UITableView *)tableView imageIconAndNameCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
 {
-    // sender is the cell that
+    UITableViewCell *cell = currentCell;
     
-    if ([sender isKindOfClass:[EDShowHideCell class]]) {
-        EDShowHideCell *cell = (EDShowHideCell *) sender;
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDImageAndNameCell];
+    }
+    
+    if (cell) {
+        //((EDImageAndNameCell *) cell).imageView.image = self.objectImage;
         
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-        if (indexPath) {
+        self.objectNameTextView = ((EDImageAndNameCell *) cell).nameTextView;
+        ((EDImageAndNameCell *) cell).delegate = self;
+        self.objectNameTextView.text = [self objectNameForDisplay];
+        
+        if (self.objectNameTextView) {
             
-            NSMutableDictionary *itemData = self.dataArray[indexPath.section];
+            [self nameTextViewEditable:self.objectNameTextView];
             
-            BOOL hidden = [itemData[mhedHideShowKey] boolValue];
-            
-            // if the row is hidden and we selected the showHideCell then we want to show it
-            if (hidden) {
-                itemData[mhedHideShowKey] = @(NO);
-                
-                [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-                
-                
+            if (self.defaultName) {
+                self.objectNameTextView.textColor = [UIColor grayColor];
             }
-            
-            // else, if the row is shown and we select the showHideCell then we want to hide it
-            else if(!hidden && indexPath.row == 1){
-                itemData[mhedHideShowKey] = @(YES);
-                
-                NSIndexPath *pathForLargeImageCell = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
-                
-                [self.tableView deleteRowsAtIndexPaths:@[pathForLargeImageCell] withRowAnimation:UITableViewRowAnimationBottom];
+            else {
+                self.objectNameTextView.textColor = [UIColor blackColor];
             }
-            
-        }
-    }
-}
-
-#pragma mark - UIImagePickerController methods
-
-- (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType
-{
-    // clear any existing imagePicker
-    //    if (self.imagePickerController) {
-    //        self.imagePickerController = nil;
-    //    }
-    
-    
-    // initialize
-    if (!self.imagePickerController) {
-        UIImagePickerController *IPC = [self imagePickerControllerForSourceType:sourceType];
-        self.imagePickerController = IPC;
-        [self presentViewController:IPC animated:YES completion:NULL];
-    }
-    
-    else {
-        [self presentViewController:self.imagePickerController animated:YES completion:NULL];
-        
-    }
-    
-    //[self presentViewController:imagePickerController animated:YES completion:nil];
-}
-
-- (UIImagePickerController *) imagePickerControllerForSourceType: (UIImagePickerControllerSourceType) sourceType
-{
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    
-    // set sourceType
-    if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
-        
-        imagePickerController.sourceType = sourceType;
-    }
-    else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]){
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    
-    else { // if no source is available that we want then don't present
-        
-        // present an error alert to user
-        
-        return nil;
-    }
-    
-    
-    // set the media types
-    NSArray *mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePickerController.sourceType];
-    NSString *desiredType = (NSString *) kUTTypeImage;
-    
-    if ([mediaTypes containsObject:desiredType]) {
-        imagePickerController.mediaTypes = @[desiredType];
-    }
-    
-    else {
-        return nil;
-    }
-    
-    // set mhediting
-    imagePickerController.mhediting = NO;
-    
-    // set delegate
-    imagePickerController.delegate = self;
-    
-    imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
-    
-    //self.imagePickerController.tabBarController.tabBar.hidden = YES;
-    
-    return imagePickerController;
-}
-
-
-
-- (void)showImagePickerForCamera:(id)sender
-{
-    [self showImagePickerForSourceType:UIImagePickerControllerSourceTypeCamera];
-}
-
-
-- (void)showImagePickerForPhotoPicker:(id)sender
-{
-    [self showImagePickerForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-}
-
-
-
-// For responding to the user accepting a newly-captured picture or movie
-- (void) imagePickerController: (UIImagePickerController *) picker
- didFinishPickingMediaWithInfo: (NSDictionary *) info {
-    
-    
-    
-    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
-    
-    // Handle a still image capture
-    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo) {
-        
-        UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-        
-        UIImage *smallerImage = [UIImage newImageFrom:image scaledToFitHeight:960.0 andWidth:960.0];
-        
-        self.capturedImages = @[smallerImage];
-    }
-    
-    //UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
-    
-    
-    [self finishAndUpdate];
-    
-}
-
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (self.imagePickerController == viewController ||
-        self.imagePickerController == navigationController) {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    }
-    else {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    }
-}
-
-
-
-// For responding to the user tapping Cancel.
-- (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker {
-    
-    self.mhedCarousel = nil;
-    
-    if (![self.images count]) {
-        self.cameraCanceled = YES;
-        [self dismissViewControllerAnimated:YES completion:NULL];
-        //[self.navigationController popToRootViewControllerAnimated:YES];
-        
-    }
-    
-    else
-    {
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-    
-    
-}
-
-- (void)finishAndUpdate
-{
-    //    if (self.imagePickerController) {
-    //
-    //
-    //    }
-    self.imagePickerController = nil;
-    [self dismissViewControllerAnimated:YES completion:^{
-        //self.imagePickerController = nil;
-    }];
-    
-    if ([self.capturedImages count] > 0)
-    {
-        [self.images addObjectsFromArray:self.capturedImages];
-        
-        for (UIImage *newImage in self.capturedImages) {
-            [self.carouselImages addObject:[self convertImageForCarousel:newImage]];
         }
         
-        //[self.tableView reloadData];
-        //[self performSegueWithIdentifier:@"CameraSegue" sender:self];
-        
-        self.capturedImages = nil;
-        
-        [self.mhedCarousel insertItemAtIndex:[self.carouselImages count] - 1 animated:YES];
+        [(EDImageAndNameCell *)cell loadImageView];
     }
     
+    return cell;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView restaurantCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDRestaurantCell];
+    }
+    
+    if (cell) {
+        cell.textLabel.text = self.restaurant.name;
+
+    }
+    
+    return cell;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView addMealsAndIngredientsCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDAddMealsAndIngredientsCell];
+    }
+    
+    if (cell) {
+        
+    }
+    
+    return cell;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView addMedicationAndIngredientsCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDAddMedsAndIngredientsCell];
+    }
+    
+    if (cell) {
+        
+    }
+    
+    return cell;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView favoriteAndTagsCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDTagCell];
+    }
+    
+    if (cell) {
+        UITextView *tagTextView = ((EDTagCell *)cell).tagsTextView;
+        ((EDTagCell *)cell).delegate = self;
+        if (tagTextView) {
+            self.tagTextView = tagTextView;
+        }
+        if ([self.tagsList count] && self.tagTextView) {
+            NSAttributedString *attTagsString = [self tagsString];
+            
+            tagTextView.attributedText = attTagsString;
+        }
+    }
+    
+    return cell;
+}
+
+
+- (UITableViewCell *) tableView:(UITableView *)tableView mealAndMedicationSegmentedControlCell: (UITableViewCell *) currentCell forDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDMealAndMedicationSegmentedControlCell];
+    }
+    
+    if (cell) {
+        UISegmentedControl *control = [(EDMealAndMedicationSegmentedControlCell *)cell segControl];
+        
+        control.selectedSegmentIndex = [itemDictionary[mhedTableComponentSegmentedControlIndexKey] integerValue];
+        [(EDMealAndMedicationSegmentedControlCell *)cell setDelegate:self];
+    }
+    
+    return cell;
+}
+
+#pragma mark - Default Cell Dictionaries
+
+
+- (NSMutableDictionary *) dateSectionDictionary:(NSDate *)date
+{
+    NSMutableDictionary *dateDict = [@{ mhedTableComponentSectionKey : mhedTableSectionIDDateSection,
+                                        mhedTableComponentNoHeaderBooleanKey : @NO,
+                                        mhedTableComponentTitleKey : @"Date",
+                                        mhedTableComponentDateKey : date,
+                                        mhedTableComponentCellIDKey : mhedTableCellIDDateCell} mutableCopy];
+    return dateDict;
+}
+
+
+- (NSMutableDictionary *) imageAndNameSectionDictionary
+{
+    NSMutableDictionary *nameDict = [@{ mhedTableComponentSectionKey : mhedTableCellIDImageAndNameCell,
+                                        mhedTableComponentMainHeaderKey : @"Name and Image",
+                                        mhedTableComponentCellIDKey : mhedTableCellIDImageAndNameCell} mutableCopy];
+    
+    return nameDict;
+}
+
+
+- (NSMutableDictionary *) objectsSectionDictionaryWithMainHeader: (NSString *) mainHeader
+                                  withObjectsDictionaryItemTypes: (NSArray *) itemTypes
+                                                  withSubHeaders:(NSArray *) subHeaders
+{
+    // components
+    /*
+     section header
+     add object row
+     sections for each of the types of objects
+            - sub headers
+            - row for each object
+     
+     */
+    
+    NSMutableDictionary *cellDict = [@{ mhedTableComponentSectionKey : mhedTableSectionIDObjectsSection,
+                                        mhedTableComponentMainHeaderKey : mainHeader,
+                                        mhedTableComponentObjectsDictionaryItemTypesKey : itemTypes,
+                                        mhedTableComponentSubHeadersKey : subHeaders,
+                                        mhedTableComponentCellIDKey : mhedTableCellIDDefaultDetailCell
+                                       } mutableCopy];
+    
+    //NSMutableDictionary *cellDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
+    //                                    mhedTableComponentCellIDKey : mhedTableCellIDAddMealsAndIngredientsCell} mutableCopy];
+    return cellDict;
+}
+
+- (NSMutableDictionary *) mealAndIngredientSectionDictionary
+{
+    //NSMutableDictionary *cellDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
+    //                                    mhedTableComponentCellIDKey : mhedTableCellIDAddMealsAndIngredientsCell} mutableCopy];
+    
+    NSMutableDictionary *cellDict = [self objectsSectionDictionaryWithMainHeader:@"Meals and Ingredients"
+                                                  withObjectsDictionaryItemTypes:@[mhedObjectsDictionaryMealsKey, mhedObjectsDictionaryIngredientsKey]
+                                                                  withSubHeaders:@[@"Meals", @"Ingredients"]];
+    
+    return cellDict;
+}
+
+- (NSMutableDictionary *) detailMealMedicationSectionDictionary
+{
+    //NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedTableCellIDDetailMealMedCell ,
+    //                                   mhedTableComponentTitleKey : @"Add Ingredients to Meal"} mutableCopy];
+    
+    NSMutableDictionary *cellDict = [self objectsSectionDictionaryWithMainHeader:@"Medication"
+                                                  withObjectsDictionaryItemTypes:@[mhedObjectsDictionaryMedicationKey, mhedObjectsDictionaryIngredientsKey]
+                                                                  withSubHeaders:@[@"Medication", @"Ingredients"]];
+    
+    return cellDict;
+}
+
+
+- (NSMutableDictionary *) restaurantSectionDictionary
+{
+    NSMutableDictionary *restaurantDict = [@{ mhedTableComponentSectionKey : mhedTableCellIDRestaurantCell,
+                                              mhedTableComponentMainHeaderKey : @"Restaurant",
+                                              mhedTableComponentTitleKey : @"Restaurant",
+                                              mhedTableComponentCellIDKey : mhedTableCellIDRestaurantCell} mutableCopy];
+    return restaurantDict;
+}
+
+
+- (NSMutableDictionary *) tagSectionDictionary
+{
+    NSMutableDictionary *cellDict = [@{ mhedTableComponentSectionKey : mhedTableCellIDTagCell,
+                                        mhedTableComponentCellIDKey : mhedTableCellIDTagCell ,
+                                        mhedTableComponentMainHeaderKey : @"Favorite and Tags"} mutableCopy];
+    return cellDict;
 }
 
 
 
+- (NSMutableDictionary *) mealAndMedicationSegmentedControllSectionDictionary
+{
+    NSMutableDictionary *cellDict = [@{mhedTableComponentSectionKey : mhedTableCellIDMealAndMedicationSegmentedControlCell ,
+                                       mhedTableComponentCellIDKey : mhedTableCellIDMealAndMedicationSegmentedControlCell ,
+                                       mhedTableComponentNoHeaderBooleanKey : @NO ,
+                                       mhedTableComponentHideShowBooleanKey : @NO,
+                                       mhedTableComponentSegmentedControlIndexKey : @0} mutableCopy];
+    return cellDict;
+}
 
 
-//NSData *pngData = UIImagePNGRepresentation(image);
-//
-//NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
-//NSString *filePath = [documentsPath stringByAppendingPathComponent:@"image.png"]; //Add the file name
-//[pngData writeToFile:filePath atomically:YES]; //Write the file
-//
-//NSData *pngData = [NSData dataWithContentsOfFile:filePath];
-//UIImage *image = [UIImage imageWithData:pngData];
+- (NSMutableDictionary *) reminderSectionDictionary
+{
+    NSMutableDictionary *cellDict = [@{mhedTableComponentSectionKey : mhedTableCellIDReminderCell ,
+                                       mhedTableComponentCellIDKey : mhedTableCellIDReminderCell ,
+                                       mhedTableComponentMainHeaderKey : @"Symptom Reminder"} mutableCopy];
+    return cellDict;
+}
 
 
+
+- (NSMutableDictionary *) sectionDictionaryWithSectionID: (NSString *) sectionID
+                                                  cellID:(NSString *)cellID
+                                             headerTitle:(NSString *)headerTitle
+                                            detailString:(NSString *)detailString
+                                                    date:(NSDate *)date
+{
+    NSMutableDictionary *cellDict = [@{mhedTableComponentSectionKey : sectionID,
+                                       mhedTableComponentCellIDKey : cellID ,
+                                       mhedTableComponentMainHeaderKey: headerTitle,
+                                       mhedTableComponentDetailKey : detailString,
+                                       mhedTableComponentDateKey : date} mutableCopy];
+    return cellDict;
+}
+
+//- (NSMutableDictionary *) sectionDictionaryWithCellID:(NSString *)cellID
+//                                       headerTitle:(NSString *)headerTitle
+//                                      detailString:(NSString *)detailString
+//                                              date:(NSDate *)date
+//{
+//    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : cellID ,
+//                                       mhedTableComponentTitleKey : headerTitle,
+//                                       mhedTableComponentDetailKey : detailString,
+//                                       mhedTableComponentDateKey : date} mutableCopy];
+//    return cellDict;
+//}
 
 
 #pragma mark - Default Meal Methods
 //---------------------------
 - (void) handleMealDoneButton
 {
-    if ([self respondsToSelector:@selector(mealsList)] &&
-        [self respondsToSelector:@selector(ingredientsList)]) {
+    
+    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
+    {
+        // also should check the restaurant
+        // but anyways, this means we don't need to create a new meal
         
-        if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
-        {
-            // also should check the restaurant
-            // but anyways, this means we don't need to create a new meal
-            
-            
-            [self.managedObjectContext performBlockAndWait:^{
-                [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
-                
-            }];
-            
-        }
         
-        else if ([self.mealsList count] == 0 && [self.ingredientsList count] == 1)
-        { // then we only ate the 1 ingredient so we want the name to be just a meal with the ingredient
-            [self.managedObjectContext performBlockAndWait:^{
-                EDMeal *newMeal = [EDMeal createMealWithName:[NSString stringWithFormat:@"Meal with %@", [self.ingredientsList[0] name]]
-                                            ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
-                                                 mealParents:[NSSet setWithArray:self.mealsList]
-                                                  restaurant:self.restaurant tags:nil
-                                                  forContext:self.managedObjectContext];
-                
-                if ([self.images count]) {
-                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-                }
-                
-                [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
-            }];
-        }
-        
-        else
-        { // we need to create a new new meal first
-            [self.managedObjectContext performBlockAndWait:^{
-                EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
-                                            ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
-                                                 mealParents:[NSSet setWithArray:self.mealsList]
-                                                  restaurant:self.restaurant tags:nil
-                                                  forContext:self.managedObjectContext];
-                
-                if ([self.images count]) {
-                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-                }
-                
-                
-                [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
-            }];
-        }
+        [self.managedObjectContext performBlockAndWait:^{
+            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
+            
+        }];
         
     }
+    
+    else if ([self.mealsList count] > 0 || [self.ingredientsList count] > 0)
+    { // we need to create a new new meal first
+        [self.managedObjectContext performBlockAndWait:^{
+            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
+                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
+                                             mealParents:[NSSet setWithArray:self.mealsList]
+                                              restaurant:self.restaurant tags:nil
+                                              forContext:self.managedObjectContext];
+            
+            //                if ([self.images count]) {
+            //                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+            //                }
+            
+            
+            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
+        }];
+    }
+    
+//    if ([self respondsToSelector:@selector(mealsList)] &&
+//        [self respondsToSelector:@selector(ingredientsList)]) {
+//        
+//        if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
+//        {
+//            // also should check the restaurant
+//            // but anyways, this means we don't need to create a new meal
+//            
+//            
+//            [self.managedObjectContext performBlockAndWait:^{
+//                [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
+//                
+//            }];
+//            
+//        }
+//        
+//        else if ([self.mealsList count] == 0 && [self.ingredientsList count] == 1)
+//        { // then we only ate the 1 ingredient so we want the name to be just a meal with the ingredient
+//            [self.managedObjectContext performBlockAndWait:^{
+//                EDMeal *newMeal = [EDMeal createMealWithName:[NSString stringWithFormat:@"Meal with %@", [self.ingredientsList[0] name]]
+//                                            ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
+//                                                 mealParents:[NSSet setWithArray:self.mealsList]
+//                                                  restaurant:self.restaurant tags:nil
+//                                                  forContext:self.managedObjectContext];
+//                
+////                if ([self.images count]) {
+////                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+////                }
+//                
+//                [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
+//            }];
+//        }
+//        
+//        else
+//        { // we need to create a new new meal first
+//            [self.managedObjectContext performBlockAndWait:^{
+//                EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
+//                                            ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
+//                                                 mealParents:[NSSet setWithArray:self.mealsList]
+//                                                  restaurant:self.restaurant tags:nil
+//                                                  forContext:self.managedObjectContext];
+//                
+////                if ([self.images count]) {
+////                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+////                }
+//                
+//                
+//                [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
+//            }];
+//        }
+//        
+//    }
+    
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -1877,14 +1847,14 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             [self respondsToSelector:@selector(ingredientsList)]) {
             
             if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0) {
-                textView.mheditable = NO;
+                textView.editable = NO;
             }
             else {
-                textView.mheditable = YES;
+                textView.editable = YES;
             }
         }
         else {
-            textView.mheditable = YES;
+            textView.editable = YES;
         }
     }
 }
@@ -1938,168 +1908,92 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     }
 }
 
-
-#pragma mark - Default Cell Dictionaries
-
-- (NSMutableDictionary *) dateCellDictionary:(NSDate *)date
-{
-    NSMutableDictionary *dateDict = [@{ mhedTitleKey : @"Date",
-                                        mhedDateKey : date,
-                                        mhedCellIDKey : mhedDateCellID} mutableCopy];
-    return dateDict;
-}
-
-- (NSMutableDictionary *) imageAndNameCellDictionary
-{
-    NSMutableDictionary *nameDict = [@{ mhedTitleKey : @"Name and Image",
-                                        mhedCellIDKey : mhedImageAndNameCellID} mutableCopy];
-    
-    return nameDict;
-}
-
-- (NSMutableDictionary *) mealAndIngredientCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{ mhedTitleKey : @"Meals and Ingredients",
-                                        mhedCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
-    return cellDict;
-}
-
-
-- (NSMutableDictionary *) restaurantCellDictionary
-{
-    NSMutableDictionary *restaurantDict = [@{ mhedTitleKey : @"Restaurant",
-                                              mhedCellIDKey : mhedRestaurantCellID} mutableCopy];
-    return restaurantDict;
-}
-
-
-- (NSMutableDictionary *) tagCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedTagCellID ,
-                                       mhedTitleKey : @"Favorite and Tags"} mutableCopy];
-    return cellDict;
-}
-
-
-
-- (NSMutableDictionary *) largeImageCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedLargeImageCellID ,
-                                       mhedTitleKey : @"Food Pictures"} mutableCopy];
-    return cellDict;
-}
-
-- (NSMutableDictionary *) imageButtonCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedImageButtonCellID ,
-                                       mhedTitleKey : @""} mutableCopy];
-    return cellDict;
-}
-
-- (NSMutableDictionary *) showHideCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedShowHideCellID ,
-                                       mhedTitleKey : @""} mutableCopy];
-    return cellDict;
-}
-
-
-- (NSMutableDictionary *) mealAndMedicationSegmentedControllCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedMealAndMedicationSegmentedControlCellID ,
-                                       mhedTitleKey : @"" ,
-                                       mhedHideShowKey : @(NO)} mutableCopy];
-    return cellDict;
-}
-
-
-- (NSMutableDictionary *) reminderCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedReminderCellID ,
-                                       mhedTitleKey : @"Symptom Reminder"} mutableCopy];
-    return cellDict;
-}
-
-- (NSMutableDictionary *) detailMealMedCellDictionary
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedDetailMealMedCellID ,
-                                       mhedTitleKey : @"Add Ingredients to Meal"} mutableCopy];
-    return cellDict;
-}
-
-
-
-- (NSMutableDictionary *) cellDictionaryWithCellID:(NSString *)cellID
-                                       headerTitle:(NSString *)headerTitle
-                                      detailString:(NSString *)detailString
-                                              date:(NSDate *)date
-{
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : cellID ,
-                                       mhedTitleKey : headerTitle,
-                                       mhedDetailKey : detailString,
-                                       mhedDateKey : date} mutableCopy];
-    return cellDict;
-}
-
-
 #pragma mark - Default Medication Methods
 // ---------------------------------------
 
 
 
-- (void) handleMedDoneButton
+- (void) handleMedicationDoneButton
 {
     
-    if ([self respondsToSelector:@selector(parentMedicationsList)] &&
-        [self respondsToSelector:@selector(ingredientsList)]) {
+    if ([self.medicationsList count] == 1 && [self.ingredientsList count] == 0)
+    {
+        // also should check the restaurant
+        // but anyways, this means we don't need to create a new meal
         
-        if ([self.parentMedicationsList count] == 1 && [self.ingredientsList count] == 0)
-        {
-            // also should check the restaurant
-            // but anyways, this means we don't need to create a new meal
-            
-            
-            [self.managedObjectContext performBlockAndWait:^{
-                
-                [EDTakenMedication createWithMedication:self.parentMedicationsList[0] onDate:self.date1 inContext:self.managedObjectContext];
-            }];
-            
-        }
         
-        else if ([self.parentMedicationsList count] > 0 || [self.ingredientsList count] > 0)
-        { // we need to create a new med first
-            [self.managedObjectContext performBlockAndWait:^{
-                
-                EDMedication *newMed = [EDMedication createMedicationWithName:self.objectName ingredientsAdded:[NSSet setWithArray:self.ingredientsList] medicationParents:[NSSet setWithArray:self.parentMedicationsList] company:self.restaurant tags:nil forContext:self.managedObjectContext];
-                
-                if ([self.images count]) {
-                    [newMed addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-                }
-                
-                [EDTakenMedication createWithMedication:newMed onDate:self.date1 inContext:self.managedObjectContext];
-            }];
-        }
+        [self.managedObjectContext performBlockAndWait:^{
+            
+            [EDTakenMedication createWithMedication:self.medicationsList[0] onDate:self.date1 inContext:self.managedObjectContext];
+        }];
+        
     }
+    
+    else if ([self.medicationsList count] > 0 || [self.ingredientsList count] > 0)
+    { // we need to create a new med first
+        [self.managedObjectContext performBlockAndWait:^{
+            
+            EDMedication *newMed = [EDMedication createMedicationWithName:self.objectName ingredientsAdded:[NSSet setWithArray:self.ingredientsList] medicationParents:[NSSet setWithArray:self.medicationsList] company:self.restaurant tags:nil forContext:self.managedObjectContext];
+            
+            //                if ([self.images count]) {
+            //                    [newMed addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+            //                }
+            
+            [EDTakenMedication createWithMedication:newMed onDate:self.date1 inContext:self.managedObjectContext];
+        }];
+    }
+    
+    
+//    if ([self respondsToSelector:@selector(parentMedicationsList)] &&
+//        [self respondsToSelector:@selector(ingredientsList)]) {
+//        
+//        if ([self.medicationsList count] == 1 && [self.ingredientsList count] == 0)
+//        {
+//            // also should check the restaurant
+//            // but anyways, this means we don't need to create a new meal
+//            
+//            
+//            [self.managedObjectContext performBlockAndWait:^{
+//                
+//                [EDTakenMedication createWithMedication:self.medicationsList[0] onDate:self.date1 inContext:self.managedObjectContext];
+//            }];
+//            
+//        }
+//        
+//        else if ([self.medicationsList count] > 0 || [self.ingredientsList count] > 0)
+//        { // we need to create a new med first
+//            [self.managedObjectContext performBlockAndWait:^{
+//                
+//                EDMedication *newMed = [EDMedication createMedicationWithName:self.objectName ingredientsAdded:[NSSet setWithArray:self.ingredientsList] medicationParents:[NSSet setWithArray:self.medicationsList] company:self.restaurant tags:nil forContext:self.managedObjectContext];
+//                
+////                if ([self.images count]) {
+////                    [newMed addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+////                }
+//                
+//                [EDTakenMedication createWithMedication:newMed onDate:self.date1 inContext:self.managedObjectContext];
+//            }];
+//        }
+//    }
     
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
-- (void) medNameTextViewEditable: (UITextView *) textView
+- (void) medicationNameTextViewEditable: (UITextView *) textView
 {
     if (textView) {
         
-        textView.mheditable = YES;
+        textView.editable = YES;
     }
 }
 
-- (NSString *) medNameAsDefault
+- (NSString *) medicationNameAsDefault
 {
     return [NSString stringWithFormat:@"Medication at %@", [self eatDateAsString:self.date1]];
     
 }
-- (NSString *) medNameForDisplay
+- (NSString *) medicationNameForDisplay
 {
     if (self.defaultName) {
         return [NSString stringWithFormat:@"(Default) %@", self.objectName];
@@ -2114,12 +2008,12 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     }
 }
 
-- (NSMutableDictionary *) medAndIngredientCellDictionary
-{
-    NSMutableDictionary *medsAndIngredientsDict = [@{ mhedTitleKey : @"Medication and Ingredients",
-                                                      mhedCellIDKey : mhedAddMedsAndIngredientsCellID} mutableCopy];
-    return medsAndIngredientsDict;
-}
+//- (NSMutableDictionary *) medAndIngredientCellDictionary
+//{
+//    NSMutableDictionary *medsAndIngredientsDict = [@{ mhedTitleKey : @"Medication and Ingredients",
+//                                                      mhedCellIDKey : mhedTableCellIDAddMedsAndIngredientsCell} mutableCopy];
+//    return medsAndIngredientsDict;
+//}
 
 
 

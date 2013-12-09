@@ -10,8 +10,10 @@
 
 @protocol EDImageButtonCellDelegate <NSObject>
 
-- (void) handleTakeAnotherPictureButton: (id) sender;
 - (void) handleDeletePictureButton: (id) sender;
+
+@optional
+- (void) handleTakeAnotherPictureButton: (id) sender;
 @end
 
 

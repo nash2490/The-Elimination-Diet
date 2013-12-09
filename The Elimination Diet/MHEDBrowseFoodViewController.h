@@ -8,6 +8,10 @@
 
 #import "MHEDBrowseViewController.h"
 
+@class EDRestaurant;
+
 @interface MHEDBrowseFoodViewController : MHEDBrowseViewController
+
+@property (nonatomic, strong) EDRestaurant *restaurant;
 
 @end
