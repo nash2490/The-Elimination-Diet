@@ -39,7 +39,7 @@
 #pragma mark - Setup Methods to call in subclass (optional override)
 
 /// call in VDL to setup
-- (void) setupDateAndDatePickerCell;
+//- (void) setupDateAndDatePickerCell;
 - (void) setupObjectName;
 
 - (NSString *) objectNameForDisplay;

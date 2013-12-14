@@ -12,10 +12,6 @@
 
 #import "EDTableComponents.h"
 
-#import "EDTagCell.h"
-#import "EDMealAndMedicationSegmentedControlCell.h"
-#import "EDImageAndNameCell.h"
-
 #import "EDTag+Methods.h"
 #import "EDRestaurant+Methods.h"
 #import "EDFood+Methods.h"
@@ -34,8 +30,6 @@
 
 #import "UIImage+MHED_fixOrientation.h"
 
-
-#import "EDShowHideCell.h"
 
 @import MobileCoreServices;
 
@@ -128,20 +122,20 @@
 {
     self.date1 = [NSDate date];
     
-    NSMutableDictionary *dateDict = [@{ mhedTitleKey : @"Date",
-                                        mhedDateKey : self.date1,
-                                        mhedCellIDKey : mhedDateCellID} mutableCopy];
+    NSMutableDictionary *dateDict = [@{ mhedTableComponentTitleKey : @"Date",
+                                        mhedTableComponentDateKey : self.date1,
+                                        mhedTableComponentCellIDKey : mhedDateCellID} mutableCopy];
     
     
     
-    NSMutableDictionary *nameDict = [@{ mhedTitleKey : @"Name and Image",
-                                        mhedCellIDKey : mhedImageAndNameCellID} mutableCopy];
+    NSMutableDictionary *nameDict = [@{ mhedTableComponentTitleKey : @"Name and Image",
+                                        mhedTableComponentCellIDKey : mhedImageAndNameCellID} mutableCopy];
     
-    NSMutableDictionary *mealsAndIngredientsDict = [@{ mhedTitleKey : @"Meals and Ingredients",
-                                                       mhedCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
+    NSMutableDictionary *mealsAndIngredientsDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
+                                                       mhedTableComponentCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
     
-    NSMutableDictionary *restaurantDict = [@{ mhedTitleKey : @"Restaurant",
-                                              mhedCellIDKey : mhedRestaurantCellID} mutableCopy];
+    NSMutableDictionary *restaurantDict = [@{ mhedTableComponentTitleKey : @"Restaurant",
+                                              mhedTableComponentCellIDKey : mhedRestaurantCellID} mutableCopy];
     
     //NSMutableDictionary *tagsDict = [@{ mhedTitleKey : @"Tags",
     //                                    mhedCellIDKey : mhedTagCellID} mutableCopy];
@@ -335,7 +329,7 @@
     NSDictionary *itemData = self.dataArray[modelSection];
     
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedDateCellID]
         && indexPath.row == 0) // only if the row is also the first
     {
         hasDate = YES;
@@ -481,7 +475,7 @@
     NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
     
     self.date1 = targetedDatePicker.date;
-    [itemData setValue:self.date1 forKey:mhedDateKey];
+    [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
     
     // update the cell's date string
     cell.detailTextLabel.text = [self eatDateAsString:self.date1];
@@ -501,7 +495,7 @@
 {
     NSDictionary *itemData = self.dataArray[indexPath.section];
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
         
         if (indexPath.row == 1) { // always a food separator row
             return 1;
@@ -540,7 +534,7 @@
         return 2;
     }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+     else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
          // rows are the meals + ingredients + add row
          
          if ([self respondsToSelector:@selector(ingredientsList)] &&
@@ -559,7 +553,7 @@
          return 0;
     }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
+     else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
          // rows are the meds + ingredients + add row
          
          if ([self respondsToSelector:@selector(ingredientsList)] &&
@@ -580,9 +574,9 @@
          
      }
     
-     else if ([itemData[mhedCellIDKey] isEqualToString:mhedShowHideCellID]) {
+     else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedShowHideCellID]) {
          
-         BOOL hidden = [itemData[mhedHideShowKey] boolValue];
+         BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
          
          // if the row is hidden then we only have 1
          if (hidden) {
@@ -609,10 +603,10 @@
     NSDictionary *itemData = self.dataArray[section];
     
     
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]) {
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedDateCellID]) {
         return 0.1;
     }
-    else if ([itemData[mhedTitleKey] isEqualToString:@""]){
+    else if ([itemData[mhedTableComponentTitleKey] isEqualToString:@""]){
         NSLog(@"header should be nothing");
         return 0.1;
     }
@@ -623,7 +617,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-    NSString *cellID = itemData[mhedCellIDKey];
+    NSString *cellID = itemData[mhedTableComponentCellIDKey];
     
     if ([cellID isEqualToString:mhedImageAndNameCellID]) {
         return 79;
@@ -631,7 +625,7 @@
     
     else if ([cellID isEqualToString:mhedShowHideCellID]) {
         
-        BOOL hidden = [itemData[mhedHideShowKey] boolValue];
+        BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
         
         // if the row is hidden and this is the showHide cell then it is normal size
         if (hidden) {
@@ -646,14 +640,14 @@
         
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedLargeImageCellID]) {
+    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedLargeImageCellID]) {
         
         
         return LARGE_IMAGE_CELL_DEFAULT_SIZE;
     }
     
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedTagCellID]) {
+    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTagCellID]) {
         return 47;
     }
     
@@ -661,7 +655,7 @@
         return self.pickerCellRowHeight;
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
+    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedAddMealsAndIngredientsCellID]) {
         
         if (indexPath.row == 1) { // always a food separator row
             return 20;
@@ -680,7 +674,7 @@
         }
     }
     
-    else if ([itemData[mhedCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
+    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedAddMedsAndIngredientsCellID]) {
         
         if (indexPath.row == 1) { // always a food separator row
             return 20;
@@ -705,11 +699,11 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSDictionary *itemData = self.dataArray[section];
-    if ([itemData[mhedCellIDKey] isEqualToString:mhedDateCellID]) {
+    if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedDateCellID]) {
         return nil;
     }
     else {
-        return itemData[mhedTitleKey];
+        return itemData[mhedTableComponentTitleKey];
     }
 }
 
@@ -730,7 +724,7 @@
     
     NSMutableDictionary *itemData = self.dataArray[modelSection];
     
-    NSString *cellID = itemData[mhedCellIDKey];
+    NSString *cellID = itemData[mhedTableComponentCellIDKey];
     
     UITableViewCell *cell = nil;
     if ([self indexPathHasPicker:indexPath])
@@ -746,8 +740,8 @@
         
         UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
         
-        if (itemData[mhedCellStyleKey]) {
-            cellStyle = [itemData[mhedCellStyleKey] integerValue];
+        if (itemData[mhedTableComponentCellStyleKey]) {
+            cellStyle = [itemData[mhedTableComponentCellStyleKey] integerValue];
         }
         
         cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellID];
@@ -768,7 +762,7 @@
     {
         // we have either start or end date cells, populate their date field
         //
-        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:mhedDateKey]];
+        cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[itemData valueForKey:mhedTableComponentDateKey]];
     }
     
     else if ([cellID isEqualToString:mhedImageAndNameCellID]) {
@@ -928,7 +922,7 @@
     
     else if ([cellID isEqualToString:mhedShowHideCellID]) {
         
-        BOOL hide = [itemData[mhedHideShowKey] boolValue];
+        BOOL hide = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
         
         // if the image is shown and the row is 0
         if (!hide && indexPath.row == 0) {
@@ -1038,7 +1032,7 @@
     else
     {
         NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[mhedCellIDKey];
+        NSString *cellID = itemData[mhedTableComponentCellIDKey];
         
         if ([cellID isEqualToString:mhedRestaurantCellID]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -1429,28 +1423,6 @@
     return [self.carouselImages count];
 }
 
-static inline double radians (double degrees) {return degrees * M_PI/180;}
-UIImage* rotate(UIImage* src, UIImageOrientation orientation)
-{
-    UIGraphicsBeginImageContext(src.size);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (context, radians(90));
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (context, radians(-90));
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (context, radians(90));
-    }
-    
-    [src drawAtPoint:CGPointMake(0, 0)];
-    
-    return UIGraphicsGetImageFromCurrentImageContext();
-}
-
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
 //    //create a numbered view
@@ -1599,11 +1571,11 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             
             NSMutableDictionary *itemData = self.dataArray[indexPath.section];
             
-            BOOL hidden = [itemData[mhedHideShowKey] boolValue];
+            BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
             
             // if the row is hidden and we selected the showHideCell then we want to show it
             if (hidden) {
-                itemData[mhedHideShowKey] = @(NO);
+                itemData[mhedTableComponentHideShowBooleanKey] = @(NO);
                 
                 [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
                 
@@ -1612,7 +1584,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
             
             // else, if the row is shown and we select the showHideCell then we want to hide it
             else if(!hidden && indexPath.row == 1){
-                itemData[mhedHideShowKey] = @(YES);
+                itemData[mhedTableComponentHideShowBooleanKey] = @(YES);
                 
                 NSIndexPath *pathForLargeImageCell = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
                 
@@ -1948,40 +1920,40 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 
 - (NSMutableDictionary *) dateCellDictionary:(NSDate *)date
 {
-    NSMutableDictionary *dateDict = [@{ mhedTitleKey : @"Date",
-                                        mhedDateKey : date,
-                                        mhedCellIDKey : mhedDateCellID} mutableCopy];
+    NSMutableDictionary *dateDict = [@{ mhedTableComponentTitleKey : @"Date",
+                                        mhedTableComponentDateKey : date,
+                                        mhedTableComponentCellIDKey : mhedDateCellID} mutableCopy];
     return dateDict;
 }
 
 - (NSMutableDictionary *) imageAndNameCellDictionary
 {
-    NSMutableDictionary *nameDict = [@{ mhedTitleKey : @"Name and Image",
-                                        mhedCellIDKey : mhedImageAndNameCellID} mutableCopy];
+    NSMutableDictionary *nameDict = [@{ mhedTableComponentTitleKey : @"Name and Image",
+                                        mhedTableComponentCellIDKey : mhedImageAndNameCellID} mutableCopy];
     
     return nameDict;
 }
 
 - (NSMutableDictionary *) mealAndIngredientCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{ mhedTitleKey : @"Meals and Ingredients",
-                                        mhedCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
+    NSMutableDictionary *cellDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
+                                        mhedTableComponentCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
     return cellDict;
 }
 
 
 - (NSMutableDictionary *) restaurantCellDictionary
 {
-    NSMutableDictionary *restaurantDict = [@{ mhedTitleKey : @"Restaurant",
-                                              mhedCellIDKey : mhedRestaurantCellID} mutableCopy];
+    NSMutableDictionary *restaurantDict = [@{ mhedTableComponentTitleKey : @"Restaurant",
+                                              mhedTableComponentCellIDKey : mhedRestaurantCellID} mutableCopy];
     return restaurantDict;
 }
 
 
 - (NSMutableDictionary *) tagCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedTagCellID ,
-                                       mhedTitleKey : @"Favorite and Tags"} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedTagCellID ,
+                                       mhedTableComponentTitleKey : @"Favorite and Tags"} mutableCopy];
     return cellDict;
 }
 
@@ -1989,46 +1961,46 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 
 - (NSMutableDictionary *) largeImageCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedLargeImageCellID ,
-                                       mhedTitleKey : @"Food Pictures"} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedLargeImageCellID ,
+                                       mhedTableComponentTitleKey : @"Food Pictures"} mutableCopy];
     return cellDict;
 }
 
 - (NSMutableDictionary *) imageButtonCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedImageButtonCellID ,
-                                       mhedTitleKey : @""} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedImageButtonCellID ,
+                                       mhedTableComponentTitleKey : @""} mutableCopy];
     return cellDict;
 }
 
 - (NSMutableDictionary *) showHideCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedShowHideCellID ,
-                                       mhedTitleKey : @""} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedShowHideCellID ,
+                                       mhedTableComponentTitleKey : @""} mutableCopy];
     return cellDict;
 }
 
 
 - (NSMutableDictionary *) mealAndMedicationSegmentedControllCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedMealAndMedicationSegmentedControlCellID ,
-                                       mhedTitleKey : @"" ,
-                                       mhedHideShowKey : @(NO)} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedMealAndMedicationSegmentedControlCellID ,
+                                       mhedTableComponentTitleKey : @"" ,
+                                       mhedTableComponentHideShowBooleanKey : @(NO)} mutableCopy];
     return cellDict;
 }
 
 
 - (NSMutableDictionary *) reminderCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedReminderCellID ,
-                                       mhedTitleKey : @"Symptom Reminder"} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedReminderCellID ,
+                                       mhedTableComponentTitleKey : @"Symptom Reminder"} mutableCopy];
     return cellDict;
 }
 
 - (NSMutableDictionary *) detailMealMedCellDictionary
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : mhedDetailMealMedCellID ,
-                                       mhedTitleKey : @"Add Ingredients to Meal"} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : mhedDetailMealMedCellID ,
+                                       mhedTableComponentTitleKey : @"Add Ingredients to Meal"} mutableCopy];
     return cellDict;
 }
 
@@ -2039,10 +2011,10 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
                                       detailString:(NSString *)detailString
                                               date:(NSDate *)date
 {
-    NSMutableDictionary *cellDict = [@{mhedCellIDKey : cellID ,
-                                                     mhedTitleKey : headerTitle,
-                                                     mhedDetailKey : detailString,
-                                                     mhedDateKey : date} mutableCopy];
+    NSMutableDictionary *cellDict = [@{mhedTableComponentCellIDKey : cellID ,
+                                                     mhedTableComponentTitleKey : headerTitle,
+                                                     mhedTableComponentDetailKey : detailString,
+                                                     mhedTableComponentDateKey : date} mutableCopy];
     return cellDict;
 }
 
@@ -2121,8 +2093,8 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
 
 - (NSMutableDictionary *) medAndIngredientCellDictionary
 {
-    NSMutableDictionary *medsAndIngredientsDict = [@{ mhedTitleKey : @"Medication and Ingredients",
-                                                      mhedCellIDKey : mhedAddMedsAndIngredientsCellID} mutableCopy];
+    NSMutableDictionary *medsAndIngredientsDict = [@{ mhedTableComponentTitleKey : @"Medication and Ingredients",
+                                                      mhedTableComponentCellIDKey : mhedAddMedsAndIngredientsCellID} mutableCopy];
     return medsAndIngredientsDict;
 }
 

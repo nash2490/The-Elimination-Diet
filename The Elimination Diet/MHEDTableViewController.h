@@ -47,6 +47,7 @@
 #import "EDMealAndMedicationSegmentedControlCell.h"
 #import "EDImageButtonCell.h"
 #import "EDShowHideCell.h"
+#import "MHEDDatePickerCell.h"
 
 //#import "iCarousel.h"
 
@@ -91,6 +92,9 @@ static NSString *mhedTableCellIDReminderCell = @"ReminderCell";
 
 static NSString *mhedTableCellIDDefaultDetailCell = @"Default Detail Cell";
 
+static NSString *mhedTableCellIDBrowseOptionsCell = @"Browse Options Cell";
+static NSString *mhedTableSectionIDBrowseSection = @"Browse Section";
+
 
 // Objects Dictionary keys - use to retrieve arrays from objectsDictionary
 static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
@@ -109,7 +113,7 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 
 
-@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, UINavigationControllerDelegate>
+@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, UINavigationControllerDelegate, MHEDDatePickerCellDelegate>
 
 
 
@@ -152,7 +156,7 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 // keep track which indexPath points to the cell with UIDatePicker, if nil then it is NOT visible,
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
-@property (assign) NSInteger pickerCellRowHeight;
+@property (nonatomic) NSInteger pickerCellRowHeight;
 
 #pragma mark - Objects Dictionary Methods
 - (NSArray *) mealsList;
@@ -205,13 +209,12 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (void)toggleDatePickerForSelectedIndexPath:(NSIndexPath *)indexPath;
 
 
-
-
-
-
-
 #pragma mark - Table Cell setup
 
+- (UITableViewCell *) tableView: (UITableView *) tableView
+              browseOptionsCell:(UITableViewCell *)currentCell
+                   forIndexPath:(NSIndexPath *) indexPath
+                  andDictionary:(NSDictionary *) itemDictionary;
 
 - (UITableViewCell *) tableView:(UITableView *) tableView
                  datePickerCell:(UITableViewCell *)currentCell
@@ -248,6 +251,10 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 
 #pragma mark - Default Cell Dictionaries
 
+- (NSMutableDictionary *) browseSectionDictionaryWithHeader: (NSString *) header
+                                                andRowNames:(NSArray *) rowNames;
+
+
 - (NSMutableDictionary *) dateSectionDictionary:(NSDate *) date;
 - (NSMutableDictionary *) imageAndNameSectionDictionary;
 - (NSMutableDictionary *) mealAndIngredientSectionDictionary;
@@ -282,7 +289,7 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 
 
 /// call in vdl
-- (void) setupDateAndDatePickerCell;
+//- (void) setupDateAndDatePickerCell;
 
 - (void) setupObjectName;
 

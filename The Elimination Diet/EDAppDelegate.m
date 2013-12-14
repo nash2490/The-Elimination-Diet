@@ -26,52 +26,61 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    
-    self.tabBarController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
-    
-    UIColor *brownNavBarColor = [[UIColor alloc] initWithRed:0.78f green:0.56f blue:0.06f alpha:1.0f];
-    
-    [self.mainNavController.navigationBar setTintColor:brownNavBarColor];
-    
-    /*
-    EDTypeTableViewController *typeTable = [[EDTypeTableViewController alloc] initWithNibName:nil bundle:nil];
-    EDIngredientTableViewController *ingredTable = [[EDIngredientTableViewController alloc] initWithNibName:nil bundle:nil];
-    EDMealTableViewController *mealTable = [[EDMealTableViewController alloc] initWithNibName:nil bundle:nil];
-    
-    //EDEliminatedTypeTableViewController *elimTypeTable = [[EDEliminatedTypeTableViewController alloc] init];
-    //EDEliminatedIngredientTableViewController *elimIngrTable = [[EDEliminatedIngredientTableViewController alloc] initWithNibName:nil bundle:nil];
-    EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
-    
-    EDTodayViewController *todayView = [[EDTodayViewController alloc] initWithNibName:nil bundle:nil];
-    EDSelectMealsViewController *selectMealsView = [[EDSelectMealsViewController alloc] initWithNibName:nil bundle:nil];
-    
-    EDCreateRestaurantViewController *createRestaurantView = [[EDCreateRestaurantViewController alloc] initWithNibName:nil bundle:nil];
-    
-    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:todayView];
-    
-    //UINavigationController *mapNav = [[UINavigationController alloc] initWithRootViewController:createRestaurantView];
-    
-    //[self.tabBarController setViewControllers:@[self.mainNavController, mapNav]];
-    
-    */
-//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-//    UITabBarController *recordViewController = [mainStoryboard instantiateInitialViewController];
-//    //UIViewController *recentVC= [mainStoryboard instantiateViewControllerWithIdentifier:@"hello"];
-//   // [self.tabBarController setViewControllers:@[recentVC]];
-//
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+////    // Override point for customization after application launch.
+////    self.window.backgroundColor = [UIColor whiteColor];
+////    [self.window makeKeyAndVisible];
+////    
+////    self.tabBarController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
+////    
+////    UIColor *brownNavBarColor = [[UIColor alloc] initWithRed:0.78f green:0.56f blue:0.06f alpha:1.0f];
+////    
+////    [self.mainNavController.navigationBar setTintColor:brownNavBarColor];
+////    
+//    /*
+//    EDTypeTableViewController *typeTable = [[EDTypeTableViewController alloc] initWithNibName:nil bundle:nil];
+//    EDIngredientTableViewController *ingredTable = [[EDIngredientTableViewController alloc] initWithNibName:nil bundle:nil];
+//    EDMealTableViewController *mealTable = [[EDMealTableViewController alloc] initWithNibName:nil bundle:nil];
 //    
-//    //EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
-//
+//    //EDEliminatedTypeTableViewController *elimTypeTable = [[EDEliminatedTypeTableViewController alloc] init];
+//    //EDEliminatedIngredientTableViewController *elimIngrTable = [[EDEliminatedIngredientTableViewController alloc] initWithNibName:nil bundle:nil];
+//    EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
+//    
+//    EDTodayViewController *todayView = [[EDTodayViewController alloc] initWithNibName:nil bundle:nil];
+//    EDSelectMealsViewController *selectMealsView = [[EDSelectMealsViewController alloc] initWithNibName:nil bundle:nil];
+//    
+//    EDCreateRestaurantViewController *createRestaurantView = [[EDCreateRestaurantViewController alloc] initWithNibName:nil bundle:nil];
 //    
 //    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:todayView];
-
-    
-    //[self.window setRootViewController:recordViewController];
-    
+//    
+//    //UINavigationController *mapNav = [[UINavigationController alloc] initWithRootViewController:createRestaurantView];
+//    
+//    //[self.tabBarController setViewControllers:@[self.mainNavController, mapNav]];
+//    
+//    */
+////    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+////    UITabBarController *recordViewController = [mainStoryboard instantiateInitialViewController];
+////    //UIViewController *recentVC= [mainStoryboard instantiateViewControllerWithIdentifier:@"hello"];
+////   // [self.tabBarController setViewControllers:@[recentVC]];
+////
+////    
+////    //EDEatenMealTableViewController *eatenMealTable = [[EDEatenMealTableViewController alloc] initWithNibName:nil bundle:nil];
+////
+////    
+////    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:todayView];
+//
+//    
+//    //[self.window setRootViewController:recordViewController];
+//    
+//    //return YES;
+//    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:[NSBundle mainBundle]];
+//    UIViewController *vc = [storyboard instantiateInitialViewController];
+//    
+//    // Set root view controller and make windows visible
+//    self.window.rootViewController = vc;
+//    //[self.window makeKeyAndVisible];
+//    
     return YES;
 }
 

@@ -24,7 +24,9 @@ static NSString *mhedTableComponentCellStyleKey = @"cellStyle"; // key for the s
 static NSString *mhedTableComponentMainHeaderKey = @"main Header"; // key for obtaining the header if the object is a section
 static NSString *mhedTableComponentNoHeaderBooleanKey = @"no Header"; // key to tell table not to display a header for the section
 //
+
 static NSString *mhedTableComponentSubHeadersKey = @"sub headers"; // key to get array of sub headers
+
 static NSString *mhedTableComponentHideShowBooleanKey = @"hide/show"; // key to tell boolean value of hideshow cell
 //
 
@@ -32,7 +34,7 @@ static NSString *mhedTableComponentObjectsDictionaryItemTypesKey = @"objects dic
 
 static NSString *mhedTableComponentSegmentedControlIndexKey = @"segmented Control Key"; // key to tell the index of the segmented control's selected segment
 
-
+static NSString *mhedTableComponentBrowseOptionsKey = @"Browse Options Key"; // key to get array of nsstring for the rows of the browse section
 
 
 //#define mhedTitleKey      @"title"    // key for obtaining the data source item's title

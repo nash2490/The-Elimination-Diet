@@ -65,7 +65,7 @@
     
     // Date Setup
     // --------------------------------------
-    [self setupDateAndDatePickerCell];
+    //[self setupDateAndDatePickerCell];
     
     
     self.imagePickerController = [self imagePickerControllerForSourceType:UIImagePickerControllerSourceTypeCamera];
@@ -469,18 +469,12 @@
 }
 
 
-
 #pragma mark - EDCreateNewMealDelegate methods
 
 
 
 
 #pragma mark - Setup Methods to call in subclass (optional override)
-
-- (void) setupDateAndDatePickerCell
-{
-    [super setupDateAndDatePickerCell];
-}
 
 - (void) setupObjectName
 {
@@ -496,6 +490,8 @@
 {
     self.date1 = [NSDate date];
     
+    NSMutableDictionary *largeImageSectionDict = [super largeImageSectionDictionary];
+
     
     //NSMutableDictionary *largeImageDict = [super largeImageCellDictionary];
     
@@ -515,9 +511,9 @@
     
     NSMutableDictionary *tagsDict = [super tagSectionDictionary];
     
-    NSMutableDictionary *showHideDict = [super showHideCellDictionary];
+//    NSMutableDictionary *showHideDict = [super showHideCellDictionary];
     
-    return @[showHideDict, mealOrMedDict, dateDict, restaurantDict, reminderDict, tagsDict, detailMealOrMedDict];
+    return @[largeImageSectionDict, mealOrMedDict, dateDict, restaurantDict, reminderDict, tagsDict, detailMealOrMedDict];
 }
 
 - (void) handleDoneButton

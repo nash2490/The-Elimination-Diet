@@ -8,9 +8,7 @@
 
 #import "MHEDTableViewController.h"
 
-static double mhedCarouselCellDefaultSize = 250.0;
-static double mhedCarouselImageMaxHeight = 200.0;
-static double mhedCarouselImageMaxWidth = 280.0;
+
 
 @interface MHEDCarouselImageTableViewController : MHEDTableViewController <iCarouselDataSource, iCarouselDelegate, EDImageButtonCellDelegate, EDShowHideCellDelegate>
 
@@ -20,12 +18,17 @@ static double mhedCarouselImageMaxWidth = 280.0;
 @property (nonatomic, weak) iCarousel *mhedCarousel;
 @property (nonatomic, strong) NSMutableArray *carouselImages;
 
+- (NSMutableDictionary *) largeImageSectionDictionary;
 - (NSMutableDictionary *) largeImageCellDictionary;
 - (NSMutableDictionary *) imageButtonCellDictionary;
 - (NSMutableDictionary *) showHideCellDictionary;
 
 - (UIImage *) convertImageForCarousel:(UIImage *) originalImage;
 
+
+#pragma mark - Image Options/button cell
+
+@property (nonatomic) BOOL isHidden;
 
 #pragma mark - EDShowHideButton Cell Delegate
 - (void) handleShowHideButtonPress:(id)sender;

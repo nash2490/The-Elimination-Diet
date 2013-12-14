@@ -26,6 +26,12 @@
 
 #import "EDTableComponents.h"
 
+
+static double mhedCarouselCellDefaultSize = 250.0;
+static double mhedCarouselImageMaxHeight = 200.0;
+static double mhedCarouselImageMaxWidth = 280.0;
+
+
 @interface MHEDCarouselImageTableViewController ()
 
 @property (nonatomic) BOOL tableLoaded; // yes if the table was loaded
@@ -93,15 +99,11 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    
-    
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
 }
 
 
@@ -121,20 +123,26 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-    if (!self.tableLoaded) {
-        return 0;
-        //return [super numberOfSectionsInTableView:tableView];
-        
-    }
-    
-    else {
-        return [super numberOfSectionsInTableView:tableView];
-    }
+    return [super numberOfSectionsInTableView:tableView];
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSMutableDictionary *itemData = self.dataArray[section];
+    NSString *sectionID = itemData[mhedTableComponentSectionKey];
+    
+    BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
+
+    if ([sectionID isEqualToString:mhedTableSectionIDLargeImageSection]) {
+        if (hidden) {
+            return 1;
+        }
+        else if (!self.isHidden) {
+            return 2;
+        } 
+    }
+    
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
@@ -149,13 +157,16 @@
     
     CGFloat rowHeight = [super tableView:tableView heightForRowAtIndexPath:indexPath];
     
+    NSLog(@"rowHeight for cell (%i, %i) = %f", indexPath.section, indexPath.row ,rowHeight);
+
+    
     if (rowHeight == tableView.rowHeight) { // then the row height is set to default so we may want to reset it
         
         
         NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[mhedTableComponentCellIDKey];
+        NSString *sectionID = itemData[mhedTableComponentSectionKey];
         
-        if ([cellID isEqualToString:mhedTableCellIDShowHideCell]) {
+        if ([sectionID isEqualToString:mhedTableSectionIDLargeImageSection]) {
             
             BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
             
@@ -168,8 +179,6 @@
             else if(!hidden && indexPath.row == 0){
                 return mhedCarouselCellDefaultSize;
             }
-            
-            
         }
         
         else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDLargeImageCell]) {
@@ -185,7 +194,6 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    
     return [super tableView:tableView titleForHeaderInSection:section];
 }
 
@@ -215,7 +223,9 @@
             if (!isHidden && indexPath.row == 0) {
                 cell = [self tableView:tableView largeImageCell:cell forDictionary:itemData];
             }
-            
+//            else if (!isHidden && indexPath.row == 1) {
+//                cell = [self tableView:tableView imageOptionsCell:cell forDictionary:itemData];
+//            }
             else {
                 cell = [self tableView:tableView showHideCell:cell forDictionary:itemData];
             }
@@ -227,9 +237,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
 }
 
 #pragma mark - Storyboard Segues
@@ -252,26 +260,31 @@
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         if (indexPath) {
             
-            NSMutableDictionary *itemData = self.dataArray[indexPath.section];
+            NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
             
-            BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
+            self.isHidden = [sectionData[mhedTableComponentHideShowBooleanKey] boolValue];
             
             // if the row is hidden and we selected the showHideCell then we want to show it
-            if (hidden) {
-                itemData[mhedTableComponentHideShowBooleanKey] = @(NO);
+            if (self.isHidden) {
+                sectionData[mhedTableComponentHideShowBooleanKey] = @(NO);
+                self.isHidden = NO;
                 
-                [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-                
+                [self.tableView beginUpdates];
+                [self.tableView insertRowsAtIndexPaths:@[indexPath]
+                                      withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView endUpdates];
                 
             }
             
-            // else, if the row is shown and we select the showHideCell then we want to hide it
-            else if(!hidden && indexPath.row == 1){
-                itemData[mhedTableComponentHideShowBooleanKey] = @(YES);
-                
+            // else, if the row is shown
+            else if(!self.isHidden){
+                sectionData[mhedTableComponentHideShowBooleanKey] = @(YES);
+                self.isHidden = YES;
                 NSIndexPath *pathForLargeImageCell = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
                 
+                [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:@[pathForLargeImageCell] withRowAnimation:UITableViewRowAnimationBottom];
+                [self.tableView endUpdates];
             }
             
         }
@@ -310,28 +323,6 @@
 {
     NSLog(@"number of carousel items = %i", [self.carouselImages count]);
     return [self.carouselImages count];
-}
-
-static inline double radians (double degrees) {return degrees * M_PI/180;}
-UIImage* rotate(UIImage* src, UIImageOrientation orientation)
-{
-    UIGraphicsBeginImageContext(src.size);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (context, radians(90));
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (context, radians(-90));
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (context, radians(90));
-    }
-    
-    [src drawAtPoint:CGPointMake(0, 0)];
-    
-    return UIGraphicsGetImageFromCurrentImageContext();
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
@@ -448,6 +439,8 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     
     if (!cell) {
         cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDLargeImageCell];
+        
+        
     }
     
     if (cell) {
@@ -559,7 +552,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     //self.date1 = [NSDate date];
     
     
-    NSMutableDictionary *largeImageDict = [self largeImageCellDictionary];
+    NSMutableDictionary *largeImageSectionDict = [self largeImageSectionDictionary];
     
     //NSMutableDictionary *imageButtonsDict = [super imageButtonCellDictionary];
     
@@ -579,7 +572,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
     
     //NSMutableDictionary *showHideDict = [super showHideCellDictionary];
     
-    return @[largeImageDict];
+    return @[largeImageSectionDict];
 }
 
 - (void) handleDoneButton
@@ -591,6 +584,7 @@ UIImage* rotate(UIImage* src, UIImageOrientation orientation)
         [super handleMealDoneButton];
     }
 }
+
 
 
 

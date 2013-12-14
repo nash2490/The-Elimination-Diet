@@ -33,6 +33,7 @@
 		6C3619AB18205E5200791E49 /* EDEatNewMealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3619AA18205E5200791E49 /* EDEatNewMealViewController.m */; };
 		6C3619B41821ED0F00791E49 /* EDAddTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */; };
 		6C365D2F182C18B300DC9990 /* EDSelectTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C365D2E182C18B300DC9990 /* EDSelectTagsViewController.m */; };
+		6C36AE73185784F200CD2177 /* EDCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C36AE72185784F200CD2177 /* EDCreationViewController.m */; };
 		6C3E83F7180D939C006CC09B /* EDSearchToEatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3E83F6180D939C006CC09B /* EDSearchToEatViewController.m */; };
 		6C4C8501183527BC00D8DDE7 /* EDImage+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C8500183527BC00D8DDE7 /* EDImage+Methods.m */; };
 		6C4DC05117736E8F00AE401F /* UIView+MHED_AdjustView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC05017736E8F00AE401F /* UIView+MHED_AdjustView.m */; };
@@ -47,8 +48,20 @@
 		6C8B365C181ACCBE00B022F3 /* EDEliminatedAPI+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8B365B181ACCBE00B022F3 /* EDEliminatedAPI+Helpers.m */; };
 		6C8B78B3182D489A008603CF /* EDCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8B78B2182D489A008603CF /* EDCameraViewController.m */; };
 		6C8CF340176BAB7C0080F3F2 /* NSString+MHED_EatDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8CF33F176BAB7C0080F3F2 /* NSString+MHED_EatDate.m */; };
+		6C909D7B1858046F00F5A4CD /* MHEDDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C909D7A1858046F00F5A4CD /* MHEDDatePickerCell.m */; };
 		6CA03B34184FB96500057CA3 /* NSArray+MHED_Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03B33184FB96500057CA3 /* NSArray+MHED_Methods.m */; };
 		6CA03B3718511FCE00057CA3 /* MHEDBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA03B3618511FCE00057CA3 /* MHEDBrowseViewController.m */; };
+		6CA59E11185B65BB000F1C1E /* MHEDSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */; };
+		6CA59E14185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E13185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m */; };
+		6CA59E17185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E16185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m */; };
+		6CA59E1A185B8960000F1C1E /* MHEDCarouselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E19185B8960000F1C1E /* MHEDCarouselViewController.m */; };
+		6CA59E1D185B992B000F1C1E /* MHEDMealOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E1C185B992B000F1C1E /* MHEDMealOptionsViewController.m */; };
+		6CA59E20185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA59E1F185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m */; };
+		6CA96DDB1858B85800F362A8 /* MHEDCarouselBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA96DDA1858B85800F362A8 /* MHEDCarouselBrowseViewController.m */; };
+		6CA96DDE1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA96DDD1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.m */; };
+		6CA96DE11858D2E600F362A8 /* MHEDFoodSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA96DE01858D2E600F362A8 /* MHEDFoodSelectionViewController.m */; };
+		6CA96DE41858E2D400F362A8 /* MHEDMealSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA96DE31858E2D400F362A8 /* MHEDMealSummaryViewController.m */; };
+		6CA96DE71858E41F00F362A8 /* MHEDMealCarouselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CA96DE61858E41F00F362A8 /* MHEDMealCarouselViewController.m */; };
 		6CAB9CE217A005E500988074 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CAB9CE117A005E500988074 /* CoreData.framework */; };
 		6CAB9CE517A0062100988074 /* EDDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6CAB9CE317A0062100988074 /* EDDataModel.xcdatamodeld */; };
 		6CAD6A1717CBC2BF007B2087 /* NSError+MHED_MultipleErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CAD6A1617CBC2BF007B2087 /* NSError+MHED_MultipleErrors.m */; };
@@ -80,7 +93,6 @@
 		6CBE2F191829520E00854B64 /* EDImageButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F181829520E00854B64 /* EDImageButtonCell.m */; };
 		6CBE2F1C1829523000854B64 /* EDLargeImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F1B1829523000854B64 /* EDLargeImageCell.m */; };
 		6CBE2F1F18297C6700854B64 /* EDNewFoodFromPicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F1E18297C6700854B64 /* EDNewFoodFromPicturesViewController.m */; };
-		6CC0E8231836836A004CC620 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC0E8221836836A004CC620 /* MobileCoreServices.framework */; };
 		6CC0E826183AB2E9004CC620 /* EDStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC0E825183AB2E9004CC620 /* EDStatusViewController.m */; };
 		6CC20F5217E39757005CA809 /* EDLocation+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC20F5117E39756005CA809 /* EDLocation+Methods.m */; };
 		6CC20F5A17E398BE005CA809 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC20F5917E398BE005CA809 /* CoreLocation.framework */; };
@@ -160,6 +172,8 @@
 		6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDAddTableViewController.m; sourceTree = "<group>"; };
 		6C365D2D182C18B300DC9990 /* EDSelectTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSelectTagsViewController.h; sourceTree = "<group>"; };
 		6C365D2E182C18B300DC9990 /* EDSelectTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSelectTagsViewController.m; sourceTree = "<group>"; };
+		6C36AE71185784F200CD2177 /* EDCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDCreationViewController.h; sourceTree = "<group>"; };
+		6C36AE72185784F200CD2177 /* EDCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDCreationViewController.m; sourceTree = "<group>"; };
 		6C3E83F5180D939C006CC09B /* EDSearchToEatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSearchToEatViewController.h; sourceTree = "<group>"; };
 		6C3E83F6180D939C006CC09B /* EDSearchToEatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSearchToEatViewController.m; sourceTree = "<group>"; };
 		6C4C84FF183527BC00D8DDE7 /* EDImage+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDImage+Methods.h"; sourceTree = "<group>"; };
@@ -188,10 +202,34 @@
 		6C8B78B2182D489A008603CF /* EDCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDCameraViewController.m; sourceTree = "<group>"; };
 		6C8CF33E176BAB7C0080F3F2 /* NSString+MHED_EatDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MHED_EatDate.h"; sourceTree = "<group>"; };
 		6C8CF33F176BAB7C0080F3F2 /* NSString+MHED_EatDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MHED_EatDate.m"; sourceTree = "<group>"; };
+		6C909D791858046F00F5A4CD /* MHEDDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDDatePickerCell.h; sourceTree = "<group>"; };
+		6C909D7A1858046F00F5A4CD /* MHEDDatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDDatePickerCell.m; sourceTree = "<group>"; };
 		6CA03B32184FB96500057CA3 /* NSArray+MHED_Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MHED_Methods.h"; sourceTree = "<group>"; };
 		6CA03B33184FB96500057CA3 /* NSArray+MHED_Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MHED_Methods.m"; sourceTree = "<group>"; };
 		6CA03B3518511FCE00057CA3 /* MHEDBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDBrowseViewController.h; sourceTree = "<group>"; };
 		6CA03B3618511FCE00057CA3 /* MHEDBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDBrowseViewController.m; sourceTree = "<group>"; };
+		6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitViewController.h; sourceTree = "<group>"; };
+		6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDSplitViewController.m; sourceTree = "<group>"; };
+		6CA59E12185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitFoodBrowseViewController.h; sourceTree = "<group>"; };
+		6CA59E13185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDSplitFoodBrowseViewController.m; sourceTree = "<group>"; };
+		6CA59E15185B877E000F1C1E /* MHEDSplitCarouselTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitCarouselTopViewController.h; sourceTree = "<group>"; };
+		6CA59E16185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDSplitCarouselTopViewController.m; sourceTree = "<group>"; };
+		6CA59E18185B8960000F1C1E /* MHEDCarouselViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDCarouselViewController.h; sourceTree = "<group>"; };
+		6CA59E19185B8960000F1C1E /* MHEDCarouselViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDCarouselViewController.m; sourceTree = "<group>"; };
+		6CA59E1B185B992B000F1C1E /* MHEDMealOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDMealOptionsViewController.h; sourceTree = "<group>"; };
+		6CA59E1C185B992B000F1C1E /* MHEDMealOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDMealOptionsViewController.m; sourceTree = "<group>"; };
+		6CA59E1E185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDCarouselAndSummaryViewController.h; sourceTree = "<group>"; };
+		6CA59E1F185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDCarouselAndSummaryViewController.m; sourceTree = "<group>"; };
+		6CA96DD91858B85800F362A8 /* MHEDCarouselBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDCarouselBrowseViewController.h; sourceTree = "<group>"; };
+		6CA96DDA1858B85800F362A8 /* MHEDCarouselBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDCarouselBrowseViewController.m; sourceTree = "<group>"; };
+		6CA96DDC1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDCarouselTopTableBottomViewController.h; sourceTree = "<group>"; };
+		6CA96DDD1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDCarouselTopTableBottomViewController.m; sourceTree = "<group>"; };
+		6CA96DDF1858D2E600F362A8 /* MHEDFoodSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDFoodSelectionViewController.h; sourceTree = "<group>"; };
+		6CA96DE01858D2E600F362A8 /* MHEDFoodSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDFoodSelectionViewController.m; sourceTree = "<group>"; };
+		6CA96DE21858E2D400F362A8 /* MHEDMealSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDMealSummaryViewController.h; sourceTree = "<group>"; };
+		6CA96DE31858E2D400F362A8 /* MHEDMealSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDMealSummaryViewController.m; sourceTree = "<group>"; };
+		6CA96DE51858E41F00F362A8 /* MHEDMealCarouselViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDMealCarouselViewController.h; sourceTree = "<group>"; };
+		6CA96DE61858E41F00F362A8 /* MHEDMealCarouselViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDMealCarouselViewController.m; sourceTree = "<group>"; };
 		6CAB9CE117A005E500988074 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6CAB9CE417A0062100988074 /* EDDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EDDataModel.xcdatamodel; sourceTree = "<group>"; };
 		6CAD6A1517CBC2BF007B2087 /* NSError+MHED_MultipleErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MHED_MultipleErrors.h"; sourceTree = "<group>"; };
@@ -303,7 +341,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CC0E8231836836A004CC620 /* MobileCoreServices.framework in Frameworks */,
 				6CADA0D31831730500A9C6AA /* QuartzCore.framework in Frameworks */,
 				6CC20F5C17E398C3005CA809 /* MapKit.framework in Frameworks */,
 				6CC20F5A17E398BE005CA809 /* CoreLocation.framework in Frameworks */,
@@ -354,10 +391,17 @@
 		6C1354CB17F3547200AD6A4E /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
-				6CE41ABF1854221500457B14 /* MHEDCarouselImageTableViewController.h */,
-				6CE41AC01854221500457B14 /* MHEDCarouselImageTableViewController.m */,
-				6C2B76C01854028800881902 /* MHEDCameraMealCaptureViewController.h */,
-				6C2B76C11854028800881902 /* MHEDCameraMealCaptureViewController.m */,
+				6CA59E1B185B992B000F1C1E /* MHEDMealOptionsViewController.h */,
+				6CA59E1C185B992B000F1C1E /* MHEDMealOptionsViewController.m */,
+				6CA59E15185B877E000F1C1E /* MHEDSplitCarouselTopViewController.h */,
+				6CA59E16185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m */,
+				6CA59E18185B8960000F1C1E /* MHEDCarouselViewController.h */,
+				6CA59E19185B8960000F1C1E /* MHEDCarouselViewController.m */,
+				6CA59E1E185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.h */,
+				6CA59E1F185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m */,
+				6C2B76BD1853F7A900881902 /* MHEDTableViewController.h */,
+				6C2B76BE1853F7A900881902 /* MHEDTableViewController.m */,
+				6CA96DD81858B83400F362A8 /* Carousel Table VC */,
 				6C2B76C3185402CF00881902 /* MHEDMealInformationEnterViewController.h */,
 				6C2B76C4185402CF00881902 /* MHEDMealInformationEnterViewController.m */,
 				6C3E83F8180D93A2006CC09B /* 0.2 */,
@@ -365,6 +409,10 @@
 				6C0842D417B43B8C006169F2 /* Core Data */,
 				6CBE2F0D1829495B00854B64 /* EDBasicPhotoCreateViewController.h */,
 				6CBE2F0E1829495B00854B64 /* EDBasicPhotoCreateViewController.m */,
+				6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */,
+				6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */,
+				6CA59E12185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.h */,
+				6CA59E13185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m */,
 				6C8B78B1182D489A008603CF /* EDCameraViewController.h */,
 				6C8B78B2182D489A008603CF /* EDCameraViewController.m */,
 				6C365D2D182C18B300DC9990 /* EDSelectTagsViewController.h */,
@@ -375,8 +423,6 @@
 				6C10D5031827E374000F247F /* EDTableComponents.m */,
 				6CADA0CE183172CE00A9C6AA /* iCarousel */,
 				6C1354C917F3533700AD6A4E /* Storyboard.storyboard */,
-				6C2B76BD1853F7A900881902 /* MHEDTableViewController.h */,
-				6C2B76BE1853F7A900881902 /* MHEDTableViewController.m */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -443,6 +489,8 @@
 				6C2B76B418528F3D00881902 /* MHEDBrowseSymptomsViewController.h */,
 				6C2B76B518528F3D00881902 /* MHEDBrowseSymptomsViewController.m */,
 				6C3619B21821ED0F00791E49 /* EDAddTableViewController.h */,
+				6CA96DE21858E2D400F362A8 /* MHEDMealSummaryViewController.h */,
+				6CA96DE31858E2D400F362A8 /* MHEDMealSummaryViewController.m */,
 				6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */,
 				6C2B76B71852C6EA00881902 /* MHEDBrowseMapViewController.h */,
 				6C2B76B81852C6EA00881902 /* MHEDBrowseMapViewController.m */,
@@ -452,8 +500,27 @@
 				6CA03B3618511FCE00057CA3 /* MHEDBrowseViewController.m */,
 				6C2B76AE185262FF00881902 /* MHEDBrowseMainViewController.h */,
 				6C2B76AF185262FF00881902 /* MHEDBrowseMainViewController.m */,
+				6CA96DDF1858D2E600F362A8 /* MHEDFoodSelectionViewController.h */,
+				6CA96DE01858D2E600F362A8 /* MHEDFoodSelectionViewController.m */,
 			);
 			name = "Browsing And Selection";
+			sourceTree = "<group>";
+		};
+		6CA96DD81858B83400F362A8 /* Carousel Table VC */ = {
+			isa = PBXGroup;
+			children = (
+				6CA96DE51858E41F00F362A8 /* MHEDMealCarouselViewController.h */,
+				6CA96DE61858E41F00F362A8 /* MHEDMealCarouselViewController.m */,
+				6CA96DDC1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.h */,
+				6CA96DDD1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.m */,
+				6CE41ABF1854221500457B14 /* MHEDCarouselImageTableViewController.h */,
+				6CE41AC01854221500457B14 /* MHEDCarouselImageTableViewController.m */,
+				6C2B76C01854028800881902 /* MHEDCameraMealCaptureViewController.h */,
+				6C2B76C11854028800881902 /* MHEDCameraMealCaptureViewController.m */,
+				6CA96DD91858B85800F362A8 /* MHEDCarouselBrowseViewController.h */,
+				6CA96DDA1858B85800F362A8 /* MHEDCarouselBrowseViewController.m */,
+			);
+			name = "Carousel Table VC";
 			sourceTree = "<group>";
 		};
 		6CAD869F17CBF6F300E6E7F5 /* Foundation Categories */ = {
@@ -574,6 +641,8 @@
 				6CBE2F181829520E00854B64 /* EDImageButtonCell.m */,
 				6CBE2F1A1829523000854B64 /* EDLargeImageCell.h */,
 				6CBE2F1B1829523000854B64 /* EDLargeImageCell.m */,
+				6C909D791858046F00F5A4CD /* MHEDDatePickerCell.h */,
+				6C909D7A1858046F00F5A4CD /* MHEDDatePickerCell.m */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -614,6 +683,8 @@
 		6CED58911763FA3F005BFF76 /* The Elimination Diet */ = {
 			isa = PBXGroup;
 			children = (
+				6C36AE71185784F200CD2177 /* EDCreationViewController.h */,
+				6C36AE72185784F200CD2177 /* EDCreationViewController.m */,
 				6C1354CB17F3547200AD6A4E /* User Interface */,
 				6CF0CCD017675B29008BD2A7 /* Model */,
 				6C2B76AD185257E400881902 /* Helpers */,
@@ -735,12 +806,14 @@
 			files = (
 				6C0368BC18187A360088353A /* EDTakenMedication+Methods.m in Sources */,
 				6C629F7917E8EB5900FCEFE8 /* EDRestaurant+Methods.m in Sources */,
+				6CA59E14185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m in Sources */,
 				6CED58981763FA3F005BFF76 /* main.m in Sources */,
 				6CED589C1763FA3F005BFF76 /* EDAppDelegate.m in Sources */,
 				6CADA0C41831211B00A9C6AA /* EDEatenMeal.m in Sources */,
 				6CE51DE6183EB5E6004C7ABC /* EDSymptom.m in Sources */,
 				6C2B76B318528F2800881902 /* MHEDBrowseFoodViewController.m in Sources */,
 				6C8CF340176BAB7C0080F3F2 /* NSString+MHED_EatDate.m in Sources */,
+				6CA59E17185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m in Sources */,
 				6C8B78B3182D489A008603CF /* EDCameraViewController.m in Sources */,
 				6C3E83F7180D939C006CC09B /* EDSearchToEatViewController.m in Sources */,
 				6C4DC05117736E8F00AE401F /* UIView+MHED_AdjustView.m in Sources */,
@@ -749,7 +822,10 @@
 				6C2B76BF1853F7A900881902 /* MHEDTableViewController.m in Sources */,
 				6C2B76B91852C6EA00881902 /* MHEDBrowseMapViewController.m in Sources */,
 				6CE51DEF183FCEB2004C7ABC /* EDBodyPart.m in Sources */,
+				6CA96DDE1858C41200F362A8 /* MHEDCarouselTopTableBottomViewController.m in Sources */,
 				6CE51DDA183EA848004C7ABC /* EDSymptomDescription.m in Sources */,
+				6CA59E1A185B8960000F1C1E /* MHEDCarouselViewController.m in Sources */,
+				6C909D7B1858046F00F5A4CD /* MHEDDatePickerCell.m in Sources */,
 				6C8B3652181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.m in Sources */,
 				6CAE740418046D260062E12C /* EDTagCell.m in Sources */,
 				6C3619AB18205E5200791E49 /* EDEatNewMealViewController.m in Sources */,
@@ -758,6 +834,7 @@
 				6CAB9CE517A0062100988074 /* EDDataModel.xcdatamodeld in Sources */,
 				6CADA0CD183134FD00A9C6AA /* EDTakenMedication.m in Sources */,
 				6C3619A818205CCF00791E49 /* EDTakeNewMedicationViewController.m in Sources */,
+				6CA59E1D185B992B000F1C1E /* MHEDMealOptionsViewController.m in Sources */,
 				6CAEC09017A843AE00649199 /* EDEatenMeal+Methods.m in Sources */,
 				6C8B3656181ABFAA00B022F3 /* EDEliminatedAPI+Searching.m in Sources */,
 				6CAEC09917A8441700649199 /* EDHadSymptom+Methods.m in Sources */,
@@ -773,8 +850,10 @@
 				6CAEC0AB17A8454F00649199 /* EDSymptom+Methods.m in Sources */,
 				6C2B76BC1852C71B00881902 /* MHEDBrowseSymptomViewController.m in Sources */,
 				6CAEC0AE17A8456A00649199 /* EDType+Methods.m in Sources */,
+				6CA59E20185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m in Sources */,
 				6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */,
 				6C32A0C417AA93A0007E932D /* EDDocumentHandler.m in Sources */,
+				6CA96DE71858E41F00F362A8 /* MHEDMealCarouselViewController.m in Sources */,
 				6CADA0D1183172CE00A9C6AA /* iCarousel.m in Sources */,
 				6C3619B41821ED0F00791E49 /* EDAddTableViewController.m in Sources */,
 				6CAE73FE18046B020062E12C /* EDMealAndMedicationSegmentedControlCell.m in Sources */,
@@ -783,6 +862,7 @@
 				6CE51DF2183FCECC004C7ABC /* EDBodyLocation+Methods.m in Sources */,
 				6CA03B3718511FCE00057CA3 /* MHEDBrowseViewController.m in Sources */,
 				6CC0E826183AB2E9004CC620 /* EDStatusViewController.m in Sources */,
+				6CA96DDB1858B85800F362A8 /* MHEDCarouselBrowseViewController.m in Sources */,
 				6C08ABB017B0BB0B00A8DBF8 /* EDMultipleCoreDataTableViewController.m in Sources */,
 				6C35E18617C2A93A00AC4B74 /* NSSet+MHED_MoreSetOperations.m in Sources */,
 				6CAD6A1717CBC2BF007B2087 /* NSError+MHED_MultipleErrors.m in Sources */,
@@ -794,13 +874,17 @@
 				6CB51B5F17CF318500F58122 /* EDEliminatedFood+Ingredients.m in Sources */,
 				6CE51DE0183EA9D9004C7ABC /* EDSymptomDescription+Methods.m in Sources */,
 				6C2B76B0185262FF00881902 /* MHEDBrowseMainViewController.m in Sources */,
+				6CA96DE41858E2D400F362A8 /* MHEDMealSummaryViewController.m in Sources */,
 				6CB51B6217CF319900F58122 /* EDEliminatedFood+Types.m in Sources */,
 				6CB51B6517CF31A100F58122 /* EDEliminatedFood+Methods.m in Sources */,
 				6CB51B6817CF31A900F58122 /* EDEliminatedFood+Restaurants.m in Sources */,
 				6C1070861803427F000D3251 /* EDEatNewFoodViewController.m in Sources */,
 				6CB51B6B17CF327900F58122 /* EDEliminatedFood+Meals.m in Sources */,
+				6CA59E11185B65BB000F1C1E /* MHEDSplitViewController.m in Sources */,
 				6C365D2F182C18B300DC9990 /* EDSelectTagsViewController.m in Sources */,
 				6CE51DF8183FD5AD004C7ABC /* EDBodyLocation.m in Sources */,
+				6C36AE73185784F200CD2177 /* EDCreationViewController.m in Sources */,
+				6CA96DE11858D2E600F362A8 /* MHEDFoodSelectionViewController.m in Sources */,
 				6C10D51318283463000F247F /* EDTag.m in Sources */,
 				6C0A0FA617DA1B1A00954302 /* EDEvent.m in Sources */,
 				6CADA0D61832A10500A9C6AA /* UIImage+MHED_fixOrientation.m in Sources */,

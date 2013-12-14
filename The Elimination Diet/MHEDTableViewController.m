@@ -47,6 +47,24 @@
 
 @implementation MHEDTableViewController
 
+- (NSDateFormatter *) dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
+    }
+    return _dateFormatter;
+}
+
+- (NSInteger) pickerCellRowHeight
+{
+    // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
+    if (!_pickerCellRowHeight) {
+        UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
+        _pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
+    }
+    return _pickerCellRowHeight;
+}
 
 
 
@@ -230,17 +248,28 @@
 
 #pragma mark - Date Picker View
 
+//- (void) setupDateFormatter
+//{
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
+//    self.dateFormatter = dateFormatter;
+//}
 
-- (void) setupDateAndDatePickerCell
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
-    self.dateFormatter = dateFormatter;
-    
-    // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
-    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
-    self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
-}
+//- (void) setupDatePickerCell
+//{
+//    
+//}
+
+//- (void) setupDateAndDatePickerCell
+//{
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"h:mm a - M/d/yy"];
+//    self.dateFormatter = dateFormatter;
+//    
+//    // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
+//    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
+//    self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
+//}
 
 /*! Determines if the given indexPath has a cell below it with a UIDatePicker.
  
@@ -432,7 +461,8 @@
  
  @param sender The sender for this action: UIDatePicker.
  */
-- (IBAction)dateAction:(id)sender
+
+- (void) dateActionForDatePicker:(UIDatePicker *)datePicker
 {
     NSIndexPath *targetedCellIndexPath = nil;
     
@@ -449,12 +479,11 @@
     }
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:targetedCellIndexPath];
-    UIDatePicker *targetedDatePicker = sender;
     
     // update our data model
     NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
     
-    self.date1 = targetedDatePicker.date;
+    self.date1 = datePicker.date;
     [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
     
     // update the cell's date string
@@ -467,6 +496,42 @@
     }
 }
 
+
+//- (IBAction)dateAction:(id)sender
+//{
+//    NSIndexPath *targetedCellIndexPath = nil;
+//    
+//    if ([self hasInlineDatePicker])
+//    {
+//        // inline date picker: update the cell's date "above" the date picker cell
+//        //
+//        targetedCellIndexPath = [NSIndexPath indexPathForRow:self.datePickerIndexPath.row - 1 inSection:self.datePickerIndexPath.section];
+//    }
+//    else
+//    {
+//        // external date picker: update the current "selected" cell's date
+//        targetedCellIndexPath = [self.tableView indexPathForSelectedRow];
+//    }
+//    
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:targetedCellIndexPath];
+//    UIDatePicker *targetedDatePicker = sender;
+//    
+//    // update our data model
+//    NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
+//    
+//    self.date1 = targetedDatePicker.date;
+//    [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
+//    
+//    // update the cell's date string
+//    cell.detailTextLabel.text = [self eatDateAsString:self.date1];
+//    
+//    // update name if its the default
+//    if (self.defaultName) {
+//        self.objectName = [self objectNameAsDefault];
+//        self.objectNameTextView.text = [self objectNameForDisplay];
+//    }
+//}
+//
 
 
 #pragma mark - Table view data source and Delegate
@@ -557,6 +622,11 @@
             rowCount++; // this adds a row for the sub header
         }
         return rowCount;
+    }
+    
+    else if ([itemData[mhedTableComponentSectionKey] isEqualToString:mhedTableSectionIDBrowseSection]) {
+        
+        return [itemData[mhedTableComponentBrowseOptionsKey] count];
     }
     
 //    else if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDAddMealsAndIngredientsCell]) {
@@ -721,7 +791,6 @@
 //        }
 //    }
     
-    
     return tableView.rowHeight;
 }
 
@@ -754,55 +823,55 @@
     // if we have a date picker open whose cell is above the cell we want to update, Or we are at the datePicker
     // then the data we want corresponds to self.dataArray[row - 1]
     
-    NSInteger modelRow = indexPath.row;
-    NSInteger modelSection = indexPath.section;
+//    NSInteger modelRow = indexPath.row;
+//    NSInteger modelSection = indexPath.section;
+//    
     
-    if (self.datePickerIndexPath != nil && self.datePickerIndexPath.row <= indexPath.row && self.datePickerIndexPath.section == modelSection)
-    {
-        modelRow--;
-    }
+    NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
     
-    NSMutableDictionary *itemData = self.dataArray[modelSection];
-    
-    NSString *cellID = itemData[mhedTableComponentCellIDKey];
-    NSString *sectionID = itemData[mhedTableComponentSectionKey];
+    //NSString *cellID = itemData[mhedTableComponentCellIDKey];
+    NSString *sectionID = sectionData[mhedTableComponentSectionKey];
     
     UITableViewCell *cell = nil;
-    if ([self indexPathHasPicker:indexPath])
-    {
-        // the indexPath is the one containing the inline date picker the current/opened date picker cell
-        // used because we don't define the datePicker in self.dataArray
-        cellID = mhedTableCellIDDatePickerCell;
-    }
-    if (cellID) {
-        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    }
     
-    if (!cell) {
-        
-        UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
-        
-        if (itemData[mhedTableComponentCellStyleKey]) {
-            cellStyle = [itemData[mhedTableComponentCellStyleKey] integerValue];
-        }
-        
-        cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellID];
-    }
+//    if ([self indexPathHasPicker:indexPath])
+//    {
+//        // the indexPath is the one containing the inline date picker the current/opened date picker cell
+//        // used because we don't define the datePicker in self.dataArray
+//        cellID = mhedTableCellIDDatePickerCell;
+//    }
     
+//    if (cellID) {
+//        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+//    }
+//    
+//    if (!cell) {
+//        
+//        UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
+//        
+//        if (itemData[mhedTableComponentCellStyleKey]) {
+//            cellStyle = [itemData[mhedTableComponentCellStyleKey] integerValue];
+//        }
+//        
+//        cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellID];
+//    }
     
     
     // Based On Sections
     // -----------
     if ([sectionID isEqualToString:mhedTableSectionIDDateSection]) {
-        if ([cellID isEqualToString:mhedTableCellIDDatePickerCell]) {
-            cell = [self tableView:tableView datePickerCell:cell forDictionary:itemData];
-        }
         
-        // proceed to configure our cell
-        else if ([cellID isEqualToString:mhedTableCellIDDateCell])
-        {
-            cell = [self tableView:tableView dateDisplayCell:cell forDictionary:itemData];
+        
+        
+        if (indexPath.row == 0) {
+            cell = [self tableView:tableView dateDisplayCell:cell forDictionary:sectionData];
         }
+        else if ([self indexPathHasPicker:indexPath]) {
+            cell = [self tableView:tableView datePickerCell:cell forDictionary:sectionData];
+        }
+//        else if (indexPath.row == 1) {
+//            cell = [self tableView:tableView datePickerCell:cell forDictionary:sectionData];
+//        }
     }
     
     else if ([sectionID isEqualToString:mhedTableSectionIDObjectsSection]) {
@@ -815,7 +884,7 @@
             // determine if row is object or sub header
             
             //
-            NSArray *itemTypes = itemData[mhedTableComponentObjectsDictionaryItemTypesKey];
+            NSArray *itemTypes = sectionData[mhedTableComponentObjectsDictionaryItemTypesKey];
             
             NSArray *headerLocations = @[@1];
             
@@ -836,7 +905,7 @@
                 cell = [tableView dequeueReusableCellWithIdentifier:@"FoodSeperatorCell"];
 
                 NSUInteger headerIndex = [headerLocations indexOfObject:@(indexPath.row)];
-                NSArray *headers = itemData[mhedTableComponentSubHeadersKey];
+                NSArray *headers = sectionData[mhedTableComponentSubHeadersKey];
                 cell.textLabel.text = headers[headerIndex];
             }
             
@@ -890,54 +959,57 @@
     
     }
     
+    else if ([sectionID isEqualToString:mhedTableSectionIDBrowseSection]) {
+        cell = [self tableView:tableView browseOptionsCell:cell forIndexPath:indexPath andDictionary:sectionData];
+    }
     
     
-     if ([cellID isEqualToString:mhedTableCellIDTagCell]) {
+    else if ([sectionID isEqualToString:mhedTableCellIDTagCell]) {
         
-        cell = [self tableView:tableView favoriteAndTagsCell:cell forDictionary:itemData];
+        cell = [self tableView:tableView favoriteAndTagsCell:cell forDictionary:sectionData];
     }
     
     
     
     
-    else if ([cellID isEqualToString:mhedTableCellIDImageAndNameCell]) {
+    else if ([sectionID isEqualToString:mhedTableCellIDImageAndNameCell]) {
         
-        cell = [self tableView:tableView imageIconAndNameCell:cell forDictionary:itemData];
+        cell = [self tableView:tableView imageIconAndNameCell:cell forDictionary:sectionData];
         
     }
     
-    else if ([cellID isEqualToString:mhedTableCellIDRestaurantCell]) {
-        cell = [self tableView:tableView restaurantCell:cell forDictionary:itemData];
-    }
-    
-    
-    
-    
-    
-    else if ([cellID isEqualToString:mhedTableCellIDMealAndMedicationSegmentedControlCell]) {
-        
-        cell = [self tableView:tableView mealAndMedicationSegmentedControlCell:cell forDictionary:itemData];
-    }
-    
-    else if ([cellID isEqualToString:mhedTableCellIDReminderCell]) {
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        
-        
+    else if ([sectionID isEqualToString:mhedTableCellIDRestaurantCell]) {
+        cell = [self tableView:tableView restaurantCell:cell forDictionary:sectionData];
     }
     
     
     
-    else if ([cellID isEqualToString:mhedTableCellIDDetailMealMedCell]) {
+    
+    
+    else if ([sectionID isEqualToString:mhedTableCellIDMealAndMedicationSegmentedControlCell]) {
         
-        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        cell = [self tableView:tableView mealAndMedicationSegmentedControlCell:cell forDictionary:sectionData];
+    }
+    
+    else if ([sectionID isEqualToString:mhedTableCellIDReminderCell]) {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:sectionID];
+        
+        
+    }
+    
+    
+    
+    else if ([sectionID isEqualToString:mhedTableCellIDDetailMealMedCell]) {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:sectionID];
         
     }
     
     
     
     if (!cell) {
-        NSLog(@"Cell is nil with cellID = %@", cellID);
+        NSLog(@"SectionID is nil with cellID = %@", sectionID);
     }
     
     return cell;
@@ -968,8 +1040,8 @@
     }
     else
     {
-        NSMutableDictionary *itemData = self.dataArray[indexPath.section];
-        NSString *cellID = itemData[mhedTableComponentCellIDKey];
+        NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
+        NSString *cellID = sectionData[mhedTableComponentCellIDKey];
         
         if ([cellID isEqualToString:mhedTableCellIDRestaurantCell]) {
             UITableViewCell *cellAtIndexPath = [self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -1013,6 +1085,10 @@
         
         else if ([cellID isEqualToString:mhedTableCellIDShowHideCell]) {
             
+        }
+        
+        else if ([cellID isEqualToString:mhedTableCellIDBrowseOptionsCell]) {
+            // needs to be implemented in subclass
         }
         
     }
@@ -1431,19 +1507,28 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #pragma mark - Table Cell setup
+
+- (UITableViewCell *) tableView: (UITableView *) tableView browseOptionsCell:(UITableViewCell *)currentCell forIndexPath:(NSIndexPath *) indexPath andDictionary:(NSDictionary *) itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDBrowseOptionsCell];
+    }
+    
+    if (cell) {
+        
+        cell.textLabel.text = nil;
+
+        if (itemDictionary) {
+            NSArray *browseOptions = itemDictionary[mhedTableComponentBrowseOptionsKey];
+            cell.textLabel.text = browseOptions[indexPath.row];
+        }
+    }
+    
+    return cell;
+}
 
 
 - (UITableViewCell *) tableView: (UITableView *) tableView datePickerCell:(UITableViewCell *)currentCell forDictionary:(NSDictionary *) itemDictionary
@@ -1457,8 +1542,11 @@
     if (cell) {
         cell.textLabel.text = nil;
         
-        UIDatePicker *checkDatePicker = (UIDatePicker *)[cell viewWithTag:mhedDatePickerTag];
+        ((MHEDDatePickerCell *)cell).delegate = self;
+        UIDatePicker *checkDatePicker = ((MHEDDatePickerCell *) cell).mhedDatePicker;
+        
         [checkDatePicker setMaximumDate: [EDEvent endOfDay:[NSDate date]]];
+        [checkDatePicker setDate:itemDictionary[mhedTableComponentDateKey] animated:YES];
     }
     
     return cell;
@@ -1605,6 +1693,18 @@
 
 #pragma mark - Default Cell Dictionaries
 
+
+- (NSMutableDictionary *) browseSectionDictionaryWithHeader: (NSString *) header andRowNames:(NSArray *) rowNames
+{
+
+    
+    NSMutableDictionary *dict = [@{ mhedTableComponentSectionKey : mhedTableSectionIDBrowseSection,
+                                    mhedTableComponentNoHeaderBooleanKey : @(header != nil),
+                                    mhedTableComponentMainHeaderKey : header,
+                                    mhedTableComponentBrowseOptionsKey : rowNames,
+                                    mhedTableComponentCellIDKey : mhedTableCellIDBrowseOptionsCell} mutableCopy];
+    return dict;
+}
 
 - (NSMutableDictionary *) dateSectionDictionary:(NSDate *)date
 {

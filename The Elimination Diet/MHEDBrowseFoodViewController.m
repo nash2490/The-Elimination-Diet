@@ -8,6 +8,10 @@
 
 #import "MHEDBrowseFoodViewController.h"
 
+#import "MHEDFoodSelectionViewController.h"
+
+#import "MHEDMealSummaryViewController.h"
+
 #import "EDRestaurant+Methods.h"
 #import "EDFood+Methods.h"
 #import "EDTag+Methods.h"
@@ -18,11 +22,61 @@
 #import "EDMedication+Methods.h"
 #import "EDTakenMedication+Methods.h"
 
+
+static NSString *mhedBackCellIdentifier = @"Back Cell Identifier";
+static NSString *mhedTableCellOptionsCell = @"Basic Options Cell";
+
+static NSString *mhedSegueIDFoodSelectionSegue = @"FoodSelectionSegue";
+static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
+
+static NSString *mhedStoryBoardViewControllerIDBrowseFood = @"Browse Food View Controller";
+
 @interface MHEDBrowseFoodViewController ()
 
 @end
 
 @implementation MHEDBrowseFoodViewController
+
+- (NSArray *) foodOptions
+{
+    if (!_foodOptions) {
+        _foodOptions = @[@"Meals", @"Ingredients", @"Ingredient Types", @"Restaurants"];
+    }
+    return _foodOptions;
+}
+
+- (NSArray *) mealOptions
+{
+    if (!_mealOptions) {
+        _mealOptions = @[@"Recent", @"Restaurants", @"Favorites", @"Tags", @"By Ingredient Types", @"By Name"];
+    }
+    return _mealOptions;
+}
+
+- (NSArray *) ingredientOptions
+{
+    if (!_ingredientOptions) {
+        _ingredientOptions = @[@"By Types", @"Favorites", @"Tags", @"By Name"];
+    }
+    return _ingredientOptions;
+}
+
+- (NSArray *) ingredientTypeOptions
+{
+    if (!_ingredientTypeOptions) {
+        _ingredientTypeOptions = @[];
+    }
+    return _ingredientTypeOptions;
+}
+
+- (NSArray *) restaurantOptions
+{
+    if (!_restaurantOptions) {
+        _restaurantOptions = @[@"Distance", @"Name"];
+    }
+    return _restaurantOptions;
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,15 +90,42 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    NSArray *mealsSection = @[@"Recent", @"Restaurants", @"Favorites", @"Tags", @"By Ingredient Types", @"By Name"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:mhedTableCellOptionsCell];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:mhedBackCellIdentifier];
     
-    NSArray *ingredientsSection = @[@"By Types", @"Favorites", @"Tags", @"By Name"];
+    if (!self.browseOptions) {
+        self.browseOptions = self.foodOptions;
+    }
     
-    self.browseOptions = @[mealsSection, ingredientsSection];
-    self.title = @"Food";
+    if ([self.browseOptions isEqualToArray:self.foodOptions]) {
+        self.title = @"Food";
+    }
+    
+    
+    
+    if (self.navigationController) {
+        if ([[self.navigationController viewControllers] count] == 1) { // then this is the only view controller in the stack
+            // don't have any bar button items
+        }
+        else { // there is another vc on the stack before. It is either "Summary" or another browse
+            
+            NSString *rootVCTitle = [[self.navigationController viewControllers][0] title];
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:rootVCTitle style:UIBarButtonItemStylePlain target:self action:@selector(popToMealSummary:)]];
+        }
+        
+    }
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -62,10 +143,25 @@
     }
     
     else {
-        return 2;
+        return 1;
     }
 }
 
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 1;
+    }
+    
+    else if (section == 0) {
+        return 1;
+    }
+    else if (section == 1) {
+        return tableView.sectionHeaderHeight;
+    }
+    return [super tableView:tableView heightForHeaderInSection:section];
+}
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -76,28 +172,48 @@
     }
     
     else if (section == 0) {
-        header = @"Sort By:";
+        header = @"";
     }
     
-    else {
-        NSString *restaurantName = self.restaurant.name ? [NSString stringWithFormat:@"Meals For %@", self.restaurant.name] : @"Meals";
-        
-        switch (section) {
-            case 0:
-                header = restaurantName;
+    else if (section == 1) {
+        switch (self.displaySection) {
+            case MHEDBrowseFoodSectionsIngredients:
+                return @"Ingredients";
                 break;
                 
-            case 1:
-                header = @"Ingredients";
+            case MHEDBrowseFoodSectionsIngredientTypes:
+                return @"Ingredient Types";
                 break;
-                //            case 2:
-                //                header = @"Medication";
-                //                break;
-            default:
                 
+            case MHEDBrowseFoodSectionsMeals:
+                return @"Meals";
+                break;
+                
+            case MHEDBrowseFoodSectionsRestaurants:
+                return @"Restaurant";
                 break;
         }
     }
+    
+//    else {
+//        NSString *restaurantName = self.restaurant.name ? [NSString stringWithFormat:@"Meals For %@", self.restaurant.name] : @"Meals";
+//        
+//        switch (section) {
+//            case 0:
+//                header = restaurantName;
+//                break;
+//                
+//            case 1:
+//                header = @"Ingredients";
+//                break;
+//                //            case 2:
+//                //                header = @"Medication";
+//                //                break;
+//            default:
+//                
+//                break;
+//        }
+//    }
     
     
     return header;
@@ -120,9 +236,10 @@
         return [self.searchResults count];
         
     }
-    else {
-        return [self.browseOptions[section] count];
+    else if (section == 0) {
+        return [self.browseOptions count];
     }
+    return 0;
 }
 
 
@@ -225,15 +342,21 @@
         cell.detailTextLabel.attributedText = [mutTagTitle copy];
     }
     
-    else {
-        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableCellIdentifier];
+    
+    
+//    else if (indexPath.section == 0) {
+//        cell = [tableView dequeueReusableCellWithIdentifier:mhedBackCellIdentifier forIndexPath:indexPath];
+//        cell.textLabel.text = @" <- Back ";
+//    }
+    
+    else if (indexPath.section == 0){
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellOptionsCell forIndexPath:indexPath];
         
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableCellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:mhedTableCellOptionsCell];
         }
         
-        NSArray *sectionArray = self.browseOptions[indexPath.section];
-        cell.textLabel.text = sectionArray[indexPath.row];
+        cell.textLabel.text = self.browseOptions[indexPath.row];
         cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     }
     
@@ -261,27 +384,50 @@
     // There are 2 parameters we need to worry about - self.delegate and self.searchDisplayController
     //      --
     
-//    if (self.delegate) {
-//        // if the delegate is set then we either
-//        // (a) add the meal/ingredient and pop back to the delegate VC
-//        // (b) pass the delegate to the next VC
-//        
-//        
-//        if (tableView == self.searchDisplayController.searchResultsTableView) {
-//            // we want to segue based on the item selected
-//            // Type = display of food with this type (meals and ingredients)
-//            // (meal, ingr, medication) = add to meal we want to eat
-//            // restaurant = meals at restaurant
-//            
+    if (self.delegate) {
+        // if the delegate is set then we either
+        // (a) add the meal/ingredient and pop back to the delegate VC
+        // (b) pass the delegate to the next VC
+        
+        
+        if (tableView == self.searchDisplayController.searchResultsTableView) {
+            // we want to segue based on the item selected
+            // Type = display of food with this type (meals and ingredients)
+            // (meal, ingr, medication) = add to meal we want to eat
+            // restaurant = meals at restaurant
+            
+            
+            if ([self.searchResults[indexPath.row] isKindOfClass:[EDMeal class]]) {
+                [self.delegate addToMealsList:@[self.searchResults[indexPath.row]]];
+                //[self popToDelegate];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            else if ([self.searchResults[indexPath.row] isKindOfClass:[EDIngredient class]]) {
+                [self.delegate addToIngredientsList:@[self.searchResults[indexPath.row]]];
+                //[self popToDelegate];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            else if ([self.searchResults[indexPath.row] isKindOfClass:[EDType class]]) {
+                // tell next vc to display list of food for the type
+            }
+            else if ([self.searchResults[indexPath.row] isKindOfClass:[EDRestaurant class]]) {
+                // tell the next vc to display the meals for the restaurant
+            }
+            
+            
+            
+            
 //            if (!self.medicationFind) {
 //                
 //                if ([self.searchResults[indexPath.row] isKindOfClass:[EDMeal class]]) {
 //                    [self.delegate addToMealsList:@[self.searchResults[indexPath.row]]];
-//                    [self popToDelegate];
+//                    //[self popToDelegate];
+//                    [self.navigationController popToRootViewControllerAnimated:YES];
 //                }
 //                else if ([self.searchResults[indexPath.row] isKindOfClass:[EDIngredient class]]) {
 //                    [self.delegate addToIngredientsList:@[self.searchResults[indexPath.row]]];
-//                    [self popToDelegate];
+//                    //[self popToDelegate];
+//                    [self.navigationController popToRootViewControllerAnimated:YES];
 //                }
 //                else if ([self.searchResults[indexPath.row] isKindOfClass:[EDType class]]) {
 //                    // tell next vc to display list of food for the type
@@ -302,16 +448,22 @@
 //                }
 //                
 //            }
-//            
-//        }
-//        
-//        
-//        else { // if this wasn't a search selection then we display what we selected
-//            
-//            [self performSegueWithIdentifier:@"MealSegue" sender:indexPath];
-//            
-//        }
-//    }
+            
+        }
+        
+        
+        else { // if this wasn't a search selection then we display what we selected
+            
+            if ([self.browseOptions isEqual:self.foodOptions]) {
+                //[self performSegueWithIdentifier:mhedSegueIDBrowseFoodSegue sender:indexPath];
+                [self pushToAnotherBrowseViewController:indexPath];
+            }
+            
+            else {
+                [self performSegueWithIdentifier:mhedSegueIDFoodSelectionSegue sender:indexPath];
+            }
+        }
+    }
     
     
 //    
@@ -373,49 +525,182 @@
 
 
 
-#pragma mark - Storyboard Segues
+#pragma mark - Storyboard Segues and VC transitions
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
-//    if ([segue.identifier isEqualToString:@"AddFoodFromSearchSegue"]) {
-//        
-//        if (!self.medicationFind) {
-//            EDEatMealViewController *destinationVC = segue.destinationViewController;
-//            NSIndexPath *index = (NSIndexPath *)sender;
-//            
-//            
-//            if ([self.searchResults[index.row] isKindOfClass:[EDMeal class]]) {
-//                destinationVC.mealsList = @[self.searchResults[index.row]];
-//                destinationVC.ingredientsList = @[];
-//            }
-//            else if ([self.searchResults[index.row] isKindOfClass:[EDIngredient class]]) {
-//                destinationVC.ingredientsList = @[self.searchResults[index.row]];
-//                destinationVC.mealsList = @[];
-//            }
-//        }
-//        
-//        else {
-//            
-//            EDTakeNewMedicationViewController *destinationVC = segue.destinationViewController;
-//            NSIndexPath *index = (NSIndexPath *)sender;
-//            
-//            if ([self.searchResults[index.row] isKindOfClass:[EDMedication class]]) {
-//                destinationVC.parentMedicationsList = @[self.searchResults[index.row]];
-//                destinationVC.ingredientsList = @[];
-//            }
-//            else if ([self.searchResults[index.row] isKindOfClass:[EDIngredient class]]) {
-//                destinationVC.ingredientsList = @[self.searchResults[index.row]];
-//                destinationVC.parentMedicationsList = @[];
-//            }
-//            
-//            destinationVC.restaurant = self.restaurant;
-//        }
-//        
-//    }
+
+    
+    if ([segue.identifier isEqualToString:mhedSegueIDBrowseFoodSegue]) {
+        
+        MHEDBrowseFoodViewController *destinationVC = segue.destinationViewController;
+        NSIndexPath *index = (NSIndexPath *)sender;
+        
+        NSLog(@"index is %ld, %ld",  (long)index.section, (long)index.row);
+        
+        if (self.delegate) {
+            destinationVC.delegate = self.delegate;
+        }
+        
+        destinationVC.previousBrowseControllerTitle = self.title;
+        
+        //NSString *destinationTitle = @"Meals";
+        
+        if (index.row == 0) {
+            destinationVC.browseOptions = self.mealOptions;
+        }
+        else if (index.row == 1) {
+            destinationVC.browseOptions = self.ingredientOptions;
+        }
+        else if (index.row == 2) {
+            destinationVC.browseOptions = self.ingredientTypeOptions;
+        }
+        else if (index.row == 3) {
+            destinationVC.browseOptions = self.restaurantOptions;
+        }
+        
+    }
+    
+    
+    else if ([segue.identifier isEqualToString:mhedSegueIDFoodSelectionSegue]) {
+        
+        NSIndexPath *index = (NSIndexPath *)sender;
+        NSLog(@"index is %ld, %ld",  (long)index.section, (long)index.row);
+        MHEDFoodSelectionViewController *destinationVC = segue.destinationViewController;
+        
+        NSString *destinationTitle;
+        
+        if (self.delegate) {
+                destinationVC.delegate = self.delegate;
+        }
+        
+        destinationVC.previousBrowseControllerTitle = self.title;
+        
+        if ([self.browseOptions isEqual:self.mealOptions]) {
+            
+            destinationTitle = @"Meals";
+            
+            destinationVC.tableFoodType = MealFoodType;
+            
+            if (index.row == 0) { // recent meals
+                destinationVC.sortBy = ByRecent;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Recent"];
+                destinationTitle = @"Recent";
+            }
+            else if (index.row == 1) { // by Restaurant
+                destinationVC.sortBy = ByRestaurant;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Restaurant"];
+                destinationTitle = @"Restaurant";
+            }
+            else if (index.row == 2) { // by fav
+                destinationVC.sortBy = ByFavorite;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
+                destinationTitle = @"Favorite";
+            }
+            
+            else if (index.row == 3) { // by tags
+                destinationVC.sortBy = ByTags;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
+                destinationTitle = @"Tags";
+            }
+            else if (index.row == 4) { // by Types
+                destinationVC.sortBy = ByTypes;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Ingredient Types"];
+                destinationTitle = @"Types";
+            }
+            else if (index.row == 5) { // by name
+                destinationVC.sortBy = ByName;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
+                destinationTitle = @"Name";
+            }
+            
+            
+        }
+        
+        else if ([self.browseOptions isEqual:self.ingredientOptions]) {
+         
+            destinationTitle = @"Ingredients";
+            
+            destinationVC.tableFoodType = IngredientFoodType;
+            
+            if (index.row == 0) { // types
+                destinationVC.sortBy = ByTypes;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Type"];
+                destinationTitle = @"Type";
+            }
+            else if (index.row == 1) { // by favs
+                destinationVC.sortBy = ByFavorite;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
+                destinationTitle = @"Favorites";
+            }
+            
+            else if (index.row == 2) { // by tags
+                destinationVC.sortBy = ByTags;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
+                destinationTitle = @"Tags";
+            }
+            
+            else if (index.row == 3) { // by name
+                destinationVC.sortBy = ByName;
+                //destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
+                destinationTitle = @"Name";
+            }
+        }
+        
+        else if ([self.browseOptions isEqual:self.ingredientTypeOptions]) {
+            
+        }
+        
+        else if ([self.browseOptions isEqual:self.restaurantOptions]) {
+            
+        }
+        
+        
+        destinationVC.title = destinationTitle;
+
+    }
+    
+    
+    
+    //    if ([segue.identifier isEqualToString:@"AddFoodFromSearchSegue"]) {
+    //
+    //        if (!self.medicationFind) {
+    //            EDEatMealViewController *destinationVC = segue.destinationViewController;
+    //            NSIndexPath *index = (NSIndexPath *)sender;
+    //
+    //
+    //            if ([self.searchResults[index.row] isKindOfClass:[EDMeal class]]) {
+    //                destinationVC.mealsList = @[self.searchResults[index.row]];
+    //                destinationVC.ingredientsList = @[];
+    //            }
+    //            else if ([self.searchResults[index.row] isKindOfClass:[EDIngredient class]]) {
+    //                destinationVC.ingredientsList = @[self.searchResults[index.row]];
+    //                destinationVC.mealsList = @[];
+    //            }
+    //        }
+    //
+    //        else {
+    //
+    //            EDTakeNewMedicationViewController *destinationVC = segue.destinationViewController;
+    //            NSIndexPath *index = (NSIndexPath *)sender;
+    //
+    //            if ([self.searchResults[index.row] isKindOfClass:[EDMedication class]]) {
+    //                destinationVC.parentMedicationsList = @[self.searchResults[index.row]];
+    //                destinationVC.ingredientsList = @[];
+    //            }
+    //            else if ([self.searchResults[index.row] isKindOfClass:[EDIngredient class]]) {
+    //                destinationVC.ingredientsList = @[self.searchResults[index.row]];
+    //                destinationVC.parentMedicationsList = @[];
+    //            }
+    //            
+    //            destinationVC.restaurant = self.restaurant;
+    //        }
+    //        
+    //    }
     
     
 //    if ([segue.identifier isEqualToString:@"MealSegue"]) {
-//        EDAddTableViewController *destinationVC = segue.destinationViewController;
+//        MHEDFoodSelectionViewController *destinationVC = segue.destinationViewController;
 //        NSIndexPath *index = (NSIndexPath *)sender;
 //        
 //        NSLog(@"index is %ld, %ld",  (long)index.section, (long)index.row);
@@ -424,120 +709,151 @@
 //            destinationVC.delegate = self.delegate;
 //        }
 //        
-//        if (self.medicationFind) {
-//            destinationVC.medicationFind = YES;
-//            NSString *destinationTitle = @"Medication";
+//
+//        
+//        NSString *destinationTitle = @"Meals";
+//        
+//        destinationVC.tableFoodType = MealFoodType;
+//        
+//        if (index.row == 0) { // recent meals
+//            destinationVC.sortBy = ByRecent;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Recent"];
 //            
-//            if (index.section == 0) { // medication
-//                
-//                destinationVC.tableFoodType = MedicationFoodType;
-//                
-//                if (index.row == 0) { // recent meals
-//                    destinationVC.sortBy = ByRecent;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Recent"];
-//                }
-//                
-//                else if (index.row == 1) { // by favs
-//                    destinationVC.sortBy = ByFavorite;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
-//                    
-//                }
-//                
-//                else if (index.row == 2) { // by Tags
-//                    destinationVC.sortBy = ByTags;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
-//                    
-//                }
-//                
-//                else if (index.row == 3) { // by name
-//                    destinationVC.sortBy = ByName;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-//                    
-//                }
-//                
-//                destinationVC.title = destinationTitle;
-//                
-//            }
+//        }
+//        else if (index.row == 1) { // by Restaurant
+//            destinationVC.sortBy = ByRestaurant;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Restaurant"];
+//            
+//        }
+//        else if (index.row == 2) { // by fav
+//            destinationVC.sortBy = ByFavorite;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
+//            
 //        }
 //        
-//        else {
-//            destinationVC.medicationFind = NO;
-//            NSString *destinationTitle = @"Meals";
+//        else if (index.row == 3) { // by tags
+//            destinationVC.sortBy = ByTags;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
 //            
-//            if (index.section == 0) { // meals
-//                
-//                destinationVC.tableFoodType = MealFoodType;
-//                
-//                if (index.row == 0) { // recent meals
-//                    destinationVC.sortBy = ByRecent;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Recent"];
-//                    
-//                }
-//                
-//                else if (index.row == 1) { // by Restaurant
-//                    destinationVC.sortBy = ByRestaurant;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Restaurant"];
-//                    
-//                }
-//                else if (index.row == 2) { // by fav
-//                    destinationVC.sortBy = ByFavorite;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
-//                    
-//                }
-//                
-//                else if (index.row == 3) { // by tags
-//                    destinationVC.sortBy = ByTags;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
-//                    
-//                }
-//                else if (index.row == 4) { // by Types
-//                    destinationVC.sortBy = ByTypes;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Ingredient Types"];
-//                }
-//                else if (index.row == 5) { // by name
-//                    destinationVC.sortBy = ByName;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-//                    
-//                }
-//                
-//            }
+//        }
+//        else if (index.row == 4) { // by Types
+//            destinationVC.sortBy = ByTypes;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Ingredient Types"];
+//        }
+//        else if (index.row == 5) { // by name
+//            destinationVC.sortBy = ByName;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
 //            
-//            else if (index.section == 1) { // ingredients
-//                
-//                destinationVC.tableFoodType = IngredientFoodType;
-//                destinationTitle = @"Ingredients";
-//                if (index.row == 0) { // types
-//                    destinationVC.sortBy = ByTypes;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Type"];
-//                    
-//                }
-//                else if (index.row == 1) { // by favs
-//                    destinationVC.sortBy = ByFavorite;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
-//                    
-//                }
-//                
-//                else if (index.row == 2) { // by tags
-//                    destinationVC.sortBy = ByTags;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
-//                    
-//                }
-//                
-//                else if (index.row == 3) { // by name
-//                    destinationVC.sortBy = ByName;
-//                    destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
-//                    
-//                }
-//            }
+//        }
+//        
 //            
 //            destinationVC.title = destinationTitle;
+//        
+//    }
+//    
+//    else if ([segue.identifier isEqualToString:@"Ingredient Segue"]) {
+//        
+//        MHEDFoodSelectionViewController *destinationVC = segue.destinationViewController;
+//        NSIndexPath *index = (NSIndexPath *)sender;
+//        
+//        NSLog(@"index is %ld, %ld",  (long)index.section, (long)index.row);
+//        
+//        if (self.delegate) {
+//            destinationVC.delegate = self.delegate;
+//        }
+//        
+//        
+//        NSString *destinationTitle = @"Ingredients";
+//            
+//        destinationVC.tableFoodType = IngredientFoodType;
+//
+//        if (index.row == 0) { // types
+//            destinationVC.sortBy = ByTypes;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Type"];
+//            
+//        }
+//        else if (index.row == 1) { // by favs
+//            destinationVC.sortBy = ByFavorite;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Favorite"];
+//            
+//        }
+//        
+//        else if (index.row == 2) { // by tags
+//            destinationVC.sortBy = ByTags;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - Tags"];
+//            
+//        }
+//        
+//        else if (index.row == 3) { // by name
+//            destinationVC.sortBy = ByName;
+//            destinationTitle = [destinationTitle stringByAppendingString:@" - All"];
+//            
 //        }
 //    }
 //    
-//    
+    
+    
+    
+    
 //    
 //    else if ([segue.identifier isEqualToString:nil]) {
 //        
 //    }
+    
+    
 }
+
+
+- (void) pushToAnotherBrowseViewController:(NSIndexPath *) indexPath
+{
+    MHEDBrowseFoodViewController *destinationVC = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDBrowseFood];
+    
+    NSLog(@"index is %ld, %ld",  (long)indexPath.section, (long)indexPath.row);
+    
+    if (self.delegate) {
+        destinationVC.delegate = self.delegate;
+    }
+    
+    destinationVC.previousBrowseControllerTitle = self.title;
+    
+    NSString *destinationTitle = @"";
+    
+    if (indexPath.row == 0) {
+        destinationVC.browseOptions = self.mealOptions;
+        destinationTitle = @"Meals";
+    }
+    else if (indexPath.row == 1) {
+        destinationVC.browseOptions = self.ingredientOptions;
+        destinationTitle = @"Ingredients";
+    }
+    else if (indexPath.row == 2) {
+        destinationVC.browseOptions = self.ingredientTypeOptions;
+        destinationTitle = @"Types";
+    }
+    else if (indexPath.row == 3) {
+        destinationVC.browseOptions = self.restaurantOptions;
+        destinationTitle = @"Restaurant";
+    }
+    
+    destinationVC.title = destinationTitle;
+    
+    [self.navigationController pushViewController:destinationVC animated:YES];
+}
+
+
+- (void) popToMealSummary: (id) sender
+{
+    
+    // if the root vc is summary view then pop to it
+    if ([[self.navigationController viewControllers][0] isKindOfClass:[MHEDMealSummaryViewController class]]) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
+    // otherwise the summary view is the second
+    else {
+        [self.navigationController popToViewController:[self.navigationController viewControllers][1] animated:YES];
+    }
+}
+
+
 @end

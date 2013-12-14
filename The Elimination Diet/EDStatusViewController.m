@@ -8,8 +8,11 @@
 
 #import "EDStatusViewController.h"
 
+#import "MHEDCarouselAndSummaryViewController.h"
+
 #import "EDSearchToEatViewController.h"
 
+#import "MHEDMealCarouselViewController.h"
 
 #import "EDEliminatedAPI.h"
 #import "EDEliminatedAPI+Helpers.h"
@@ -23,6 +26,10 @@
 #import "EDEliminatedFood+Methods.h"
 
 #define ACTION_TABLE_CELL_ID @"Action Table Cell ID"
+
+
+NSString *const mhedStoryBoardSegueIDSplitFoodBrowseSegue = @"SplitFoodBrowseSegue";
+NSString *const mhedStoryBoardSegueIDCarouselAndSummarySegue = @"CarouselAndSummarySegue";
 
 
 @interface EDStatusViewController ()
@@ -362,13 +369,13 @@
             
         case 0:
             // QuickCaptureSegue
-            [self performSegueWithIdentifier:@"QuickCaptureSegue" sender:self];
-            
+            //[self performSegueWithIdentifier:@"QuickCaptureSegue" sender:self];
+            [self performSegueWithIdentifier:mhedStoryBoardSegueIDCarouselAndSummarySegue sender:indexPath];
             break;
             
         case 1:
             // barcode
-            
+            [self performSegueWithIdentifier:@"CarouselImageSegue" sender:self];
             break;
             
             
@@ -379,7 +386,10 @@
             
         case 3:
             // browse
-            [self pushToSearchToEat];
+            //[self performSegueWithIdentifier:@"MealCarouselSegue" sender:indexPath];
+            [self performSegueWithIdentifier:mhedStoryBoardSegueIDSplitFoodBrowseSegue sender:indexPath];
+            
+            //[self pushToSearchToEat];
             break;
             
             
@@ -391,6 +401,8 @@
         default:
             break;
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -401,6 +413,60 @@
     searchVC.medicationFind = NO;
     
     [self.navigationController pushViewController:searchVC animated:YES];
+}
+
+
+
+#pragma mark - Segue methods
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"MealCarouselSegue"]) {
+        if ([sender isKindOfClass:[NSIndexPath class]]) {
+            NSIndexPath *indexPath = (NSIndexPath *)sender;
+            
+            MHEDMealCarouselViewController *destinationVC = segue.destinationViewController;
+            
+            
+            if (indexPath.row == 0) {
+                destinationVC.inputType = MHEDMealCarouselInputTypeQuickCapture;
+            }
+            
+            if (indexPath.row == 1) {
+                
+            }
+            
+            if (indexPath.row == 3) {
+                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
+            }
+        }
+    }
+    
+    if ([segue.identifier isEqualToString:mhedStoryBoardSegueIDCarouselAndSummarySegue]) {
+        
+        if ([sender isKindOfClass:[NSIndexPath class]]) {
+            NSIndexPath *indexPath = (NSIndexPath *)sender;
+            
+            MHEDCarouselAndSummaryViewController *destinationVC = segue.destinationViewController;
+            
+            
+            if (indexPath.row == 0) {
+                destinationVC.inputType = MHEDMealCarouselInputTypeQuickCapture;
+            }
+            
+            if (indexPath.row == 1) {
+                
+            }
+            
+            if (indexPath.row == 3) {
+                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
+            }
+        }
+    }
+    
+    if ([segue.identifier isEqualToString:mhedStoryBoardSegueIDSplitFoodBrowseSegue]) {
+        
+    }
 }
 
 @end
