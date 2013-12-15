@@ -61,46 +61,46 @@
 
 // Cell IDs and Section IDs (sometimes we don't need if a section is just the cell)
 
-static NSString *mhedTableSectionIDDateSection = @"Date Section";
-static NSString *mhedTableCellIDDateCell = @"DateCell";     // the cells with the start or end date
-static NSString *mhedTableCellIDDatePickerCell = @"DatePicker"; // the cell containing the date picker
+extern NSString *const mhedTableSectionIDDateSection;
+extern NSString *const mhedTableCellIDDateCell; // the cells with the start or end date
+extern NSString *const mhedTableCellIDDatePickerCell; // the cell containing the date picker
 
-static NSString *mhedTableCellIDValueCell = @"ValueCell";
-static NSString *mhedTableCellIDValuePickerCell = @"ValuePickerCell";
+extern NSString *const mhedTableCellIDValueCell;
+extern NSString *const mhedTableCellIDValuePickerCell;
 
-static NSString *mhedTableCellIDTagCell = @"TagCell";
-static NSString *mhedTableCellIDImageAndNameCell = @"ImageAndNameCell";
-static NSString *mhedTableCellIDRestaurantCell = @"RestaurantCell";
+extern NSString *const mhedTableCellIDTagCell;
+extern NSString *const mhedTableCellIDImageAndNameCell;
+extern NSString *const mhedTableCellIDRestaurantCell;
 
-static NSString *mhedTableSectionIDLargeImageSection = @"Large Image Section";
-static NSString *mhedTableCellIDLargeImageCell = @"LargeImageCell";
-static NSString *mhedTableCellIDImageButtonCell = @"ImageButtonCell";
-static NSString *mhedTableCellIDShowHideCell = @"ShowHideCell";
+extern NSString *const mhedTableSectionIDLargeImageSection;
+extern NSString *const mhedTableCellIDLargeImageCell;
+extern NSString *const mhedTableCellIDImageButtonCell;
+extern NSString *const mhedTableCellIDShowHideCell;
 
-static NSString *mhedTableSectionIDObjectsSection = @"Objects Section";
+extern NSString *const mhedTableSectionIDObjectsSection;
 
-static NSString *mhedTableCellIDAddMealsAndIngredientsCell = @"AddMealsAndIngredientsCell";
-static NSString *mhedTableCellIDDetailMealsAndIngredientsCell = @"DetailMealsAndIngredientsCell";
+extern NSString *const mhedTableCellIDAddMealsAndIngredientsCell;
+extern NSString *const mhedTableCellIDDetailMealsAndIngredientsCell;
 
-static NSString *mhedTableCellIDAddMedsAndIngredientsCell = @"AddMedsAndIngredientsCell";
-static NSString *mhedTableCellIDDetailMedsAndIngredientsCell = @"DetailMedsAndIngredientsCell";
+extern NSString *const mhedTableCellIDAddMedsAndIngredientsCell;
+extern NSString *const mhedTableCellIDDetailMedsAndIngredientsCell;
 
-static NSString *mhedTableCellIDMealAndMedicationSegmentedControlCell = @"MealAndMedicationSegmentedControlCell";
-static NSString *mhedTableCellIDDetailMealMedCell = @"DetailMealMedCell";
+extern NSString *const mhedTableCellIDMealAndMedicationSegmentedControlCell;
+extern NSString *const mhedTableCellIDDetailMealMedCell;
 
-static NSString *mhedTableCellIDReminderCell = @"ReminderCell";
+extern NSString *const mhedTableCellIDReminderCell;
 
-static NSString *mhedTableCellIDDefaultDetailCell = @"Default Detail Cell";
+extern NSString *const mhedTableCellIDDefaultDetailCell;
 
-static NSString *mhedTableCellIDBrowseOptionsCell = @"Browse Options Cell";
-static NSString *mhedTableSectionIDBrowseSection = @"Browse Section";
+extern NSString *const mhedTableCellIDBrowseOptionsCell;
+extern NSString *const mhedTableSectionIDBrowseSection;
 
 
 // Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
-static NSString *mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
-static NSString *mhedObjectsDictionaryMedicationKey = @"Medication List Key";
-static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+extern NSString *const mhedObjectsDictionaryMealsKey;
+extern NSString *const mhedObjectsDictionaryIngredientsKey;
+extern NSString *const mhedObjectsDictionaryMedicationKey;
+extern NSString *const mhedObjectsDictionarySymptomsKey;
 
 //typedef NS_OPTIONS(NSUInteger, mhedObjectsDictionaryItemType) {
 //    mhedObjectsDictionaryItemTypeMeals = 1 << 0,
@@ -113,7 +113,7 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 
 
-@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, UINavigationControllerDelegate, MHEDDatePickerCellDelegate>
+@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, MHEDDatePickerCellDelegate>
 
 
 
@@ -124,10 +124,12 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 //@property (nonatomic, weak) id <EDCreationDelegate> delegate;
 
 
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray *cellArray;
 
 @property (nonatomic) BOOL keyboardVisible;
 
+// Image cell
+@property (nonatomic, strong) NSMutableArray *images;
 
 // Name
 @property (nonatomic, strong) NSString *objectName;
@@ -158,18 +160,30 @@ static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
 @property (nonatomic) NSInteger pickerCellRowHeight;
 
-#pragma mark - Objects Dictionary Methods
+#pragma mark - MHEDFoodSelectionViewControllerDataSource methods
+
 - (NSArray *) mealsList;
 - (void) setNewMealsList: (NSArray *) newMealsList;
 - (void) addToMealsList: (NSArray *) meals;
+- (void) removeMealsFromMealsList: (NSArray *) meals;
+- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
 
 - (NSArray *) ingredientsList;
 - (void) setNewIngredientsList: (NSArray *) newIngredientsList;
 - (void) addToIngredientsList: (NSArray *) ingredients;
+- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
+- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
 
 - (NSArray *) medicationsList;
 - (void) setNewMedicationsList: (NSArray *) newMedicationsList;
 - (void) addToMedicationsList: (NSArray *) medications;
+- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
+- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+
+
+
+
+
 
 #pragma mark - Tag cell Delegate and DataSource methods
 - (void) textView:(UITextView *) textView didSelectRange: (NSRange) range;
@@ -331,6 +345,9 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 
 #pragma mark - Default Meal Methods
 //---------------------------
+
+- (void) createMeal;
+
 - (void) handleMealDoneButton;
 - (NSString *) mealNameAsDefault;
 - (NSString *) mealNameForDisplay;
@@ -339,6 +356,9 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 
 #pragma mark - Default Medication Methods
 // ---------------------------------------
+
+//- (void) createMedication;
+
 - (void) handleMedicationDoneButton;
 - (NSString *) medicationNameAsDefault;
 - (NSString *) medicationNameForDisplay;

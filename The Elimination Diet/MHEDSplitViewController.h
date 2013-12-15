@@ -10,14 +10,11 @@
 #import "MHEDFoodSelectionViewController.h"
 
 
-extern NSString *const mhedFoodDataUpdateNotification;
-
 extern NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence;
 extern NSString *const mhedStoryBoardViewControllerIDMealSummary;
 
 extern NSString *const mhedStoryBoardViewControllerIDMealFillinSequence;
 extern NSString *const mhedStoryBoardViewControllerIDQuickCaptureSequence;
-
 
 typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
     MHEDSplitViewContainerViewLocationTop = 1,

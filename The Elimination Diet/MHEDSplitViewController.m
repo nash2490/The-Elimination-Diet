@@ -22,6 +22,8 @@
 
 #import "UIView+MHED_AdjustView.h"
 
+#import "EDEliminatedAPI.h"
+
 @import MobileCoreServices;
 
 static double mhedSplitViewDefaultHeightForTopView = 282.0;
@@ -31,6 +33,7 @@ static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
 static NSString *mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
 static NSString *mhedObjectsDictionaryMedicationKey = @"Medication List Key";
 static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+static NSString *mhedObjectsDictionaryImagesKey = @"Images List Key";
 
 
 NSString *const mhedStoryBoardViewControllerIDMealFillinSequence = @"Meal Fill-in Sequence";
@@ -38,9 +41,6 @@ NSString *const mhedStoryBoardViewControllerIDQuickCaptureSequence = @"Quick Cap
 
 NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence = @"MHEDBottomBrowse";
 NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
-
-NSString *const mhedFoodDataUpdateNotification = @"mhedFoodDataUpdateNotification";
-
 
 
 

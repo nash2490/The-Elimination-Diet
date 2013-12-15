@@ -33,6 +33,56 @@
 #import "UIImage+MHED_fixOrientation.h"
 
 
+#import "EDEliminatedAPI.h"
+
+
+// Cell IDs and Section IDs (sometimes we don't need if a section is just the cell)
+
+NSString *const mhedTableSectionIDDateSection = @"Date Section";
+NSString *const mhedTableCellIDDateCell = @"DateCell";     // the cells with the start or end date
+NSString *const mhedTableCellIDDatePickerCell = @"DatePicker"; // the cell containing the date picker
+
+NSString *const mhedTableCellIDValueCell = @"ValueCell";
+NSString *const mhedTableCellIDValuePickerCell = @"ValuePickerCell";
+
+NSString *const mhedTableCellIDTagCell = @"TagCell";
+NSString *const mhedTableCellIDImageAndNameCell = @"ImageAndNameCell";
+NSString *const mhedTableCellIDRestaurantCell = @"RestaurantCell";
+
+NSString *const mhedTableSectionIDLargeImageSection = @"Large Image Section";
+NSString *const mhedTableCellIDLargeImageCell = @"LargeImageCell";
+NSString *const mhedTableCellIDImageButtonCell = @"ImageButtonCell";
+NSString *const mhedTableCellIDShowHideCell = @"ShowHideCell";
+
+NSString *const mhedTableSectionIDObjectsSection = @"Objects Section";
+
+NSString *const mhedTableCellIDAddMealsAndIngredientsCell = @"AddMealsAndIngredientsCell";
+NSString *const mhedTableCellIDDetailMealsAndIngredientsCell = @"DetailMealsAndIngredientsCell";
+
+NSString *const mhedTableCellIDAddMedsAndIngredientsCell = @"AddMedsAndIngredientsCell";
+NSString *const mhedTableCellIDDetailMedsAndIngredientsCell = @"DetailMedsAndIngredientsCell";
+
+NSString *const mhedTableCellIDMealAndMedicationSegmentedControlCell = @"MealAndMedicationSegmentedControlCell";
+NSString *const mhedTableCellIDDetailMealMedCell = @"DetailMealMedCell";
+
+NSString *const mhedTableCellIDReminderCell = @"ReminderCell";
+
+NSString *const mhedTableCellIDDefaultDetailCell = @"Default Detail Cell";
+
+NSString *const mhedTableCellIDBrowseOptionsCell = @"Browse Options Cell";
+NSString *const mhedTableSectionIDBrowseSection = @"Browse Section";
+
+
+// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
+NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
+NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
+NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
+NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+
+
+
+
+
 
 
 @import MobileCoreServices;
@@ -87,7 +137,7 @@
     // set the section data (self.dataArray)
     // --------------------------------------
     
-    self.dataArray = [self defaultDataArray];
+    self.cellArray = [self defaultDataArray];
     
     
     
@@ -185,6 +235,108 @@
     self.keyboardVisible = NO;
 }
 
+#pragma mark - Keyboard -
+// launches when a keyboard shows on screen,
+// - this is to adjust the screen to view the table
+- (void) handleKeyboardWillShow: (NSNotification *) paramNotification {
+    
+    
+    /*
+     NSDictionary *userInfo = [paramNotification userInfo];
+     
+     NSValue *animationCurveObject = [userInfo valueForKey:UIKeyboardAnimationCurveUserInfoKey];
+     NSValue *animationDurationObject = [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey];
+     NSValue *keyboardEndRectObject = [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
+     
+     NSUInteger animationCurve = 0;
+     double animationDuration = 0.0f;
+     CGRect keyboardEndRect = CGRectMake(0, 0, 0, 0);
+     
+     [animationCurveObject getValue:&animationCurve];
+     [animationDurationObject getValue:&animationDuration];
+     [keyboardEndRectObject getValue:&keyboardEndRect];
+     
+     [UIView beginAnimations:@"changeTableViewContentInset" context:NULL];
+     [UIView setAnimationDuration:animationDuration];
+     [UIView setAnimationCurve:(UIViewAnimationCurve)animationCurve];
+     
+     CGRect intersectionOfTopViewAndKeyboardRect = CGRectIntersection(self.tableView.frame, keyboardEndRect);
+     
+     
+     CGFloat navBarHeight = 0.0f;
+     if (self.navigationController) {
+     navBarHeight = self.navigationController.navigationBar.frame.size.height;
+     }
+     
+     CGFloat statusBarHeight = 0.0f;
+     if (![UIApplication sharedApplication].statusBarHidden) {
+     statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+     }
+     CGFloat tableInset = intersectionOfTopViewAndKeyboardRect.size.height + navBarHeight + statusBarHeight;
+     
+     
+     self.tableView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, tableInset, 0.0f);
+     */
+    
+    
+    //NSIndexPath *indexPathOfOwnerCell = nil;
+    
+    // Also, make sure the selected text field is visible on the screen
+    //NSInteger numberOfCells = [self.stTableView.dataSource tableView:self.stTableView numberOfRowsInSection:0];
+    
+    /* So let's go through all the cells and find their accessory text fields. Once we have the reference to those text fields, we can see which one of them is the first responder (has the keyboard) and we will make a call
+     to the table view to make sure that, after the keyboard is displayed, that specific cell is NOT obstructed by the keyboard */
+    /*
+     for (NSInteger counter = 0; counter < numberOfCells; counter++){
+     
+     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:counter inSection:0];
+     UITableViewCell *cell = [self.stTableView cellForRowAtIndexPath:indexPath];
+     UITextField *textField = (UITextField *)cell.accessoryView;
+     if ([textField isKindOfClass:[UITextField class]] == NO){
+     continue;
+     }
+     if ([textField isFirstResponder]){ indexPathOfOwnerCell = indexPath;
+     break;
+     }
+     }
+     */
+    
+    
+    [UIView commitAnimations];
+    /*
+     if (indexPathOfOwnerCell != nil){
+     [self.stTableView scrollToRowAtIndexPath:indexPathOfOwnerCell
+     atScrollPosition:UITableViewScrollPositionMiddle
+     animated:YES];
+     }
+     */
+}
+
+- (void) handleKeyboardWillHide:(NSNotification *)paramNotification
+{
+    /*
+     if (UIEdgeInsetsEqualToEdgeInsets(self.tableView.contentInset, UIEdgeInsetsZero)){
+     // Our table view's content inset is intact so no need to reset it
+     return; }
+     NSDictionary *userInfo = [paramNotification userInfo]; NSValue *animationCurveObject =
+     [userInfo valueForKey:UIKeyboardAnimationCurveUserInfoKey]; NSValue *animationDurationObject =
+     [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey]; NSValue *keyboardEndRectObject =
+     [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey]; NSUInteger animationCurve = 0;
+     
+     double animationDuration = 0.0f;
+     CGRect keyboardEndRect = CGRectMake(0, 0, 0, 0);
+     [animationCurveObject getValue:&animationCurve]; [animationDurationObject getValue:&animationDuration]; [keyboardEndRectObject getValue:&keyboardEndRect]; [UIView beginAnimations:@"changeTableViewContentInset"
+     context:NULL];
+     [UIView setAnimationDuration:animationDuration];
+     [UIView setAnimationCurve:(UIViewAnimationCurve)animationCurve]; self.tableView.contentInset = UIEdgeInsetsZero;
+     */
+    
+    [UIView commitAnimations];
+}
+
+
+
+
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -244,6 +396,238 @@
     //
     [self.tableView reloadData];
 }
+
+
+
+
+
+
+
+
+
+
+#pragma mark - MHEDFoodSelectionViewControllerDataSource methods -
+// default method options
+
+
+- (void) setNewRestaurant:(EDRestaurant *)restaurant
+{
+    if (restaurant) {
+        self.restaurant = restaurant;
+    }
+}
+
+- (NSArray *) tagsList
+{
+    if (!_tagsList) {
+        _tagsList = [[NSArray alloc] init];
+    }
+    return _tagsList;
+}
+
+- (void) addToTagsList: (NSArray *) tags
+{
+    if (tags) {
+        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
+    }
+}
+
+- (void) setNewTagsList: (NSArray *) newTagsList
+{
+    if (newTagsList) {
+        self.tagsList = newTagsList;
+    }
+}
+
+
+- (NSArray *) mealsList
+{
+    //    if (!_mealsList) {
+    //        _mealsList = [[NSArray alloc] init];
+    //    }
+    //    return _mealsList;
+    
+    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    
+}
+
+- (void) setNewMealsList: (NSArray *) newMealsList
+{
+    //    if (newMealsList) {
+    //        self.mealsList = newMealsList;
+    //    }
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:[newMealsList copy] forKey:mhedObjectsDictionaryMealsKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+}
+
+- (void) addToMealsList: (NSArray *) meals
+{
+    //    if (meals) {
+    //        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
+    //        for (EDTag *tag in [meals[0] tags]) {
+    //            NSLog(@"tag name = %@", tag.name);
+    //        }
+    //    }
+    
+    
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
+    
+    [self setNewMealsList:newList];
+}
+
+- (void) removeMealsFromMealsList: (NSArray *) meals
+{
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectsInArray:meals];
+    
+    [self setNewMealsList:mutOldList];
+}
+
+
+- (BOOL) doesMealsListContainMeals:(NSArray *) meals
+{
+    BOOL contains = YES;
+    for (EDMeal *meal in meals) {
+        if ([meal isKindOfClass:[EDMeal class]]) {
+            contains = (contains && [[self mealsList] containsObject:meal]);
+        }
+        else {
+            contains = NO;
+        }
+    }
+    return contains;
+}
+
+
+
+- (NSArray *) ingredientsList
+{
+    //    if (!_ingredientsList) {
+    //        _ingredientsList = [[NSArray alloc] init];
+    //    }
+    //    return _ingredientsList;
+    
+    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
+}
+
+
+
+
+- (void) setNewIngredientsList: (NSArray *) newIngredientsList
+{
+    //    if (newIngredientsList) {
+    //        self.ingredientsList = newIngredientsList;
+    //    }
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:[newIngredientsList copy] forKey:mhedObjectsDictionaryIngredientsKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+}
+
+
+
+
+- (void) addToIngredientsList: (NSArray *) ingredients
+{
+    //    if (ingredients) {
+    //        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
+    //    }
+    
+    NSArray *oldList = [self ingredientsList];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
+    
+    [self setNewIngredientsList:newList];
+}
+
+
+- (void) removeIngredientsFromIngredientsList:(NSArray *)ingredients
+{
+    NSArray *oldList = [self ingredientsList];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectsInArray:ingredients];
+    
+    [self setNewIngredientsList:mutOldList];
+}
+
+
+- (BOOL) doesIngredientsListContainIngredients:(NSArray *)ingredients
+{
+    BOOL contains = YES;
+    for (EDIngredient *ingr in ingredients) {
+        if ([ingr isKindOfClass:[EDIngredient class]]) {
+            contains = (contains && [[self ingredientsList] containsObject:ingr]);
+        }
+        else {
+            contains = NO;
+        }
+    }
+    return contains;
+}
+
+
+
+- (NSArray *) medicationsList
+{
+    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
+}
+
+- (void) setNewMedicationsList: (NSArray *) newMedicationsList
+{
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:[newMedicationsList copy] forKey:mhedObjectsDictionaryMedicationKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+    
+}
+
+- (void) addToMedicationsList: (NSArray *) medications
+{
+    NSArray *oldList = [self medicationsList];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
+    
+    [self setNewMedicationsList:newList];
+}
+
+- (void) removeMedicationsFromMedicationsList:(NSArray *)medications
+{
+    NSArray *oldList = [self medicationsList];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectsInArray:medications];
+    
+    [self setNewMedicationsList:mutOldList];
+}
+
+- (BOOL) doesMedicationsListContainMedications:(NSArray *)medications
+{
+    BOOL contains = YES;
+    for (EDMedication *medication in medications) {
+        if ([medication isKindOfClass:[EDMedication class]]) {
+            contains = (contains && [[self medicationsList] containsObject:medication]);
+        }
+        else {
+            contains = NO;
+        }
+    }
+    return contains;
+}
+
+
+
+- (void) mhedPostFoodDataUpdateNotification
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:mhedFoodDataUpdateNotification
+                                                        object:nil];
+}
+
 
 
 #pragma mark - Date Picker View
@@ -335,7 +719,7 @@
     BOOL hasDate = NO;
     
     NSInteger modelSection = indexPath.section;
-    NSDictionary *itemData = self.dataArray[modelSection];
+    NSDictionary *itemData = self.cellArray[modelSection];
     
     
     if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]
@@ -481,7 +865,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:targetedCellIndexPath];
     
     // update our data model
-    NSMutableDictionary *itemData = self.dataArray[targetedCellIndexPath.row];
+    NSMutableDictionary *itemData = self.cellArray[targetedCellIndexPath.row];
     
     self.date1 = datePicker.date;
     [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
@@ -538,7 +922,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *itemData = self.dataArray[indexPath.section];
+    NSDictionary *itemData = self.cellArray[indexPath.section];
     NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
     if ([sectionID isEqualToString:mhedTableSectionIDObjectsSection]){
@@ -600,12 +984,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.dataArray count];
+    return [self.cellArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSDictionary *itemData = self.dataArray[section];
+    NSDictionary *itemData = self.cellArray[section];
     
     if (section == self.datePickerIndexPath.section && [self hasInlineDatePicker]) {
         return 2;
@@ -693,7 +1077,7 @@
         return 0.1;
     }
     
-    NSDictionary *itemData = self.dataArray[section];
+    NSDictionary *itemData = self.cellArray[section];
     
     
     if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]) {
@@ -720,7 +1104,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *itemData = self.dataArray[indexPath.section];
+    NSMutableDictionary *itemData = self.cellArray[indexPath.section];
     //NSString *cellID = itemData[mhedTableComponentCellIDKey];
     NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
@@ -796,7 +1180,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSDictionary *itemData = self.dataArray[section];
+    NSDictionary *itemData = self.cellArray[section];
     if ([itemData[mhedTableComponentCellIDKey] isEqualToString:mhedTableCellIDDateCell]) {
         return nil;
     }
@@ -827,7 +1211,7 @@
 //    NSInteger modelSection = indexPath.section;
 //    
     
-    NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
+    NSMutableDictionary *sectionData = self.cellArray[indexPath.section];
     
     //NSString *cellID = itemData[mhedTableComponentCellIDKey];
     NSString *sectionID = sectionData[mhedTableComponentSectionKey];
@@ -1040,7 +1424,7 @@
     }
     else
     {
-        NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
+        NSMutableDictionary *sectionData = self.cellArray[indexPath.section];
         NSString *cellID = sectionData[mhedTableComponentCellIDKey];
         
         if ([cellID isEqualToString:mhedTableCellIDRestaurantCell]) {
@@ -1160,200 +1544,6 @@
     }
 }
 
-
-//#pragma mark - EDCreateNewMealDelegate methods
-//- (void) setNewRestaurant: (EDRestaurant *) restaurant
-//{
-//    if (restaurant) {
-//        self.restaurant = restaurant;
-//    }
-//}
-//
-//- (void) setNewMealsList: (NSArray *) newMealsList
-//{
-//    if (newMealsList) {
-//        self.mealsList = newMealsList;
-//    }
-//}
-//
-//- (void) setNewIngredientsList: (NSArray *) newIngredientsList
-//{
-//    if (newIngredientsList) {
-//        self.ingredientsList = newIngredientsList;
-//    }
-//}
-//
-//- (void) setNewFoodImage: (UIImage *) newFoodImage
-//{
-//    if (newFoodImage) {
-//        self.objectImage = newFoodImage;
-//    }
-//}
-//
-//- (void) addToMealsList: (NSArray *) meals
-//{
-//    if (meals) {
-//        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
-//        for (EDTag *tag in [meals[0] tags]) {
-//            NSLog(@"tag name = %@", tag.name);
-//        }
-//    }
-//}
-//
-//- (void) addToIngredientsList: (NSArray *) ingredients
-//{
-//    if (ingredients) {
-//        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
-//    }
-//}
-//
-//- (NSInteger) mealCycle
-//{
-//    return _mealCycle;
-//}
-//
-//- (void) increaseMealCycle
-//{
-//    _mealCycle++;
-//}
-
-
-
-#pragma mark - EDCreationDelegate -
-// default method options
-
-
-- (void) setNewRestaurant:(EDRestaurant *)restaurant
-{
-    if (restaurant) {
-        self.restaurant = restaurant;
-    }
-}
-
-- (NSArray *) tagsList
-{
-    if (!_tagsList) {
-        _tagsList = [[NSArray alloc] init];
-    }
-    return _tagsList;
-}
-
-- (void) addToTagsList: (NSArray *) tags
-{
-    if (tags) {
-        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
-    }
-}
-
-- (void) setNewTagsList: (NSArray *) newTagsList
-{
-    if (newTagsList) {
-        self.tagsList = newTagsList;
-    }
-}
-
-
-- (NSArray *) mealsList
-{
-//    if (!_mealsList) {
-//        _mealsList = [[NSArray alloc] init];
-//    }
-//    return _mealsList;
-    
-    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    
-}
-
-- (void) setNewMealsList: (NSArray *) newMealsList
-{
-//    if (newMealsList) {
-//        self.mealsList = newMealsList;
-//    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:newMealsList forKey:mhedObjectsDictionaryMealsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-}
-
-- (void) addToMealsList: (NSArray *) meals
-{
-//    if (meals) {
-//        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
-//        for (EDTag *tag in [meals[0] tags]) {
-//            NSLog(@"tag name = %@", tag.name);
-//        }
-//    }
-    
-    
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
-    
-    [self setNewMealsList:newList];
-}
-
-
-- (NSArray *) ingredientsList
-{
-//    if (!_ingredientsList) {
-//        _ingredientsList = [[NSArray alloc] init];
-//    }
-//    return _ingredientsList;
-
-    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
-}
-
-
-
-
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList
-{
-//    if (newIngredientsList) {
-//        self.ingredientsList = newIngredientsList;
-//    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:newIngredientsList forKey:mhedObjectsDictionaryIngredientsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-}
-
-
-
-
-- (void) addToIngredientsList: (NSArray *) ingredients
-{
-//    if (ingredients) {
-//        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
-//    }
-    
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
-    
-    [self setNewIngredientsList:newList];
-}
-
-
-- (NSArray *) medicationsList
-{
-    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
-}
-
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList
-{
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:newMedicationsList forKey:mhedObjectsDictionaryMedicationKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-}
-
-- (void) addToMedicationsList: (NSArray *) medications
-{
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
-    
-    [self setNewMedicationsList:newList];
-}
 
 
 #pragma mark - Tag cell Delegate and DataSource methods
@@ -2117,106 +2307,5 @@
 
 
 
-
-
-
-#pragma mark - Keyboard -
-// launches when a keyboard shows on screen,
-// - this is to adjust the screen to view the table
-- (void) handleKeyboardWillShow: (NSNotification *) paramNotification {
-    
-    
-    /*
-     NSDictionary *userInfo = [paramNotification userInfo];
-     
-     NSValue *animationCurveObject = [userInfo valueForKey:UIKeyboardAnimationCurveUserInfoKey];
-     NSValue *animationDurationObject = [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-     NSValue *keyboardEndRectObject = [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey];
-     
-     NSUInteger animationCurve = 0;
-     double animationDuration = 0.0f;
-     CGRect keyboardEndRect = CGRectMake(0, 0, 0, 0);
-     
-     [animationCurveObject getValue:&animationCurve];
-     [animationDurationObject getValue:&animationDuration];
-     [keyboardEndRectObject getValue:&keyboardEndRect];
-     
-     [UIView beginAnimations:@"changeTableViewContentInset" context:NULL];
-     [UIView setAnimationDuration:animationDuration];
-     [UIView setAnimationCurve:(UIViewAnimationCurve)animationCurve];
-     
-     CGRect intersectionOfTopViewAndKeyboardRect = CGRectIntersection(self.tableView.frame, keyboardEndRect);
-     
-     
-     CGFloat navBarHeight = 0.0f;
-     if (self.navigationController) {
-     navBarHeight = self.navigationController.navigationBar.frame.size.height;
-     }
-     
-     CGFloat statusBarHeight = 0.0f;
-     if (![UIApplication sharedApplication].statusBarHidden) {
-     statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-     }
-     CGFloat tableInset = intersectionOfTopViewAndKeyboardRect.size.height + navBarHeight + statusBarHeight;
-     
-     
-     self.tableView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, tableInset, 0.0f);
-     */
-    
-    
-    //NSIndexPath *indexPathOfOwnerCell = nil;
-    
-    // Also, make sure the selected text field is visible on the screen
-    //NSInteger numberOfCells = [self.stTableView.dataSource tableView:self.stTableView numberOfRowsInSection:0];
-    
-    /* So let's go through all the cells and find their accessory text fields. Once we have the reference to those text fields, we can see which one of them is the first responder (has the keyboard) and we will make a call
-     to the table view to make sure that, after the keyboard is displayed, that specific cell is NOT obstructed by the keyboard */
-    /*
-     for (NSInteger counter = 0; counter < numberOfCells; counter++){
-     
-     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:counter inSection:0];
-     UITableViewCell *cell = [self.stTableView cellForRowAtIndexPath:indexPath];
-     UITextField *textField = (UITextField *)cell.accessoryView;
-     if ([textField isKindOfClass:[UITextField class]] == NO){
-     continue;
-     }
-     if ([textField isFirstResponder]){ indexPathOfOwnerCell = indexPath;
-     break;
-     }
-     }
-     */
-    
-    
-    [UIView commitAnimations];
-    /*
-     if (indexPathOfOwnerCell != nil){
-     [self.stTableView scrollToRowAtIndexPath:indexPathOfOwnerCell
-     atScrollPosition:UITableViewScrollPositionMiddle
-     animated:YES];
-     }
-     */
-}
-
-- (void) handleKeyboardWillHide:(NSNotification *)paramNotification
-{
-    /*
-     if (UIEdgeInsetsEqualToEdgeInsets(self.tableView.contentInset, UIEdgeInsetsZero)){
-     // Our table view's content inset is intact so no need to reset it
-     return; }
-     NSDictionary *userInfo = [paramNotification userInfo]; NSValue *animationCurveObject =
-     [userInfo valueForKey:UIKeyboardAnimationCurveUserInfoKey]; NSValue *animationDurationObject =
-     [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey]; NSValue *keyboardEndRectObject =
-     [userInfo valueForKey:UIKeyboardFrameEndUserInfoKey]; NSUInteger animationCurve = 0;
-     
-     double animationDuration = 0.0f;
-     CGRect keyboardEndRect = CGRectMake(0, 0, 0, 0);
-     [animationCurveObject getValue:&animationCurve]; [animationDurationObject getValue:&animationDuration]; [keyboardEndRectObject getValue:&keyboardEndRect]; [UIView beginAnimations:@"changeTableViewContentInset"
-     context:NULL];
-     [UIView setAnimationDuration:animationDuration];
-     [UIView setAnimationCurve:(UIViewAnimationCurve)animationCurve]; self.tableView.contentInset = UIEdgeInsetsZero;
-     */
-    
-    [UIView commitAnimations];
-}
 
 @end

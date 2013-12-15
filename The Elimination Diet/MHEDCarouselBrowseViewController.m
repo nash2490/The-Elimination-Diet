@@ -100,7 +100,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // get sectionData
-    NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
+    NSMutableDictionary *sectionData = self.cellArray[indexPath.section];
     
     if ([sectionData[mhedTableComponentSectionKey] isEqualToString:mhedTableSectionIDBrowseSection]) {
         // then we selected the row 

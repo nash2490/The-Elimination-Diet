@@ -132,50 +132,6 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 //}
 
 
-#pragma mark - Create Meal methods
-
-- (void) handleDoneButton: (id) sender
-{
-    [self createMeal];
-}
-
-
-- (void) createMeal
-{
-    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
-    {
-        // also should check the restaurant
-        // but anyways, this means we don't need to create a new meal
-        
-        
-        [self.managedObjectContext performBlockAndWait:^{
-            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
-            
-        }];
-        
-    }
-    
-    else
-    { // we need to create a new new meal first
-        [self.managedObjectContext performBlockAndWait:^{
-            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
-                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
-                                             mealParents:[NSSet setWithArray:self.mealsList]
-                                              restaurant:self.restaurant tags:nil
-                                              forContext:self.managedObjectContext];
-            
-//            if ([self.images count]) {
-//                [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-//            }
-            
-            
-            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
-        }];
-    }
-}
-
-
-
 
 #pragma mark - MHEDFoodSelectionViewControllerDataSource methods -
 // default method options
@@ -407,7 +363,53 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (void) addMealDetails:(id) sender
 {
     // segue to meal options etc.
+    
+    
 }
+
+
+#pragma mark - Create Meal methods
+
+- (void) handleDoneButton: (id) sender
+{
+    [self createMeal];
+}
+
+
+- (void) createMeal
+{
+    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
+    {
+        // also should check the restaurant
+        // but anyways, this means we don't need to create a new meal
+        
+        
+        [self.managedObjectContext performBlockAndWait:^{
+            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
+            
+        }];
+        
+    }
+    
+    else
+    { // we need to create a new new meal first
+        [self.managedObjectContext performBlockAndWait:^{
+            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
+                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
+                                             mealParents:[NSSet setWithArray:self.mealsList]
+                                              restaurant:self.restaurant tags:nil
+                                              forContext:self.managedObjectContext];
+            
+            //            if ([self.images count]) {
+            //                [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
+            //            }
+            
+            
+            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
+        }];
+    }
+}
+
 
 
 #pragma mark - Container View Controller

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MHEDMealOptionsViewController.h"
+
 // custom cells
 #import "EDImageAndNameCell.h"
 #import "EDTagCell.h"
@@ -30,35 +32,35 @@
 #define mhedPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define mhedDatePickerTag              99     // view tag identifiying the date picker view
 
-static NSString *mhedDateCellID = @"DateCell";     // the cells with the start or end date
-static NSString *mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
-
-static NSString *mhedValueCellID = @"ValueCell";
-static NSString *mhedValuePickerCellID = @"ValuePickerCell";
-
-static NSString *mhedTagCellID = @"TagCell";
-static NSString *mhedImageAndNameCellID = @"ImageAndNameCell";
-static NSString *mhedRestaurantCellID = @"RestaurantCell";
-static NSString *mhedAddMealsAndIngredientsCellID = @"AddMealsAndIngredientsCell";
-static NSString *mhedDetailMealsAndIngredientsCellID = @"DetailMealsAndIngredientsCell";
-
-static NSString *mhedAddMedsAndIngredientsCellID = @"AddMedsAndIngredientsCell";
-static NSString *mhedDetailMedsAndIngredientsCellID = @"DetailMedsAndIngredientsCell";
-
-static NSString *mhedAddObjectsCellID = @"AddObjectsCell";
-static NSString *mhedDetailObjectsCellID = @"DetailedObjectsCellID";
-
-static NSString *mhedLargeImageCellID = @"LargeImageCell";
-static NSString *mhedImageButtonCellID = @"ImageButtonCell";
-
-static NSString *mhedShowHideCellID = @"ShowHideCell";
-
-
-static NSString *mhedMealAndMedicationSegmentedControlCellID = @"MealAndMedicationSegmentedControlCell";
-
-static NSString *mhedReminderCellID = @"ReminderCell";
-
-static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
+//static NSString *mhedDateCellID = @"DateCell";     // the cells with the start or end date
+//static NSString *mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
+//
+//static NSString *mhedValueCellID = @"ValueCell";
+//static NSString *mhedValuePickerCellID = @"ValuePickerCell";
+//
+//static NSString *mhedTagCellID = @"TagCell";
+//static NSString *mhedImageAndNameCellID = @"ImageAndNameCell";
+//static NSString *mhedRestaurantCellID = @"RestaurantCell";
+//static NSString *mhedAddMealsAndIngredientsCellID = @"AddMealsAndIngredientsCell";
+//static NSString *mhedDetailMealsAndIngredientsCellID = @"DetailMealsAndIngredientsCell";
+//
+//static NSString *mhedAddMedsAndIngredientsCellID = @"AddMedsAndIngredientsCell";
+//static NSString *mhedDetailMedsAndIngredientsCellID = @"DetailMedsAndIngredientsCell";
+//
+//static NSString *mhedAddObjectsCellID = @"AddObjectsCell";
+//static NSString *mhedDetailObjectsCellID = @"DetailedObjectsCellID";
+//
+//static NSString *mhedLargeImageCellID = @"LargeImageCell";
+//static NSString *mhedImageButtonCellID = @"ImageButtonCell";
+//
+//static NSString *mhedShowHideCellID = @"ShowHideCell";
+//
+//
+//static NSString *mhedMealAndMedicationSegmentedControlCellID = @"MealAndMedicationSegmentedControlCell";
+//
+//static NSString *mhedReminderCellID = @"ReminderCell";
+//
+//static NSString *mhedDetailMealMedCellID = @"DetailMealMedCell";
 
 
 @class EDRestaurant;

@@ -307,7 +307,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wM3-c3-SNt">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wM3-c3-SNt">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -338,14 +338,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="leading" secondItem="wM3-c3-SNt" secondAttribute="leading" id="133-hC-8pz"/>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="top" secondItem="wM3-c3-SNt" secondAttribute="bottom" constant="8" id="6Id-Zc-nyd"/>
-                            <constraint firstAttribute="trailing" secondItem="Vya-2C-PFn" secondAttribute="trailing" id="GTo-QA-HEP"/>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="leading" secondItem="RIo-W0-Tpb" secondAttribute="leading" id="I7B-dB-vud"/>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="top" secondItem="wM3-c3-SNt" secondAttribute="bottom" constant="8" symbolic="YES" id="bTp-z1-gX6"/>
-                            <constraint firstAttribute="bottom" secondItem="Vya-2C-PFn" secondAttribute="bottom" id="gFS-6P-Et8"/>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="top" secondItem="RIo-W0-Tpb" secondAttribute="top" constant="292" id="kpn-Xf-z1O"/>
-                            <constraint firstItem="Vya-2C-PFn" firstAttribute="trailing" secondItem="wM3-c3-SNt" secondAttribute="trailing" id="wX0-vx-I36"/>
+                            <constraint firstItem="wM3-c3-SNt" firstAttribute="top" secondItem="RIo-W0-Tpb" secondAttribute="top" id="63K-PY-ha7"/>
+                            <constraint firstAttribute="trailing" secondItem="Vya-2C-PFn" secondAttribute="trailing" id="CLH-0S-P1Q"/>
+                            <constraint firstItem="Vya-2C-PFn" firstAttribute="leading" secondItem="RIo-W0-Tpb" secondAttribute="leading" id="JKJ-s8-nIG"/>
+                            <constraint firstItem="wM3-c3-SNt" firstAttribute="leading" secondItem="Vya-2C-PFn" secondAttribute="leading" id="LH4-w5-7FT"/>
+                            <constraint firstItem="wM3-c3-SNt" firstAttribute="trailing" secondItem="Vya-2C-PFn" secondAttribute="trailing" id="Md2-hC-74A"/>
+                            <constraint firstAttribute="bottom" secondItem="Vya-2C-PFn" secondAttribute="bottom" id="TSp-u6-vkp"/>
+                            <constraint firstItem="Vya-2C-PFn" firstAttribute="top" secondItem="wM3-c3-SNt" secondAttribute="bottom" constant="8" symbolic="YES" id="iTR-Aa-at6"/>
+                            <constraint firstItem="Vya-2C-PFn" firstAttribute="top" secondItem="RIo-W0-Tpb" secondAttribute="top" constant="292" id="s4p-FK-0eB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mo5-XZ-h25"/>
@@ -616,7 +616,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ggl-Yn-TzC">
                                             <rect key="frame" x="20" y="5" width="77" height="68"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" patternImage="4C30E970-C35D-40C8-BBDC-B94D31CC3070" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="1D59C0FD-36E8-47FB-B506-07E6F51ADDD2" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="77" id="aTq-Yk-Ue1"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="oEN-Q2-Rcp"/>
@@ -1604,7 +1604,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S4i-sI-ZYH">
                                             <rect key="frame" x="20" y="5" width="77" height="69"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" patternImage="20515BDD-480E-434B-AD6A-4B161DD137A3" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="612460E5-2F50-4281-A0D6-CF6F74407B5B" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="77" id="Atq-02-VPP"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="Oxt-T8-4Ya"/>
@@ -2379,7 +2379,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <!--2013-12-31 11:00:00 +0000-->
                                             </date>
                                             <timeZone key="timeZone" name="America/Los_Angeles">
-                                                <mutableData key="data">
+                                                <data key="data">
 VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
 y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
 5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
@@ -2397,7 +2397,7 @@ f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
-</mutableData>
+</data>
                                             </timeZone>
                                             <connections>
                                                 <action selector="datePickerValueChanged:" destination="pPl-4J-0I9" eventType="valueChanged" id="uwx-27-5bc"/>
@@ -2665,7 +2665,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         </scene>
     </scenes>
     <resources>
-        <image name="20515BDD-480E-434B-AD6A-4B161DD137A3" width="256" height="256">
+        <image name="1D59C0FD-36E8-47FB-B506-07E6F51ADDD2" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7054,7 +7054,7 @@ BAILAAQCEwAEAhYABAIbAAQCKgAEAi4ABAI1AAQCPQAEAkoABAJPAAQCUQAEAlMABAJYAAQCYAAEAmMA
 BAJoAAQCcAAEAnMABAKFAAQCiAAEAo0AAAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQCjw
 </mutableData>
         </image>
-        <image name="4C30E970-C35D-40C8-BBDC-B94D31CC3070" width="256" height="256">
+        <image name="612460E5-2F50-4281-A0D6-CF6F74407B5B" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11451,6 +11451,6 @@ BAJoAAQCcAAEAnMABAKFAAQCiAAEAo0AAAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQCjw
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TRj-Bc-Vxg"/>
+        <segue reference="wRZ-Nk-QO1"/>
     </inferredMetricsTieBreakers>
 </document>

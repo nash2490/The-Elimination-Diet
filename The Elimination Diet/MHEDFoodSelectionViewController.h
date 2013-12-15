@@ -36,6 +36,12 @@
 - (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
 - (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
 
+- (NSArray *) imagesArray;
+- (void) addToImagesArray: (NSArray *) images;
+- (void) removeImagesFromImagesArray: (NSArray *) images;
+
+// symptoms???
+
 @end
 
 //@protocol MHEDFoodSelectionViewControllerDelegate <NSObject>

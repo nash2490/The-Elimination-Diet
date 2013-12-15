@@ -10,6 +10,7 @@
 		6C0368B91818796A0088353A /* EDIngredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0368B81818796A0088353A /* EDIngredient.m */; };
 		6C0368BC18187A360088353A /* EDTakenMedication+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0368BB18187A360088353A /* EDTakenMedication+Methods.m */; };
 		6C0368BF18187B8B0088353A /* EDMedication+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0368BE18187B8B0088353A /* EDMedication+Methods.m */; };
+		6C03EC0B185D2ABE0029E272 /* MHEDObjectsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C03EC0A185D2ABE0029E272 /* MHEDObjectsDictionary.m */; };
 		6C08ABB017B0BB0B00A8DBF8 /* EDMultipleCoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C08ABAF17B0BB0B00A8DBF8 /* EDMultipleCoreDataTableViewController.m */; };
 		6C08B5F317AAF956006F223B /* EDCoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C08B5F217AAF955006F223B /* EDCoreDataTableViewController.m */; };
 		6C0A0FA617DA1B1A00954302 /* EDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C0A0FA517DA1B1A00954302 /* EDEvent.m */; };
@@ -29,11 +30,7 @@
 		6C2B76C5185402CF00881902 /* MHEDMealInformationEnterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C2B76C4185402CF00881902 /* MHEDMealInformationEnterViewController.m */; };
 		6C32A0C417AA93A0007E932D /* EDDocumentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C32A0C317AA93A0007E932D /* EDDocumentHandler.m */; };
 		6C35E18617C2A93A00AC4B74 /* NSSet+MHED_MoreSetOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C35E18517C2A93A00AC4B74 /* NSSet+MHED_MoreSetOperations.m */; };
-		6C3619A818205CCF00791E49 /* EDTakeNewMedicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3619A718205CCF00791E49 /* EDTakeNewMedicationViewController.m */; };
-		6C3619AB18205E5200791E49 /* EDEatNewMealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3619AA18205E5200791E49 /* EDEatNewMealViewController.m */; };
-		6C3619B41821ED0F00791E49 /* EDAddTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */; };
 		6C365D2F182C18B300DC9990 /* EDSelectTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C365D2E182C18B300DC9990 /* EDSelectTagsViewController.m */; };
-		6C36AE73185784F200CD2177 /* EDCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C36AE72185784F200CD2177 /* EDCreationViewController.m */; };
 		6C3E83F7180D939C006CC09B /* EDSearchToEatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C3E83F6180D939C006CC09B /* EDSearchToEatViewController.m */; };
 		6C4C8501183527BC00D8DDE7 /* EDImage+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4C8500183527BC00D8DDE7 /* EDImage+Methods.m */; };
 		6C4DC05117736E8F00AE401F /* UIView+MHED_AdjustView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC05017736E8F00AE401F /* UIView+MHED_AdjustView.m */; };
@@ -88,11 +85,9 @@
 		6CB51B6517CF31A100F58122 /* EDEliminatedFood+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB51B6417CF31A100F58122 /* EDEliminatedFood+Methods.m */; };
 		6CB51B6817CF31A900F58122 /* EDEliminatedFood+Restaurants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB51B6717CF31A900F58122 /* EDEliminatedFood+Restaurants.m */; };
 		6CB51B6B17CF327900F58122 /* EDEliminatedFood+Meals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CB51B6A17CF327800F58122 /* EDEliminatedFood+Meals.m */; };
-		6CBE2F0F1829495B00854B64 /* EDBasicPhotoCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F0E1829495B00854B64 /* EDBasicPhotoCreateViewController.m */; };
 		6CBE2F16182951E500854B64 /* EDReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F15182951E500854B64 /* EDReminderCell.m */; };
 		6CBE2F191829520E00854B64 /* EDImageButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F181829520E00854B64 /* EDImageButtonCell.m */; };
 		6CBE2F1C1829523000854B64 /* EDLargeImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F1B1829523000854B64 /* EDLargeImageCell.m */; };
-		6CBE2F1F18297C6700854B64 /* EDNewFoodFromPicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE2F1E18297C6700854B64 /* EDNewFoodFromPicturesViewController.m */; };
 		6CC0E826183AB2E9004CC620 /* EDStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC0E825183AB2E9004CC620 /* EDStatusViewController.m */; };
 		6CC20F5217E39757005CA809 /* EDLocation+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC20F5117E39756005CA809 /* EDLocation+Methods.m */; };
 		6CC20F5A17E398BE005CA809 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC20F5917E398BE005CA809 /* CoreLocation.framework */; };
@@ -127,6 +122,8 @@
 		6C0368BB18187A360088353A /* EDTakenMedication+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDTakenMedication+Methods.m"; sourceTree = "<group>"; };
 		6C0368BD18187B8B0088353A /* EDMedication+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDMedication+Methods.h"; sourceTree = "<group>"; };
 		6C0368BE18187B8B0088353A /* EDMedication+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDMedication+Methods.m"; sourceTree = "<group>"; };
+		6C03EC09185D2ABE0029E272 /* MHEDObjectsDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDObjectsDictionary.h; sourceTree = "<group>"; };
+		6C03EC0A185D2ABE0029E272 /* MHEDObjectsDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDObjectsDictionary.m; sourceTree = "<group>"; };
 		6C08ABAE17B0BB0B00A8DBF8 /* EDMultipleCoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDMultipleCoreDataTableViewController.h; sourceTree = "<group>"; };
 		6C08ABAF17B0BB0B00A8DBF8 /* EDMultipleCoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDMultipleCoreDataTableViewController.m; sourceTree = "<group>"; };
 		6C08B5F117AAF955006F223B /* EDCoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDCoreDataTableViewController.h; sourceTree = "<group>"; };
@@ -164,16 +161,8 @@
 		6C32A0C317AA93A0007E932D /* EDDocumentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDDocumentHandler.m; sourceTree = "<group>"; };
 		6C35E18417C2A93A00AC4B74 /* NSSet+MHED_MoreSetOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+MHED_MoreSetOperations.h"; sourceTree = "<group>"; };
 		6C35E18517C2A93A00AC4B74 /* NSSet+MHED_MoreSetOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+MHED_MoreSetOperations.m"; sourceTree = "<group>"; };
-		6C3619A618205CCF00791E49 /* EDTakeNewMedicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDTakeNewMedicationViewController.h; sourceTree = "<group>"; };
-		6C3619A718205CCF00791E49 /* EDTakeNewMedicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDTakeNewMedicationViewController.m; sourceTree = "<group>"; };
-		6C3619A918205E5200791E49 /* EDEatNewMealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDEatNewMealViewController.h; sourceTree = "<group>"; };
-		6C3619AA18205E5200791E49 /* EDEatNewMealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EDEatNewMealViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		6C3619B21821ED0F00791E49 /* EDAddTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDAddTableViewController.h; sourceTree = "<group>"; };
-		6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDAddTableViewController.m; sourceTree = "<group>"; };
 		6C365D2D182C18B300DC9990 /* EDSelectTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSelectTagsViewController.h; sourceTree = "<group>"; };
 		6C365D2E182C18B300DC9990 /* EDSelectTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSelectTagsViewController.m; sourceTree = "<group>"; };
-		6C36AE71185784F200CD2177 /* EDCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDCreationViewController.h; sourceTree = "<group>"; };
-		6C36AE72185784F200CD2177 /* EDCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDCreationViewController.m; sourceTree = "<group>"; };
 		6C3E83F5180D939C006CC09B /* EDSearchToEatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDSearchToEatViewController.h; sourceTree = "<group>"; };
 		6C3E83F6180D939C006CC09B /* EDSearchToEatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDSearchToEatViewController.m; sourceTree = "<group>"; };
 		6C4C84FF183527BC00D8DDE7 /* EDImage+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDImage+Methods.h"; sourceTree = "<group>"; };
@@ -279,16 +268,12 @@
 		6CB51B6717CF31A900F58122 /* EDEliminatedFood+Restaurants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDEliminatedFood+Restaurants.m"; sourceTree = "<group>"; };
 		6CB51B6917CF327800F58122 /* EDEliminatedFood+Meals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDEliminatedFood+Meals.h"; sourceTree = "<group>"; };
 		6CB51B6A17CF327800F58122 /* EDEliminatedFood+Meals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDEliminatedFood+Meals.m"; sourceTree = "<group>"; };
-		6CBE2F0D1829495B00854B64 /* EDBasicPhotoCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDBasicPhotoCreateViewController.h; sourceTree = "<group>"; };
-		6CBE2F0E1829495B00854B64 /* EDBasicPhotoCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDBasicPhotoCreateViewController.m; sourceTree = "<group>"; };
 		6CBE2F14182951E500854B64 /* EDReminderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDReminderCell.h; sourceTree = "<group>"; };
 		6CBE2F15182951E500854B64 /* EDReminderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDReminderCell.m; sourceTree = "<group>"; };
 		6CBE2F171829520E00854B64 /* EDImageButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDImageButtonCell.h; sourceTree = "<group>"; };
 		6CBE2F181829520E00854B64 /* EDImageButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDImageButtonCell.m; sourceTree = "<group>"; };
 		6CBE2F1A1829523000854B64 /* EDLargeImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDLargeImageCell.h; sourceTree = "<group>"; };
 		6CBE2F1B1829523000854B64 /* EDLargeImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDLargeImageCell.m; sourceTree = "<group>"; };
-		6CBE2F1D18297C6700854B64 /* EDNewFoodFromPicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDNewFoodFromPicturesViewController.h; sourceTree = "<group>"; };
-		6CBE2F1E18297C6700854B64 /* EDNewFoodFromPicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDNewFoodFromPicturesViewController.m; sourceTree = "<group>"; };
 		6CC0E8221836836A004CC620 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6CC0E824183AB2E9004CC620 /* EDStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDStatusViewController.h; sourceTree = "<group>"; };
 		6CC0E825183AB2E9004CC620 /* EDStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDStatusViewController.m; sourceTree = "<group>"; };
@@ -407,8 +392,6 @@
 				6C3E83F8180D93A2006CC09B /* 0.2 */,
 				6CA03B3818511FD800057CA3 /* Browsing And Selection */,
 				6C0842D417B43B8C006169F2 /* Core Data */,
-				6CBE2F0D1829495B00854B64 /* EDBasicPhotoCreateViewController.h */,
-				6CBE2F0E1829495B00854B64 /* EDBasicPhotoCreateViewController.m */,
 				6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */,
 				6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */,
 				6CA59E12185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.h */,
@@ -452,14 +435,8 @@
 				6C2B76AC1852513B00881902 /* Creation Views */,
 				6C1070841803427F000D3251 /* EDEatNewFoodViewController.h */,
 				6C1070851803427F000D3251 /* EDEatNewFoodViewController.m */,
-				6C3619A918205E5200791E49 /* EDEatNewMealViewController.h */,
-				6C3619AA18205E5200791E49 /* EDEatNewMealViewController.m */,
-				6CBE2F1D18297C6700854B64 /* EDNewFoodFromPicturesViewController.h */,
-				6CBE2F1E18297C6700854B64 /* EDNewFoodFromPicturesViewController.m */,
 				6C3E83F5180D939C006CC09B /* EDSearchToEatViewController.h */,
 				6C3E83F6180D939C006CC09B /* EDSearchToEatViewController.m */,
-				6C3619A618205CCF00791E49 /* EDTakeNewMedicationViewController.h */,
-				6C3619A718205CCF00791E49 /* EDTakeNewMedicationViewController.m */,
 			);
 			name = 0.2;
 			sourceTree = "<group>";
@@ -471,6 +448,8 @@
 				6C8B3651181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.m */,
 				6C75C36A18157CEB00676288 /* EDEliminatedAPI.h */,
 				6C75C36B18157CEB00676288 /* EDEliminatedAPI.m */,
+				6C03EC09185D2ABE0029E272 /* MHEDObjectsDictionary.h */,
+				6C03EC0A185D2ABE0029E272 /* MHEDObjectsDictionary.m */,
 				6C8B3654181ABFAA00B022F3 /* EDEliminatedAPI+Searching.h */,
 				6C8B3655181ABFAA00B022F3 /* EDEliminatedAPI+Searching.m */,
 				6C8B3657181ACCB200B022F3 /* EDEliminatedAPI+Sorting.h */,
@@ -488,10 +467,8 @@
 				6C2B76B218528F2800881902 /* MHEDBrowseFoodViewController.m */,
 				6C2B76B418528F3D00881902 /* MHEDBrowseSymptomsViewController.h */,
 				6C2B76B518528F3D00881902 /* MHEDBrowseSymptomsViewController.m */,
-				6C3619B21821ED0F00791E49 /* EDAddTableViewController.h */,
 				6CA96DE21858E2D400F362A8 /* MHEDMealSummaryViewController.h */,
 				6CA96DE31858E2D400F362A8 /* MHEDMealSummaryViewController.m */,
-				6C3619B31821ED0F00791E49 /* EDAddTableViewController.m */,
 				6C2B76B71852C6EA00881902 /* MHEDBrowseMapViewController.h */,
 				6C2B76B81852C6EA00881902 /* MHEDBrowseMapViewController.m */,
 				6C2B76BA1852C71B00881902 /* MHEDBrowseSymptomViewController.h */,
@@ -650,13 +627,13 @@
 		6CED587F1763FA3F005BFF76 = {
 			isa = PBXGroup;
 			children = (
-				6CAB9CE117A005E500988074 /* CoreData.framework */,
-				6CC20F5B17E398C3005CA809 /* MapKit.framework */,
-				6CC20F5917E398BE005CA809 /* CoreLocation.framework */,
 				6CAB9CE317A0062100988074 /* EDDataModel.xcdatamodeld */,
 				6CED58911763FA3F005BFF76 /* The Elimination Diet */,
 				6CED588A1763FA3F005BFF76 /* Frameworks */,
 				6CED58891763FA3F005BFF76 /* Products */,
+				6CAB9CE117A005E500988074 /* CoreData.framework */,
+				6CC20F5B17E398C3005CA809 /* MapKit.framework */,
+				6CC20F5917E398BE005CA809 /* CoreLocation.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -683,8 +660,6 @@
 		6CED58911763FA3F005BFF76 /* The Elimination Diet */ = {
 			isa = PBXGroup;
 			children = (
-				6C36AE71185784F200CD2177 /* EDCreationViewController.h */,
-				6C36AE72185784F200CD2177 /* EDCreationViewController.m */,
 				6C1354CB17F3547200AD6A4E /* User Interface */,
 				6CF0CCD017675B29008BD2A7 /* Model */,
 				6C2B76AD185257E400881902 /* Helpers */,
@@ -804,6 +779,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C03EC0B185D2ABE0029E272 /* MHEDObjectsDictionary.m in Sources */,
 				6C0368BC18187A360088353A /* EDTakenMedication+Methods.m in Sources */,
 				6C629F7917E8EB5900FCEFE8 /* EDRestaurant+Methods.m in Sources */,
 				6CA59E14185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m in Sources */,
@@ -828,12 +804,10 @@
 				6C909D7B1858046F00F5A4CD /* MHEDDatePickerCell.m in Sources */,
 				6C8B3652181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.m in Sources */,
 				6CAE740418046D260062E12C /* EDTagCell.m in Sources */,
-				6C3619AB18205E5200791E49 /* EDEatNewMealViewController.m in Sources */,
 				6CA03B34184FB96500057CA3 /* NSArray+MHED_Methods.m in Sources */,
 				6CADA0CA183134EE00A9C6AA /* EDRestaurant.m in Sources */,
 				6CAB9CE517A0062100988074 /* EDDataModel.xcdatamodeld in Sources */,
 				6CADA0CD183134FD00A9C6AA /* EDTakenMedication.m in Sources */,
-				6C3619A818205CCF00791E49 /* EDTakeNewMedicationViewController.m in Sources */,
 				6CA59E1D185B992B000F1C1E /* MHEDMealOptionsViewController.m in Sources */,
 				6CAEC09017A843AE00649199 /* EDEatenMeal+Methods.m in Sources */,
 				6C8B3656181ABFAA00B022F3 /* EDEliminatedAPI+Searching.m in Sources */,
@@ -855,7 +829,6 @@
 				6C32A0C417AA93A0007E932D /* EDDocumentHandler.m in Sources */,
 				6CA96DE71858E41F00F362A8 /* MHEDMealCarouselViewController.m in Sources */,
 				6CADA0D1183172CE00A9C6AA /* iCarousel.m in Sources */,
-				6C3619B41821ED0F00791E49 /* EDAddTableViewController.m in Sources */,
 				6CAE73FE18046B020062E12C /* EDMealAndMedicationSegmentedControlCell.m in Sources */,
 				6C08B5F317AAF956006F223B /* EDCoreDataTableViewController.m in Sources */,
 				6C8B3659181ACCB200B022F3 /* EDEliminatedAPI+Sorting.m in Sources */,
@@ -883,7 +856,6 @@
 				6CA59E11185B65BB000F1C1E /* MHEDSplitViewController.m in Sources */,
 				6C365D2F182C18B300DC9990 /* EDSelectTagsViewController.m in Sources */,
 				6CE51DF8183FD5AD004C7ABC /* EDBodyLocation.m in Sources */,
-				6C36AE73185784F200CD2177 /* EDCreationViewController.m in Sources */,
 				6CA96DE11858D2E600F362A8 /* MHEDFoodSelectionViewController.m in Sources */,
 				6C10D51318283463000F247F /* EDTag.m in Sources */,
 				6C0A0FA617DA1B1A00954302 /* EDEvent.m in Sources */,
@@ -897,12 +869,10 @@
 				6CBE2F16182951E500854B64 /* EDReminderCell.m in Sources */,
 				6CE51DD4183EA848004C7ABC /* EDHadSymptom.m in Sources */,
 				6C10D5041827E374000F247F /* EDTableComponents.m in Sources */,
-				6CBE2F1F18297C6700854B64 /* EDNewFoodFromPicturesViewController.m in Sources */,
 				6CBE2F191829520E00854B64 /* EDImageButtonCell.m in Sources */,
 				6CC20F5217E39757005CA809 /* EDLocation+Methods.m in Sources */,
 				6C85479317E4FCFD005B06A6 /* EDLocation.m in Sources */,
 				6CAE740118046C730062E12C /* EDImageAndNameCell.m in Sources */,
-				6CBE2F0F1829495B00854B64 /* EDBasicPhotoCreateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

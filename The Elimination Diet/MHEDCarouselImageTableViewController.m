@@ -129,7 +129,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSMutableDictionary *itemData = self.dataArray[section];
+    NSMutableDictionary *itemData = self.cellArray[section];
     NSString *sectionID = itemData[mhedTableComponentSectionKey];
     
     BOOL hidden = [itemData[mhedTableComponentHideShowBooleanKey] boolValue];
@@ -163,7 +163,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
     if (rowHeight == tableView.rowHeight) { // then the row height is set to default so we may want to reset it
         
         
-        NSMutableDictionary *itemData = self.dataArray[indexPath.section];
+        NSMutableDictionary *itemData = self.cellArray[indexPath.section];
         NSString *sectionID = itemData[mhedTableComponentSectionKey];
         
         if ([sectionID isEqualToString:mhedTableSectionIDLargeImageSection]) {
@@ -212,7 +212,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
         
         NSInteger modelSection = indexPath.section;
         
-        NSMutableDictionary *itemData = self.dataArray[modelSection];
+        NSMutableDictionary *itemData = self.cellArray[modelSection];
         
         NSString *sectionID = itemData[mhedTableComponentSectionKey];
         
@@ -260,7 +260,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         if (indexPath) {
             
-            NSMutableDictionary *sectionData = self.dataArray[indexPath.section];
+            NSMutableDictionary *sectionData = self.cellArray[indexPath.section];
             
             self.isHidden = [sectionData[mhedTableComponentHideShowBooleanKey] boolValue];
             
