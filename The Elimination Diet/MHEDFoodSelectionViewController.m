@@ -499,7 +499,7 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
         
         detailText = tagsDescription;
         
-        if ([self.delegate doesMealsListContainMeals:@[mealForIndexPath]]) {
+        if ([[self.delegate objectsDictionary] doesMealsListContainMeals:@[mealForIndexPath]]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
         else {
@@ -529,7 +529,7 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
         
         
         
-        cell.accessoryType = [self.delegate doesIngredientsListContainIngredients:@[ingredientForIndexPath]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        cell.accessoryType = [[self.delegate objectsDictionary] doesIngredientsListContainIngredients:@[ingredientForIndexPath]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 
     }
     
@@ -554,7 +554,7 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
         detailText = tagsDescription;
         
         
-        cell.accessoryType = [self.delegate doesMedicationsListContainMedications:@[medForIndexPath]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        cell.accessoryType = [[self.delegate objectsDictionary] doesMedicationsListContainMedications:@[medForIndexPath]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         
     }
     
@@ -581,12 +581,12 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
             
             if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                [self.delegate removeMealsFromMealsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary] removeMealsFromMealsList:@[self.selectedObject]];
             }
             
             else {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [self.delegate addToMealsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary] addToMealsList:@[self.selectedObject]];
             }
             
             //                if ([self.delegate doesMealsListContainMeals:@[self.selectedObject]]) {
@@ -599,12 +599,12 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
             
             if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                [self.delegate removeIngredientsFromIngredientsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary]  removeIngredientsFromIngredientsList:@[self.selectedObject]];
             }
             
             else {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [self.delegate addToIngredientsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary]  addToIngredientsList:@[self.selectedObject]];
             }
             
             
@@ -614,12 +614,12 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
             
             if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                [self.delegate removeMedicationsFromMedicationsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary] removeMedicationsFromMedicationsList:@[self.selectedObject]];
             }
             
             else {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [self.delegate addToMedicationsList:@[self.selectedObject]];
+                [[self.delegate objectsDictionary] addToMedicationsList:@[self.selectedObject]];
             }
         }
     }

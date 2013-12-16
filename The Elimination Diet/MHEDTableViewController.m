@@ -32,6 +32,7 @@
 #import "NSString+MHED_EatDate.h"
 #import "UIImage+MHED_fixOrientation.h"
 
+//#import "MHEDObjectsDictionary.h"
 
 #import "EDEliminatedAPI.h"
 
@@ -97,6 +98,29 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 @implementation MHEDTableViewController
 
+
+- (MHEDObjectsDictionary *) objectsDictionary
+{
+    // if we don't have an objectsDictioanry but have a data source that is not ourself
+    if (!_objectsDictionary && _dataSource && ![_dataSource isEqual:self]) {
+        _objectsDictionary = [_dataSource objectsDictionary];
+    }
+    
+    else if (!_objectsDictionary) { // otherwise if we don't have an ojbectsDictionary but don't have a dataSource that is not us
+        _objectsDictionary = [[MHEDObjectsDictionary alloc] initWithDefaults];
+    }
+    
+    return _objectsDictionary;
+}
+
+- (id) dataSource
+{
+    if (!_dataSource) {
+        _dataSource = self;
+    }
+    return _dataSource;
+}
+
 - (NSDateFormatter *) dateFormatter
 {
     if (!_dateFormatter) {
@@ -105,6 +129,9 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     }
     return _dateFormatter;
 }
+
+
+
 
 - (NSInteger) pickerCellRowHeight
 {
@@ -165,10 +192,10 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (NSArray *) defaultDataArray
 // override method, don't call super
 {
-    self.date1 = [NSDate date];
+    [[self.dataSource objectsDictionary]  setDate:[NSDate date]];
     
     NSMutableDictionary *dateDict = [@{ mhedTableComponentTitleKey: @"Date",
-                                        mhedTableComponentDateKey : self.date1,
+                                        mhedTableComponentDateKey : self.date,
                                         mhedTableComponentCellIDKey : mhedTableCellIDDateCell} mutableCopy];
     
     
@@ -208,6 +235,9 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 - (void) mhed_Dealloc
 {
+    
+    self.objectsDictionary = nil;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSCurrentLocaleDidChangeNotification
                                                   object:nil];
@@ -354,8 +384,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     
 //    // if the first time we get info directly from previous and not from delegate
 //    // but then we want to set self as delegate for future
-//    if (!self.delegate) {
-//        self.delegate = self;
+//    if (!self.dataSource) {
+//        self.dataSource = self;
 //    }
 //    
     
@@ -406,229 +436,47 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 
 
-#pragma mark - MHEDFoodSelectionViewControllerDataSource methods -
+#pragma mark - MHEDObjectsDictionaryProtocol and helper methods
 // default method options
 
-
-- (void) setNewRestaurant:(EDRestaurant *)restaurant
+- (NSArray *) mealsList
 {
-    if (restaurant) {
-        self.restaurant = restaurant;
-    }
+    return [[self.dataSource objectsDictionary]  mealsList];
+}
+
+- (NSArray *) ingredientsList
+{
+    return [[self.dataSource objectsDictionary]  ingredientsList];
+}
+
+- (NSArray *) medicationsList {
+    return [[self.dataSource objectsDictionary]  medicationsList];
 }
 
 - (NSArray *) tagsList
 {
-    if (!_tagsList) {
-        _tagsList = [[NSArray alloc] init];
-    }
-    return _tagsList;
+    return [[self.dataSource objectsDictionary]  tagsList];
 }
 
-- (void) addToTagsList: (NSArray *) tags
+- (EDRestaurant *) restaurant
 {
-    if (tags) {
-        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
-    }
+    return [[self.dataSource objectsDictionary]  restaurant];
 }
 
-- (void) setNewTagsList: (NSArray *) newTagsList
+- (NSArray *) imagesList
 {
-    if (newTagsList) {
-        self.tagsList = newTagsList;
-    }
+    return [[self.dataSource objectsDictionary]  imagesArray];
 }
 
-
-- (NSArray *) mealsList
+- (NSDate *) date
 {
-    //    if (!_mealsList) {
-    //        _mealsList = [[NSArray alloc] init];
-    //    }
-    //    return _mealsList;
-    
-    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    
+    return [[self.dataSource objectsDictionary]  date];
 }
 
-- (void) setNewMealsList: (NSArray *) newMealsList
+- (NSString *) objectName
 {
-    //    if (newMealsList) {
-    //        self.mealsList = newMealsList;
-    //    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newMealsList copy] forKey:mhedObjectsDictionaryMealsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self mhedPostFoodDataUpdateNotification];
+    return [[self.dataSource objectsDictionary]  objectName];
 }
-
-- (void) addToMealsList: (NSArray *) meals
-{
-    //    if (meals) {
-    //        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
-    //        for (EDTag *tag in [meals[0] tags]) {
-    //            NSLog(@"tag name = %@", tag.name);
-    //        }
-    //    }
-    
-    
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
-    
-    [self setNewMealsList:newList];
-}
-
-- (void) removeMealsFromMealsList: (NSArray *) meals
-{
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:meals];
-    
-    [self setNewMealsList:mutOldList];
-}
-
-
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals
-{
-    BOOL contains = YES;
-    for (EDMeal *meal in meals) {
-        if ([meal isKindOfClass:[EDMeal class]]) {
-            contains = (contains && [[self mealsList] containsObject:meal]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
-
-- (NSArray *) ingredientsList
-{
-    //    if (!_ingredientsList) {
-    //        _ingredientsList = [[NSArray alloc] init];
-    //    }
-    //    return _ingredientsList;
-    
-    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
-}
-
-
-
-
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList
-{
-    //    if (newIngredientsList) {
-    //        self.ingredientsList = newIngredientsList;
-    //    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newIngredientsList copy] forKey:mhedObjectsDictionaryIngredientsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self mhedPostFoodDataUpdateNotification];
-}
-
-
-
-
-- (void) addToIngredientsList: (NSArray *) ingredients
-{
-    //    if (ingredients) {
-    //        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
-    //    }
-    
-    NSArray *oldList = [self ingredientsList];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
-    
-    [self setNewIngredientsList:newList];
-}
-
-
-- (void) removeIngredientsFromIngredientsList:(NSArray *)ingredients
-{
-    NSArray *oldList = [self ingredientsList];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:ingredients];
-    
-    [self setNewIngredientsList:mutOldList];
-}
-
-
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *)ingredients
-{
-    BOOL contains = YES;
-    for (EDIngredient *ingr in ingredients) {
-        if ([ingr isKindOfClass:[EDIngredient class]]) {
-            contains = (contains && [[self ingredientsList] containsObject:ingr]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
-
-- (NSArray *) medicationsList
-{
-    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
-}
-
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList
-{
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newMedicationsList copy] forKey:mhedObjectsDictionaryMedicationKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self mhedPostFoodDataUpdateNotification];
-    
-}
-
-- (void) addToMedicationsList: (NSArray *) medications
-{
-    NSArray *oldList = [self medicationsList];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
-    
-    [self setNewMedicationsList:newList];
-}
-
-- (void) removeMedicationsFromMedicationsList:(NSArray *)medications
-{
-    NSArray *oldList = [self medicationsList];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:medications];
-    
-    [self setNewMedicationsList:mutOldList];
-}
-
-- (BOOL) doesMedicationsListContainMedications:(NSArray *)medications
-{
-    BOOL contains = YES;
-    for (EDMedication *medication in medications) {
-        if ([medication isKindOfClass:[EDMedication class]]) {
-            contains = (contains && [[self medicationsList] containsObject:medication]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
-
-- (void) mhedPostFoodDataUpdateNotification
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:mhedFoodDataUpdateNotification
-                                                        object:nil];
-}
-
-
 
 #pragma mark - Date Picker View
 
@@ -662,7 +510,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (BOOL)hasPickerForIndexPath:(NSIndexPath *)indexPath
 {
     BOOL hasDatePicker = NO;
-    
+
     NSInteger targetedRow = indexPath.row;
     targetedRow++;
     
@@ -687,7 +535,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
             // we found a UIDatePicker in this cell, so update it's date value
             //    by getting item data for the date display cell
             
-            [targetedDatePicker setDate:self.date1 animated:NO];
+            [targetedDatePicker setDate:self.date animated:NO];
         }
     }
 }
@@ -867,15 +715,15 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     // update our data model
     NSMutableDictionary *itemData = self.cellArray[targetedCellIndexPath.row];
     
-    self.date1 = datePicker.date;
-    [itemData setValue:self.date1 forKey:mhedTableComponentDateKey];
+    [[self.dataSource objectsDictionary]  setDate:datePicker.date];
+    [itemData setValue:self.date forKey:mhedTableComponentDateKey];
     
     // update the cell's date string
-    cell.detailTextLabel.text = [self eatDateAsString:self.date1];
+    cell.detailTextLabel.text = [self eatDateAsString:self.date];
     
     // update name if its the default
     if (self.defaultName) {
-        self.objectName = [self objectNameAsDefault];
+        [[self.dataSource objectsDictionary]  setObjectName:[self objectNameAsDefault]];
         self.objectNameTextView.text = [self objectNameForDisplay];
     }
 }
@@ -940,7 +788,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
             NSString *itemKey = itemTypes[i];
             
             // get array of objects using key
-            NSArray *objectsOfType = self.objectsDictionary[itemKey];
+            NSArray *objectsOfType = [[self.dataSource objectsDictionary]  objectForKey:itemKey];
             
             // the next header location is count + 1, which would correspond to the subHeader i + 1
             headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
@@ -1001,8 +849,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
         NSUInteger rowCount = 1;
         
         // for every array we sum the number of objects
-        for (NSString *objectType in [self.objectsDictionary allKeys]) {
-            rowCount += [self.objectsDictionary[objectType] count];
+        for (NSString *objectType in [[self.dataSource objectsDictionary]  allKeys]) {
+            rowCount += [[[self.dataSource objectsDictionary]  objectForKey:objectType] count];
             rowCount++; // this adds a row for the sub header
         }
         return rowCount;
@@ -1140,7 +988,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
             NSString *itemKey = itemTypes[i];
             
             // get array of objects using key
-            NSArray *objectsOfType = self.objectsDictionary[itemKey];
+            NSArray *objectsOfType = [[self.dataSource objectsDictionary]  objectForKey: itemKey];
             
             // the next header location is count + 1, which would correspond to the subHeader i + 1
             headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
@@ -1277,7 +1125,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
                 NSString *itemKey = itemTypes[i];
                 
                 // get array of objects using key
-                NSArray *objectsOfType = self.objectsDictionary[itemKey];
+                NSArray *objectsOfType = [[self.dataSource objectsDictionary]  objectForKey: itemKey];
                 
                 // the next header location is count + 1, which would correspond to the subHeader i + 1
                 headerLocations = [headerLocations arrayByAddingObject:@([objectsOfType count] + 1)];
@@ -1325,7 +1173,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
                 
                 NSUInteger objectTrueIndex = indexPath.row - ([headerIndex unsignedIntegerValue] + 1);
                 
-                NSArray *objectsArray = self.objectsDictionary[subSectionType];
+                NSArray *objectsArray = [[self.dataSource objectsDictionary]  objectForKey: subSectionType];
 
                 id rowObject = objectsArray[objectTrueIndex];
                 
@@ -1578,7 +1426,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 - (NSString *) defaultTextForNameTextView
 {
-    self.objectName = [self objectNameAsDefault];
+    [[self.dataSource objectsDictionary]  setObjectName:[self objectNameAsDefault]];
     self.defaultName = YES;
     return [self objectNameForDisplay];
 }
@@ -1595,7 +1443,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (void) setNameAs: (NSString *) newName
 {
     if (newName) {
-        self.objectName = newName;
+        [[self.dataSource objectsDictionary]  setObjectName:newName];
         self.defaultName = NO;
     }
 }
@@ -1642,7 +1490,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 {
     if (self.defaultName || !self.objectName || [self.objectName isEqualToString:@""]) {
         self.defaultName = YES;
-        self.objectName = [self objectNameAsDefault];
+        [[self.dataSource objectsDictionary]  setObjectName:[self objectNameAsDefault]];
+
     }
 }
 
@@ -1664,7 +1513,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     }
     
     else {
-        EDMeal *meal = [self.mealsList lastObject];
+        EDMeal *meal = [[[self.dataSource objectsDictionary]  mealsList] lastObject];
         
         if ([meal.images count]) {
             EDImage *mhedImg = [meal.images anyObject];
@@ -1679,10 +1528,10 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 #pragma mark - EDSelectTagsDelegate methods
 
-- (void) addTagsToList: (NSSet *) tags
-{
-    self.tagsList = [tags allObjects];
-}
+//- (void) addTagsToList: (NSSet *) tags
+//{
+//    self.tagsList = [tags allObjects];
+//}
 
 
 #pragma mark - EDMealAndMedicationSegmentedControlDelegate
@@ -2041,36 +1890,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 - (void) handleMealDoneButton
 {
     
-    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
-    {
-        // also should check the restaurant
-        // but anyways, this means we don't need to create a new meal
-        
-        
-        [self.managedObjectContext performBlockAndWait:^{
-            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
-            
-        }];
-        
-    }
-    
-    else if ([self.mealsList count] > 0 || [self.ingredientsList count] > 0)
-    { // we need to create a new new meal first
-        [self.managedObjectContext performBlockAndWait:^{
-            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
-                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
-                                             mealParents:[NSSet setWithArray:self.mealsList]
-                                              restaurant:self.restaurant tags:nil
-                                              forContext:self.managedObjectContext];
-            
-            //                if ([self.images count]) {
-            //                    [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-            //                }
-            
-            
-            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
-        }];
-    }
+    [[self.dataSource objectsDictionary]  createMealInContext:self.managedObjectContext];
     
 //    if ([self respondsToSelector:@selector(mealsList)] &&
 //        [self respondsToSelector:@selector(ingredientsList)]) {
@@ -2168,7 +1988,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     
     
     
-    return [NSString stringWithFormat:@"Meal at %@", [self eatDateAsString:self.date1]];
+    return [NSString stringWithFormat:@"Meal at %@", [self eatDateAsString:self.date]];
 }
 
 
@@ -2190,7 +2010,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     }
     
     else if ([self.objectName isEqualToString:@""]) {
-        self.objectName = [self mealNameAsDefault];
+        [[self.dataSource objectsDictionary]  setObjectName:[self mealNameAsDefault]];
+
         return [NSString stringWithFormat:@"(Default) %@", self.objectName];
     }
     else {
@@ -2214,7 +2035,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
         
         [self.managedObjectContext performBlockAndWait:^{
             
-            [EDTakenMedication createWithMedication:self.medicationsList[0] onDate:self.date1 inContext:self.managedObjectContext];
+            [EDTakenMedication createWithMedication:self.medicationsList[0] onDate:self.date inContext:self.managedObjectContext];
         }];
         
     }
@@ -2229,7 +2050,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
             //                    [newMed addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
             //                }
             
-            [EDTakenMedication createWithMedication:newMed onDate:self.date1 inContext:self.managedObjectContext];
+            [EDTakenMedication createWithMedication:newMed onDate:self.date inContext:self.managedObjectContext];
         }];
     }
     
@@ -2280,7 +2101,7 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 - (NSString *) medicationNameAsDefault
 {
-    return [NSString stringWithFormat:@"Medication at %@", [self eatDateAsString:self.date1]];
+    return [NSString stringWithFormat:@"Medication at %@", [self eatDateAsString:self.date]];
     
 }
 - (NSString *) medicationNameForDisplay
@@ -2290,7 +2111,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     }
     
     else if ([self.objectName isEqualToString:@""]) {
-        self.objectName = [self mealNameAsDefault];
+        [[self.dataSource objectsDictionary]  setObjectName:[self mealNameAsDefault]];
+
         return [NSString stringWithFormat:@"(Default) %@", self.objectName];
     }
     else {

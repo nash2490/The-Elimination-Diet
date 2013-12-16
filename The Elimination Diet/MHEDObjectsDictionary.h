@@ -14,20 +14,27 @@
 extern NSString *const mhedFoodDataUpdateNotification;
 
 
+
 @interface MHEDObjectsDictionary : NSObject
 
 
 
 
-@property (nonatomic, strong) NSDictionary *objectsDictionary;
 
 
 - (instancetype) initWithDefaults;
 
 
 
-
+#pragma mark - Data getters and setters
 - (EDRestaurant *) restaurant;
+- (void) setNewRestaurant: (NSArray *) restaurant;
+
+- (NSArray *) tagsList;
+- (void) setNewTagsList: (NSArray *) newTagsList;
+- (void) addToTagsList: (NSArray *) tags;
+- (void) removeTagsFromTagsList: (NSArray *) tags;
+- (BOOL) doesTagsListContainTags:(NSArray *) tags;
 
 - (NSArray *) mealsList;
 - (void) setNewMealsList: (NSArray *) newMealsList;
@@ -48,11 +55,46 @@ extern NSString *const mhedFoodDataUpdateNotification;
 - (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
 
 - (NSArray *) imagesArray;
+- (void) setNewImagesArray: (NSArray *) images;
 - (void) addToImagesArray: (NSArray *) images;
 - (void) removeImagesFromImagesArray: (NSArray *) images;
+- (void) removeImageAtIndex: (NSUInteger) index;
+
+
+- (NSDate *) date;
+- (void) setDate: (NSDate *) date;
+
+
+- (NSString *) objectName;
+- (void) setObjectName: (NSString *) objectName;
 
 // symptoms???
 
 
 
+
+#pragma mark - Key access
+
+- (NSArray *) allKeys;
+- (id) objectForKey: (id) key;
+
+#pragma mark - Equality
+
+//- (BOOL) isEqualToObjectsDictionary:(MHEDObjectsDictionary *) objectsDictionary;
+
+#pragma mark - Model Object Creation
+
+- (void) createMealInContext: (NSManagedObjectContext *) context;
+
 @end
+
+
+
+
+
+@protocol MHEDObjectsDictionaryProtocol <NSObject>
+
+- (MHEDObjectsDictionary *) objectsDictionary;
+
+@end
+

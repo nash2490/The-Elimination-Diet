@@ -48,6 +48,7 @@
 #import "EDImageButtonCell.h"
 #import "EDShowHideCell.h"
 #import "MHEDDatePickerCell.h"
+#import "MHEDObjectsDictionary.h"
 
 //#import "iCarousel.h"
 
@@ -113,9 +114,16 @@ extern NSString *const mhedObjectsDictionarySymptomsKey;
 
 
 
-@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, MHEDDatePickerCellDelegate>
+@interface MHEDTableViewController : UITableViewController <EDImageAndNameDelegate, EDTagCellDataSource, EDTagCellDelegate, EDSelectTagsDelegate, EDMealAndMedicationSegmentedControlDelegate, MHEDDatePickerCellDelegate, MHEDObjectsDictionaryProtocol>
 
 
+
+
+// Objects - Food, medication, symptoms, etc.
+@property (nonatomic, strong) MHEDObjectsDictionary *objectsDictionary;
+
+
+@property (nonatomic, weak) id <MHEDObjectsDictionaryProtocol> dataSource;
 
 // Core Data
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -129,16 +137,16 @@ extern NSString *const mhedObjectsDictionarySymptomsKey;
 @property (nonatomic) BOOL keyboardVisible;
 
 // Image cell
-@property (nonatomic, strong) NSMutableArray *images;
+//@property (nonatomic, strong) NSMutableArray *images;
 
 // Name
-@property (nonatomic, strong) NSString *objectName;
+//@property (nonatomic, strong) NSString *objectName;
 @property (nonatomic) BOOL defaultName;
 @property (weak, nonatomic) UITextView *objectNameTextView;
 
 
 // Tags
-@property (nonatomic, strong) NSArray *tagsList;
+//@property (nonatomic, strong) NSArray *tagsList;
 @property (nonatomic, weak) UITextView *tagTextView;
 @property (nonatomic) BOOL favorite;
 
@@ -147,14 +155,13 @@ extern NSString *const mhedObjectsDictionarySymptomsKey;
 @property (nonatomic) BOOL medication;
 
 // Restaurant
-@property (nonatomic, strong) EDRestaurant *restaurant;
+//@property (nonatomic, strong) EDRestaurant *restaurant;
 
-// Objects - Food, medication, symptoms, etc.
-@property (nonatomic, strong) NSDictionary *objectsDictionary;
+
 
 // Date
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) NSDate *date1;
+//@property (nonatomic, strong) NSDate *date1;
 
 // keep track which indexPath points to the cell with UIDatePicker, if nil then it is NOT visible,
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
@@ -162,25 +169,35 @@ extern NSString *const mhedObjectsDictionarySymptomsKey;
 
 #pragma mark - MHEDFoodSelectionViewControllerDataSource methods
 
+//- (NSArray *) mealsList;
+//- (void) setNewMealsList: (NSArray *) newMealsList;
+//- (void) addToMealsList: (NSArray *) meals;
+//- (void) removeMealsFromMealsList: (NSArray *) meals;
+//- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
+//
+//- (NSArray *) ingredientsList;
+//- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+//- (void) addToIngredientsList: (NSArray *) ingredients;
+//- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
+//- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
+//
+//- (NSArray *) medicationsList;
+//- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+//- (void) addToMedicationsList: (NSArray *) medications;
+//- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
+//- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+
+
+#pragma mark - MHEDObjectsDictionaryProtocol and helper methods
+
 - (NSArray *) mealsList;
-- (void) setNewMealsList: (NSArray *) newMealsList;
-- (void) addToMealsList: (NSArray *) meals;
-- (void) removeMealsFromMealsList: (NSArray *) meals;
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
-
 - (NSArray *) ingredientsList;
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
-- (void) addToIngredientsList: (NSArray *) ingredients;
-- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
-
 - (NSArray *) medicationsList;
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
-- (void) addToMedicationsList: (NSArray *) medications;
-- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
-- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
-
-
+- (NSArray *) tagsList;
+- (EDRestaurant *) restaurant;
+- (NSArray *) imagesList;
+- (NSDate *) date;
+- (NSString *) objectName;
 
 
 
@@ -345,8 +362,6 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 
 #pragma mark - Default Meal Methods
 //---------------------------
-
-- (void) createMeal;
 
 - (void) handleMealDoneButton;
 - (NSString *) mealNameAsDefault;

@@ -10,39 +10,43 @@
 
 #import "EDFood+Methods.h"
 
-@class EDMeal, EDIngredient, EDMedication;
+#import "MHEDObjectsDictionary.h"
 
-@protocol MHEDFoodSelectionViewControllerDataSource <NSObject>
+@class EDMeal, EDIngredient, EDMedication, MHEDObjectsDictionary;
 
-@optional
-
-- (void) restaurant;
-
-- (NSArray *) mealsList;
-- (void) setNewMealsList: (NSArray *) newMealsList;
-- (void) addToMealsList: (NSArray *) meals;
-- (void) removeMealsFromMealsList: (NSArray *) meals;
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
-
-- (NSArray *) ingredientsList;
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
-- (void) addToIngredientsList: (NSArray *) ingredients;
-- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
-
-- (NSArray *) medicationsList;
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
-- (void) addToMedicationsList: (NSArray *) medications;
-- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
-- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
-
-- (NSArray *) imagesArray;
-- (void) addToImagesArray: (NSArray *) images;
-- (void) removeImagesFromImagesArray: (NSArray *) images;
-
-// symptoms???
-
-@end
+//@protocol MHEDFoodSelectionViewControllerDataSource <NSObject>
+//
+//@optional
+//
+//- (MHEDObjectsDictionary *) objectsDictionary;
+//
+//- (void) restaurant;
+//
+//- (NSArray *) mealsList;
+//- (void) setNewMealsList: (NSArray *) newMealsList;
+//- (void) addToMealsList: (NSArray *) meals;
+//- (void) removeMealsFromMealsList: (NSArray *) meals;
+//- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
+//
+//- (NSArray *) ingredientsList;
+//- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+//- (void) addToIngredientsList: (NSArray *) ingredients;
+//- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
+//- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
+//
+//- (NSArray *) medicationsList;
+//- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+//- (void) addToMedicationsList: (NSArray *) medications;
+//- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
+//- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+//
+//- (NSArray *) imagesArray;
+//- (void) addToImagesArray: (NSArray *) images;
+//- (void) removeImagesFromImagesArray: (NSArray *) images;
+//
+//// symptoms???
+//
+//@end
 
 //@protocol MHEDFoodSelectionViewControllerDelegate <NSObject>
 //
@@ -59,7 +63,7 @@
 @interface MHEDFoodSelectionViewController : EDCoreDataTableViewController
 
 
-@property (nonatomic, weak) id <MHEDFoodSelectionViewControllerDataSource> delegate;
+@property (nonatomic, weak) id <MHEDObjectsDictionaryProtocol> delegate;
 
 @property (nonatomic, strong) NSString *previousBrowseControllerTitle;
 

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHEDFoodSelectionViewController.h"
+//#import "MHEDFoodSelectionViewController.h"
+
+#import "MHEDObjectsDictionary.h"
 
 
 extern NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence;
@@ -25,7 +27,13 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 @class EDRestaurant;
 
 
-@interface MHEDSplitViewController : UIViewController <MHEDFoodSelectionViewControllerDataSource>
+@interface MHEDSplitViewController : UIViewController <MHEDObjectsDictionaryProtocol>
+
+
+
+@property (nonatomic, strong) MHEDObjectsDictionary *objectsDictionary;
+
+
 
 @property (nonatomic) BOOL isTopViewHidden;
 
@@ -44,25 +52,25 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 
 // Name
-@property (nonatomic, strong) NSString *objectName;
+//@property (nonatomic, strong) NSString *objectName;
 @property (nonatomic) BOOL defaultName;
 
 // Tags
-@property (nonatomic, strong) NSArray *tagsList;
+//@property (nonatomic, strong) NSArray *tagsList;
 @property (nonatomic) BOOL favorite;
 
 // Meal Medication Segmented Control
 @property (nonatomic) BOOL medication;
 
 // Restaurant
-@property (nonatomic, strong) EDRestaurant *restaurant;
+//@property (nonatomic, strong) EDRestaurant *restaurant;
 
 // Objects - Food, medication, symptoms, etc.
-@property (nonatomic, strong) NSDictionary *objectsDictionary;
+//@property (nonatomic, strong) NSDictionary *objectsDictionary;
 
 // Date
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) NSDate *date1;
+//@property (nonatomic, strong) NSDate *date1;
 
 //// keep track which indexPath points to the cell with UIDatePicker, if nil then it is NOT visible,
 //@property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
@@ -78,7 +86,7 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 #pragma mark - Container View Controller Methods
 
 
-- (void) handleShowHideButtonPress:(id)sender;
+//- (void) handleShowHideButtonPress:(id)sender;
 
 //- (void) displayContentController: (UIViewController*) content;
 
@@ -97,23 +105,37 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 #pragma mark - MHEDFoodSelectionViewControllerDataSource methods
 
+//- (NSArray *) mealsList;
+//- (void) setNewMealsList: (NSArray *) newMealsList;
+//- (void) addToMealsList: (NSArray *) meals;
+//- (void) removeMealsFromMealsList: (NSArray *) meals;
+//- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
+//
+//- (NSArray *) ingredientsList;
+//- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+//- (void) addToIngredientsList: (NSArray *) ingredients;
+//- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
+//- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
+//
+//- (NSArray *) medicationsList;
+//- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+//- (void) addToMedicationsList: (NSArray *) medications;
+//- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
+//- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+
+
+#pragma mark - MHEDObjectsDictionaryProtocol and helper methods
+
+- (MHEDObjectsDictionary *) objectsDictionary;
+
 - (NSArray *) mealsList;
-- (void) setNewMealsList: (NSArray *) newMealsList;
-- (void) addToMealsList: (NSArray *) meals;
-- (void) removeMealsFromMealsList: (NSArray *) meals;
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
-
 - (NSArray *) ingredientsList;
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
-- (void) addToIngredientsList: (NSArray *) ingredients;
-- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
-
 - (NSArray *) medicationsList;
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
-- (void) addToMedicationsList: (NSArray *) medications;
-- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
-- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+- (NSArray *) tagsList;
+- (EDRestaurant *) restaurant;
+- (NSArray *) imagesList;
+- (NSDate *) date;
+- (NSString *) objectName;
 
 
 

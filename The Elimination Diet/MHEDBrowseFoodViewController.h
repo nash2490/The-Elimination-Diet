@@ -8,8 +8,9 @@
 
 #import "MHEDBrowseViewController.h"
 
-#import "MHEDFoodSelectionViewController.h"
+//#import "MHEDFoodSelectionViewController.h"
 
+#import "MHEDObjectsDictionary.h"
 #import "EDEliminatedAPI+Searching.h"
 
 
@@ -39,9 +40,9 @@ typedef NS_ENUM(NSInteger, MHEDBrowseFoodSections) {
 @property (nonatomic) MHEDSearchBarScopeType searchScope;
 
 
-@property (nonatomic, strong) EDRestaurant *restaurant;
+//@property (nonatomic, strong) EDRestaurant *restaurant;
 
-@property (nonatomic, weak) id <MHEDFoodSelectionViewControllerDataSource> delegate;
+@property (nonatomic, weak) id <MHEDObjectsDictionaryProtocol> delegate;
 
 @property (nonatomic, strong) NSString *previousBrowseControllerTitle;
 

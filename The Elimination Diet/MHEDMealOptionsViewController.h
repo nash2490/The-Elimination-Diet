@@ -50,31 +50,31 @@
 
 #pragma mark - MHEDFoodSelectionViewControllerDataSource methods
 
-- (NSArray *) mealsList;
-- (void) setNewMealsList: (NSArray *) newMealsList;
-- (void) addToMealsList: (NSArray *) meals;
-- (void) removeMealsFromMealsList: (NSArray *) meals;
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
-
-- (NSArray *) ingredientsList;
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
-- (void) addToIngredientsList: (NSArray *) ingredients;
-- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
-
-- (NSArray *) medicationsList;
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
-- (void) addToMedicationsList: (NSArray *) medications;
-- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
-- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
-
+//- (NSArray *) mealsList;
+//- (void) setNewMealsList: (NSArray *) newMealsList;
+//- (void) addToMealsList: (NSArray *) meals;
+//- (void) removeMealsFromMealsList: (NSArray *) meals;
+//- (BOOL) doesMealsListContainMeals:(NSArray *) meals;
+//
+//- (NSArray *) ingredientsList;
+//- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+//- (void) addToIngredientsList: (NSArray *) ingredients;
+//- (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
+//- (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
+//
+//- (NSArray *) medicationsList;
+//- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+//- (void) addToMedicationsList: (NSArray *) medications;
+//- (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
+//- (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
+//
 
 
 #pragma mark - Create Meal Methods
 
 - (void) handleDoneButton: (id) sender;
 
-- (void) createMeal;
+//- (void) createMeal;
 
 
 

@@ -34,6 +34,17 @@ static NSString *mhedObjectsDictionaryImagesKey = @"Images List Key";
 static NSString *mhedObjectsDictionaryRestaurantKey = @"Restaurant Key";
 static NSString *mhedObjectsDictionaryTagsKey = @"Tags Key";
 
+static NSString *mhedObjectsDictionaryDateKey = @"Date Key";
+
+static NSString *mhedObjectsDictionaryNameKey = @"Name Key";
+
+
+
+@interface MHEDObjectsDictionary()
+
+@property (nonatomic, strong) NSDictionary *objectsDictionary;
+
+@end
 
 
 @implementation MHEDObjectsDictionary
@@ -67,42 +78,83 @@ static NSString *mhedObjectsDictionaryTagsKey = @"Tags Key";
     return _objectsDictionary;
 }
 
-- (EDRestaurant *) restaurant
+
+- (void) mhedPostFoodDataUpdateNotification
 {
-    return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:mhedFoodDataUpdateNotification
+                                                        object:nil];
 }
 
-- (void) setNewRestaurant:(EDRestaurant *)restaurant
+
+#pragma mark - Data getters and setters
+
+- (EDRestaurant *) restaurant
 {
-    if (restaurant && [restaurant isKindOfClass:[EDRestaurant class]]) {
+    return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey][0];
+}
+
+- (void) setNewRestaurant:(NSArray *)restaurant
+{
+    if (restaurant) {
         NSMutableDictionary *mutObjectDictionary = [self.objectsDictionary mutableCopy];
         mutObjectDictionary[mhedObjectsDictionaryRestaurantKey] = restaurant;
         self.objectsDictionary = [mutObjectDictionary copy];
-        [
+        [self mhedPostFoodDataUpdateNotification];
     }
 }
+
+
 
 - (NSArray *) tagsList
 {
-    if (!_tagsList) {
-        _tagsList = [[NSArray alloc] init];
-    }
-    return _tagsList;
-}
-
-- (void) addToTagsList: (NSArray *) tags
-{
-    if (tags) {
-        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
-    }
+    return self.objectsDictionary[mhedObjectsDictionaryTagsKey];
 }
 
 - (void) setNewTagsList: (NSArray *) newTagsList
 {
-    if (newTagsList) {
-        self.tagsList = newTagsList;
-    }
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:[newTagsList copy] forKey:mhedObjectsDictionaryTagsKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
 }
+
+- (void) addToTagsList: (NSArray *) tags
+{
+
+    
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryTagsKey];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:tags];
+    
+    [self setNewTagsList:newList];
+}
+
+- (void) removeTagsFromTagsList:(NSArray *)tags
+{
+    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryTagsKey];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectsInArray:tags];
+    
+    [self setNewTagsList:mutOldList];
+}
+
+
+- (BOOL) doesTagsListContainTags:(NSArray *)tags
+{
+    BOOL contains = YES;
+    for (EDTag *tag in tags) {
+        if ([tag isKindOfClass:[EDTag class]]) {
+            contains = (contains && [[self tagsList] containsObject:tag]);
+        }
+        else {
+            contains = NO;
+        }
+    }
+    return contains;
+}
+
+
 
 
 - (NSArray *) mealsList
@@ -279,14 +331,146 @@ static NSString *mhedObjectsDictionaryTagsKey = @"Tags Key";
 
 
 
-- (void) mhedPostFoodDataUpdateNotification
+
+
+- (NSArray *) imagesArray
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:mhedFoodDataUpdateNotification
-                                                        object:nil];
+    return self.objectsDictionary[mhedObjectsDictionaryImagesKey];
+}
+
+- (void) setNewImagesArray:(NSArray *)images
+{
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:[images copy] forKey:mhedObjectsDictionaryImagesKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+    
+}
+
+- (void) addToImagesArray:(NSArray *)images
+{
+    NSArray *oldList = [self imagesArray];
+    NSArray *newList = [oldList arrayByAddingObjectsFromArray:images];
+    
+    [self setNewImagesArray:newList];
+}
+
+- (void) removeImagesFromImagesArray:(NSArray *)images
+{
+    NSArray *oldList = [self imagesArray];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectsInArray:images];
+    
+    [self setNewImagesArray:mutOldList];
+}
+
+- (void) removeImageAtIndex:(NSUInteger)index
+{
+    NSArray *oldList = [self imagesArray];
+    NSMutableArray *mutOldList = [oldList mutableCopy];
+    [mutOldList removeObjectAtIndex:index];
+    
+    [self setNewImagesArray: mutOldList];
+}
+
+
+- (NSDate *) date
+{
+    if (!self.objectsDictionary[mhedObjectsDictionaryDateKey]) {
+        [self setDate:[NSDate date]];
+    }
+    
+    return self.objectsDictionary[mhedObjectsDictionaryDateKey];
+}
+
+- (void) setDate: (NSDate *) date
+{
+    if (date) {
+        NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+        [mutObjectsDictionary setObject:date forKey:mhedObjectsDictionaryDateKey];
+        
+        self.objectsDictionary = [mutObjectsDictionary copy];
+        [self mhedPostFoodDataUpdateNotification];
+    }
 }
 
 
 
+- (NSString *) objectName
+{
+    if (!self.objectsDictionary[mhedObjectsDictionaryNameKey]) {
+        [self setObjectName:@""];
+    }
+    
+    return self.objectsDictionary[mhedObjectsDictionaryNameKey];
+}
 
+- (void) setObjectName: (NSString *) objectName
+{
+    if (objectName) {
+        NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+        [mutObjectsDictionary setObject:objectName forKey:mhedObjectsDictionaryNameKey];
+        
+        self.objectsDictionary = [mutObjectsDictionary copy];
+        [self mhedPostFoodDataUpdateNotification];
+    }
+}
+
+
+
+#pragma mark - Key access
+
+- (NSArray *) allKeys
+{
+    return [self.objectsDictionary allKeys];
+}
+- (id) objectForKey: (id) key
+{
+    return [self.objectsDictionary objectForKey:key];
+}
+
+#pragma mark - Equality
+
+//- (BOOL) isEqualToObjectsDictionary:(MHEDObjectsDictionary *) objectsDictionary;
+
+
+
+#pragma mark - Model Object Creation
+
+- (void) createMealInContext:(NSManagedObjectContext *)context
+{
+    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
+    {
+        // also should check the restaurant
+        // but anyways, this means we don't need to create a new meal
+        
+        [context performBlockAndWait:^{
+            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date forContext:context];
+            
+        }];
+        
+    }
+    
+    else
+    { // we need to create a new new meal first
+        [context performBlockAndWait:^{
+            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
+                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
+                                             mealParents:[NSSet setWithArray:self.mealsList]
+                                              restaurant:self.restaurant tags:nil
+                                              forContext:context];
+            
+            
+            
+                        if ([self.imagesArray count]) {
+                            [newMeal addUIImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
+                        }
+            
+            
+            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date forContext:context];
+        }];
+    }
+}
 
 @end

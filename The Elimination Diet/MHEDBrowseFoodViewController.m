@@ -398,12 +398,12 @@ static NSString *mhedStoryBoardViewControllerIDBrowseFood = @"Browse Food View C
             
             
             if ([self.searchResults[indexPath.row] isKindOfClass:[EDMeal class]]) {
-                [self.delegate addToMealsList:@[self.searchResults[indexPath.row]]];
+                [[self.delegate objectsDictionary] addToMealsList:@[self.searchResults[indexPath.row]]];
                 //[self popToDelegate];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
             else if ([self.searchResults[indexPath.row] isKindOfClass:[EDIngredient class]]) {
-                [self.delegate addToIngredientsList:@[self.searchResults[indexPath.row]]];
+                [[self.delegate objectsDictionary] addToIngredientsList:@[self.searchResults[indexPath.row]]];
                 //[self popToDelegate];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }

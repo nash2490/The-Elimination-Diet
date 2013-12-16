@@ -110,7 +110,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [super navigationController:navigationController willShowViewController:viewController animated:animated];
+//    [super navigationController:navigationController willShowViewController:viewController animated:animated];
 }
 
 

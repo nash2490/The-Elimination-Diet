@@ -58,10 +58,10 @@
 
 #pragma mark - View Layout and Adjusting
 
-- (void) handleShowHideButtonPress:(id)sender
-{
-    [super handleShowHideButtonPress:sender];
-}
+//- (void) handleShowHideButtonPress:(id)sender
+//{
+//    [super handleShowHideButtonPress:sender];
+//}
 
 #pragma mark - EDImageButtonCellDelegate
 

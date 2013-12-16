@@ -10,7 +10,8 @@
 
 #import "MHEDSplitFoodBrowseViewController.h"
 
-#import "MHEDMealCarouselViewController.h"
+//#import "MHEDMealCarouselViewController.h"
+#import "MHEDCarouselAndSummaryViewController.h"
 
 #import "EDMeal+Methods.h"
 #import "EDIngredient+Methods.h"
@@ -46,8 +47,8 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
 {
     [super viewDidLoad];
     
-    if (!self.delegate) {
-        self.delegate = (MHEDMealCarouselViewController *)[self.navigationController parentViewController];
+    if (!self.delegate && self.navigationController) {
+        self.delegate = (MHEDCarouselAndSummaryViewController *)[self.navigationController parentViewController];
     }
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:mhedTableCellIngredientCell];
@@ -110,11 +111,11 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
 {
 
     if (section == 0) {
-        return [[self.delegate mealsList] count];
+        return [[[self.delegate objectsDictionary] mealsList] count];
     }
     
     else if (section == 1) {
-        return [[self.delegate ingredientsList] count];
+        return [[[self.delegate objectsDictionary] ingredientsList] count];
     }
     
     return 0;
@@ -142,7 +143,7 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellMealCell forIndexPath:indexPath];
         
-        EDMeal *mealForCell = [self.delegate mealsList][indexPath.row];
+        EDMeal *mealForCell = [[self.delegate objectsDictionary] mealsList][indexPath.row];
         
         cell.textLabel.text = mealForCell.name;
         
@@ -152,7 +153,7 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
     else if (indexPath.section == 1) {
         cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIngredientCell forIndexPath:indexPath];
         
-        EDIngredient *ingredientForCell = [self.delegate ingredientsList][indexPath.row];
+        EDIngredient *ingredientForCell = [[self.delegate objectsDictionary] ingredientsList][indexPath.row];
         
         cell.textLabel.text = ingredientForCell.name;
     }

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MHEDFoodSelectionViewController.h"
+//#import "MHEDFoodSelectionViewController.h"
+#import "MHEDObjectsDictionary.h"
 
 @interface MHEDMealSummaryViewController : UITableViewController 
 
 
-@property (nonatomic, weak) id <MHEDFoodSelectionViewControllerDataSource> delegate;
+@property (nonatomic, weak) id <MHEDObjectsDictionaryProtocol> delegate;
 
 @end

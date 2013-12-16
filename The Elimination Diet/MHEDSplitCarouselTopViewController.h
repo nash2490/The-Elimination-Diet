@@ -35,6 +35,6 @@
 
 #pragma mark - View Layout and Adjusting
 
-- (void) handleShowHideButtonPress:(id)sender;
+//- (void) handleShowHideButtonPress:(id)sender;
 
 @end

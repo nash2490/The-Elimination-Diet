@@ -56,12 +56,10 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 @implementation MHEDSplitViewController
 
 
-- (NSDictionary *) objectsDictionary
+- (MHEDObjectsDictionary *) objectsDictionary
 {
     if (!_objectsDictionary) {
-        _objectsDictionary = @{mhedObjectsDictionaryMealsKey : @[],
-                               mhedObjectsDictionaryIngredientsKey : @[],
-                               mhedObjectsDictionaryMedicationKey : @[]};
+        _objectsDictionary = [[MHEDObjectsDictionary alloc] initWithDefaults];
     }
     return _objectsDictionary;
 }
@@ -341,36 +339,7 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 
 - (void) createMeal
 {
-    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
-    {
-        // also should check the restaurant
-        // but anyways, this means we don't need to create a new meal
-        
-        
-        [self.managedObjectContext performBlockAndWait:^{
-            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date1 forContext:self.managedObjectContext];
-            
-        }];
-        
-    }
-    
-    else
-    { // we need to create a new new meal first
-        [self.managedObjectContext performBlockAndWait:^{
-            EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
-                                        ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
-                                             mealParents:[NSSet setWithArray:self.mealsList]
-                                              restaurant:self.restaurant tags:nil
-                                              forContext:self.managedObjectContext];
-            
-            //            if ([self.images count]) {
-            //                [newMeal addUIImagesToFood:[NSSet setWithArray:self.images] error:nil];
-            //            }
-            
-            
-            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date1 forContext:self.managedObjectContext];
-        }];
-    }
+    [self.objectsDictionary createMealInContext:self.managedObjectContext];
 }
 
 
@@ -379,217 +348,259 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 // default method options
 
 
-- (void) setNewRestaurant:(EDRestaurant *)restaurant
+//- (void) setNewRestaurant:(EDRestaurant *)restaurant
+//{
+//    if (restaurant) {
+//        self.restaurant = restaurant;
+//    }
+//}
+//
+//- (NSArray *) tagsList
+//{
+//    if (!_tagsList) {
+//        _tagsList = [[NSArray alloc] init];
+//    }
+//    return _tagsList;
+//}
+//
+//- (void) addToTagsList: (NSArray *) tags
+//{
+//    if (tags) {
+//        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
+//    }
+//}
+//
+//- (void) setNewTagsList: (NSArray *) newTagsList
+//{
+//    if (newTagsList) {
+//        self.tagsList = newTagsList;
+//    }
+//}
+//
+//
+//- (NSArray *) mealsList
+//{
+//    //    if (!_mealsList) {
+//    //        _mealsList = [[NSArray alloc] init];
+//    //    }
+//    //    return _mealsList;
+//    
+//    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+//    
+//}
+//
+//- (void) setNewMealsList: (NSArray *) newMealsList
+//{
+//    //    if (newMealsList) {
+//    //        self.mealsList = newMealsList;
+//    //    }
+//    
+//    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+//    [mutObjectsDictionary setObject:[newMealsList copy] forKey:mhedObjectsDictionaryMealsKey];
+//    
+//    self.objectsDictionary = [mutObjectsDictionary copy];
+//    [self updateMealSummaryTable];
+//}
+//
+//- (void) addToMealsList: (NSArray *) meals
+//{
+//    //    if (meals) {
+//    //        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
+//    //        for (EDTag *tag in [meals[0] tags]) {
+//    //            NSLog(@"tag name = %@", tag.name);
+//    //        }
+//    //    }
+//    
+//    
+//    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+//    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
+//    
+//    [self setNewMealsList:newList];
+//}
+//
+//- (void) removeMealsFromMealsList: (NSArray *) meals
+//{
+//    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
+//    NSMutableArray *mutOldList = [oldList mutableCopy];
+//    [mutOldList removeObjectsInArray:meals];
+//    
+//    [self setNewMealsList:mutOldList];
+//}
+//
+//
+//- (BOOL) doesMealsListContainMeals:(NSArray *) meals
+//{
+//    BOOL contains = YES;
+//    for (EDMeal *meal in meals) {
+//        if ([meal isKindOfClass:[EDMeal class]]) {
+//            contains = (contains && [[self mealsList] containsObject:meal]);
+//        }
+//        else {
+//            contains = NO;
+//        }
+//    }
+//    return contains;
+//}
+//
+//
+//
+//- (NSArray *) ingredientsList
+//{
+//    //    if (!_ingredientsList) {
+//    //        _ingredientsList = [[NSArray alloc] init];
+//    //    }
+//    //    return _ingredientsList;
+//    
+//    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
+//}
+//
+//
+//
+//
+//- (void) setNewIngredientsList: (NSArray *) newIngredientsList
+//{
+//    //    if (newIngredientsList) {
+//    //        self.ingredientsList = newIngredientsList;
+//    //    }
+//    
+//    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+//    [mutObjectsDictionary setObject:[newIngredientsList copy] forKey:mhedObjectsDictionaryIngredientsKey];
+//    
+//    self.objectsDictionary = [mutObjectsDictionary copy];
+//    [self updateMealSummaryTable];
+//}
+//
+//
+//
+//
+//- (void) addToIngredientsList: (NSArray *) ingredients
+//{
+//    //    if (ingredients) {
+//    //        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
+//    //    }
+//    
+//    NSArray *oldList = [self ingredientsList];
+//    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
+//    
+//    [self setNewIngredientsList:newList];
+//}
+//
+//
+//- (void) removeIngredientsFromIngredientsList:(NSArray *)ingredients
+//{
+//    NSArray *oldList = [self ingredientsList];
+//    NSMutableArray *mutOldList = [oldList mutableCopy];
+//    [mutOldList removeObjectsInArray:ingredients];
+//    
+//    [self setNewIngredientsList:mutOldList];
+//}
+//
+//
+//- (BOOL) doesIngredientsListContainIngredients:(NSArray *)ingredients
+//{
+//    BOOL contains = YES;
+//    for (EDIngredient *ingr in ingredients) {
+//        if ([ingr isKindOfClass:[EDIngredient class]]) {
+//            contains = (contains && [[self ingredientsList] containsObject:ingr]);
+//        }
+//        else {
+//            contains = NO;
+//        }
+//    }
+//    return contains;
+//}
+//
+//
+//
+//- (NSArray *) medicationsList
+//{
+//    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
+//}
+//
+//- (void) setNewMedicationsList: (NSArray *) newMedicationsList
+//{
+//    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+//    [mutObjectsDictionary setObject:[newMedicationsList copy] forKey:mhedObjectsDictionaryMedicationKey];
+//    
+//    self.objectsDictionary = [mutObjectsDictionary copy];
+//    [self updateMealSummaryTable];
+//    
+//}
+//
+//- (void) addToMedicationsList: (NSArray *) medications
+//{
+//    NSArray *oldList = [self medicationsList];
+//    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
+//    
+//    [self setNewMedicationsList:newList];
+//}
+//
+//- (void) removeMedicationsFromMedicationsList:(NSArray *)medications
+//{
+//    NSArray *oldList = [self medicationsList];
+//    NSMutableArray *mutOldList = [oldList mutableCopy];
+//    [mutOldList removeObjectsInArray:medications];
+//    
+//    [self setNewMedicationsList:mutOldList];
+//}
+//
+//- (BOOL) doesMedicationsListContainMedications:(NSArray *)medications
+//{
+//    BOOL contains = YES;
+//    for (EDMedication *medication in medications) {
+//        if ([medication isKindOfClass:[EDMedication class]]) {
+//            contains = (contains && [[self medicationsList] containsObject:medication]);
+//        }
+//        else {
+//            contains = NO;
+//        }
+//    }
+//    return contains;
+//}
+
+
+
+#pragma mark - MHEDObjectsDictionaryProtocol and helper methods
+// default method options
+
+- (NSArray *) mealsList
 {
-    if (restaurant) {
-        self.restaurant = restaurant;
-    }
+    return [self.objectsDictionary mealsList];
+}
+
+- (NSArray *) ingredientsList
+{
+    return [self.objectsDictionary ingredientsList];
+}
+
+- (NSArray *) medicationsList {
+    return [self.objectsDictionary medicationsList];
 }
 
 - (NSArray *) tagsList
 {
-    if (!_tagsList) {
-        _tagsList = [[NSArray alloc] init];
-    }
-    return _tagsList;
+    return [self.objectsDictionary tagsList];
 }
 
-- (void) addToTagsList: (NSArray *) tags
+- (EDRestaurant *) restaurant
 {
-    if (tags) {
-        self.tagsList = [self.tagsList arrayByAddingObjectsFromArray:tags];
-    }
+    return [self.objectsDictionary restaurant];
 }
 
-- (void) setNewTagsList: (NSArray *) newTagsList
+- (NSArray *) imagesList
 {
-    if (newTagsList) {
-        self.tagsList = newTagsList;
-    }
+    return [self.objectsDictionary imagesArray];
 }
 
-
-- (NSArray *) mealsList
+- (NSDate *) date
 {
-    //    if (!_mealsList) {
-    //        _mealsList = [[NSArray alloc] init];
-    //    }
-    //    return _mealsList;
-    
-    return self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    
+    return [self.objectsDictionary date];
 }
 
-- (void) setNewMealsList: (NSArray *) newMealsList
+- (NSString *) objectName
 {
-    //    if (newMealsList) {
-    //        self.mealsList = newMealsList;
-    //    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newMealsList copy] forKey:mhedObjectsDictionaryMealsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self updateMealSummaryTable];
+    return [self.objectsDictionary objectName];
 }
-
-- (void) addToMealsList: (NSArray *) meals
-{
-    //    if (meals) {
-    //        self.mealsList = [self.mealsList arrayByAddingObjectsFromArray:meals];
-    //        for (EDTag *tag in [meals[0] tags]) {
-    //            NSLog(@"tag name = %@", tag.name);
-    //        }
-    //    }
-    
-    
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
-    
-    [self setNewMealsList:newList];
-}
-
-- (void) removeMealsFromMealsList: (NSArray *) meals
-{
-    NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:meals];
-    
-    [self setNewMealsList:mutOldList];
-}
-
-
-- (BOOL) doesMealsListContainMeals:(NSArray *) meals
-{
-    BOOL contains = YES;
-    for (EDMeal *meal in meals) {
-        if ([meal isKindOfClass:[EDMeal class]]) {
-            contains = (contains && [[self mealsList] containsObject:meal]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
-
-- (NSArray *) ingredientsList
-{
-    //    if (!_ingredientsList) {
-    //        _ingredientsList = [[NSArray alloc] init];
-    //    }
-    //    return _ingredientsList;
-    
-    return self.objectsDictionary[mhedObjectsDictionaryIngredientsKey];
-}
-
-
-
-
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList
-{
-    //    if (newIngredientsList) {
-    //        self.ingredientsList = newIngredientsList;
-    //    }
-    
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newIngredientsList copy] forKey:mhedObjectsDictionaryIngredientsKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self updateMealSummaryTable];
-}
-
-
-
-
-- (void) addToIngredientsList: (NSArray *) ingredients
-{
-    //    if (ingredients) {
-    //        self.ingredientsList = [self.ingredientsList arrayByAddingObjectsFromArray:ingredients];
-    //    }
-    
-    NSArray *oldList = [self ingredientsList];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
-    
-    [self setNewIngredientsList:newList];
-}
-
-
-- (void) removeIngredientsFromIngredientsList:(NSArray *)ingredients
-{
-    NSArray *oldList = [self ingredientsList];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:ingredients];
-    
-    [self setNewIngredientsList:mutOldList];
-}
-
-
-- (BOOL) doesIngredientsListContainIngredients:(NSArray *)ingredients
-{
-    BOOL contains = YES;
-    for (EDIngredient *ingr in ingredients) {
-        if ([ingr isKindOfClass:[EDIngredient class]]) {
-            contains = (contains && [[self ingredientsList] containsObject:ingr]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
-
-- (NSArray *) medicationsList
-{
-    return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
-}
-
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList
-{
-    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
-    [mutObjectsDictionary setObject:[newMedicationsList copy] forKey:mhedObjectsDictionaryMedicationKey];
-    
-    self.objectsDictionary = [mutObjectsDictionary copy];
-    [self updateMealSummaryTable];
-    
-}
-
-- (void) addToMedicationsList: (NSArray *) medications
-{
-    NSArray *oldList = [self medicationsList];
-    NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
-    
-    [self setNewMedicationsList:newList];
-}
-
-- (void) removeMedicationsFromMedicationsList:(NSArray *)medications
-{
-    NSArray *oldList = [self medicationsList];
-    NSMutableArray *mutOldList = [oldList mutableCopy];
-    [mutOldList removeObjectsInArray:medications];
-    
-    [self setNewMedicationsList:mutOldList];
-}
-
-- (BOOL) doesMedicationsListContainMedications:(NSArray *)medications
-{
-    BOOL contains = YES;
-    for (EDMedication *medication in medications) {
-        if ([medication isKindOfClass:[EDMedication class]]) {
-            contains = (contains && [[self medicationsList] containsObject:medication]);
-        }
-        else {
-            contains = NO;
-        }
-    }
-    return contains;
-}
-
-
 
 
 
