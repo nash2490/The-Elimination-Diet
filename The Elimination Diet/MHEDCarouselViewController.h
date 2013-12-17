@@ -12,6 +12,8 @@
 
 #import "MHEDSplitCarouselTopViewController.h"
 
+@class EDImage;
+
 @interface MHEDCarouselViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
 
 @property (nonatomic, weak) id <MHEDSplitCarouselDataSource> dataSource;
@@ -21,7 +23,12 @@
 //@property (nonatomic, strong) NSMutableArray *carouselImages;
 @property (nonatomic, strong) iCarousel *mhedCarousel;
 
-- (UIImage *) convertImageForCarousel:(UIImage *) originalImage;
+- (UIImage *) convertImage:(id) imageObject forCarousel:(iCarousel *) carousel;
+- (UIImage *) convertUIImageForCarousel:(UIImage *) originalImage;
+- (UIImage *) convertUIImage:(UIImage *) originalImage forCarousel:(iCarousel *) carousel;
+- (UIImage *) convertImageFromPath:(NSString *) imagePath forCarousel: (iCarousel *) carousel;
+- (UIImage *) convertEDImage:(EDImage *) edImage forCarousel:(iCarousel *)carousel;
+
 - (void) deletePictureAtIndex:(NSInteger)pictureIndex;
 
 @end

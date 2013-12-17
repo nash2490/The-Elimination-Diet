@@ -61,9 +61,12 @@
         
         [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
             [self setManagedObjectContext:context];
-            //[self helperViewWillAppear];
             
             [self performFetch];
+            
+            [self mhedViewDidLoadCoreDataHelper];
+            
+            [self.tableView reloadData];
         }];
         
         //        [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
@@ -78,6 +81,13 @@
         [self performFetch];
     }
 }
+
+
+- (void) mhedViewDidLoadCoreDataHelper
+{
+    
+}
+
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -95,6 +105,8 @@
         
     }
     else {
+        
+        
         [self.tableView reloadData];
     }
 }

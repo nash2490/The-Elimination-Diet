@@ -328,7 +328,11 @@ static NSString *mhedStoryBoardSegueIDMealSummarySegue = @"MealSummarySegue";
 
 - (void) handleDoneButton
 {
-    [self handleMealDoneButton];
+    //[self handleMealDoneButton];
+    
+    if (self.type == MHEDMealOptionsViewControllerTypeFullScreen) { // we want to change the existing meal
+        [self.objectsDictionary saveChangesToObject];
+    }
 }
 
 

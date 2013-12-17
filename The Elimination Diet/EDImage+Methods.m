@@ -37,12 +37,26 @@
                         inContext:(NSManagedObjectContext *)context
 {
     if (context && imagePath) {
-        EDImage *newEDImage = [NSEntityDescription insertNewObjectForEntityForName:IMAGE_ENTITY_NAME inManagedObjectContext:context];
         
-        newEDImage.imagePath = imagePath;
+        NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:IMAGE_ENTITY_NAME];
+        fetch.predicate = [NSPredicate predicateWithFormat:@"(imagePath BEGINSWITH %@) OR (imagePath ENDSWITH %@)", imagePath, imagePath];
+        fetch.fetchLimit = 2;
+        NSError *error;
         
-        return newEDImage;
+        NSArray *imagesWithPath = [context executeFetchRequest:fetch error:&error];
         
+        
+        if ([imagesWithPath count]) { // there may be more than one douplicate, but that really doesn't conern us
+            return imagesWithPath[0];
+        }
+        
+        else {
+            EDImage *newEDImage = [NSEntityDescription insertNewObjectForEntityForName:IMAGE_ENTITY_NAME inManagedObjectContext:context];
+            
+            newEDImage.imagePath = imagePath;
+            
+            return newEDImage;
+        }
     }
     
     return nil;

@@ -18,6 +18,9 @@
 #import "EDTakenMedication+Methods.h"
 #import "EDImage+Methods.h"
 
+#import "EDSymptom+Methods.h"
+#import "EDHadSymptom+Methods.h"
+
 #import "EDEliminatedAPI.h"
 
 
@@ -39,6 +42,9 @@ NSString *const mhedObjectsDictionaryDateKey = @"Date Key";
 
 NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
+NSString *const mhedObjectsDictionaryCoreDataObject = @"Core Data Object";
+
+NSString *const mhedObjectsDictionaryFavoriteKey = @"Favorite Key";
 
 
 @interface MHEDObjectsDictionary()
@@ -50,34 +56,87 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
 @implementation MHEDObjectsDictionary
 
-- (instancetype) initWithDefaults
+- (NSDictionary *) defaultDictionary
 {
-    self = [self init];
-    
-    self.objectsDictionary = @{mhedObjectsDictionaryMealsKey : @[],
-                               mhedObjectsDictionaryIngredientsKey : @[],
-                               mhedObjectsDictionaryMedicationKey : @[],
-                               mhedObjectsDictionaryImagesKey : @[],
-                               mhedObjectsDictionaryRestaurantKey : @[],
-                               mhedObjectsDictionarySymptomsKey : @[],
-                               mhedObjectsDictionaryTagsKey : @[]};
-    
-    return self;
+    return @{mhedObjectsDictionaryCoreDataObject : @[],
+             mhedObjectsDictionaryMealsKey : @[],
+             mhedObjectsDictionaryIngredientsKey : @[],
+             mhedObjectsDictionaryMedicationKey : @[],
+             mhedObjectsDictionaryImagesKey : @[],
+             mhedObjectsDictionaryRestaurantKey : @[],
+             mhedObjectsDictionarySymptomsKey : @[],
+             mhedObjectsDictionaryTagsKey : @[],
+             mhedObjectsDictionaryFavoriteKey : @(NO)};
 }
 
 - (NSDictionary *) objectsDictionary
 {
     if (!_objectsDictionary) {
-        _objectsDictionary = @{mhedObjectsDictionaryMealsKey : @[],
-                               mhedObjectsDictionaryIngredientsKey : @[],
-                               mhedObjectsDictionaryMedicationKey : @[],
-                               mhedObjectsDictionaryImagesKey : @[],
-                               mhedObjectsDictionaryRestaurantKey : @[],
-                               mhedObjectsDictionarySymptomsKey : @[],
-                               mhedObjectsDictionaryTagsKey : @[]};
+        _objectsDictionary = [self defaultDictionary];
     }
     return _objectsDictionary;
 }
+
+
+- (instancetype) initWithDefaults
+{
+    self = [self init];
+    
+    self.objectsDictionary = [self defaultDictionary];
+    
+    return self;
+}
+
+- (instancetype) initWithDataFromObject:(id)dataObject
+{
+    self = [self initWithDefaults];
+    self.coreDataObject = dataObject;
+    
+    if ([dataObject isKindOfClass:[EDMeal class]]) {
+        
+        EDMeal *mealObject = (EDMeal *)dataObject;
+        
+        self.tagsList = [mealObject.tags allObjects];
+        self.isFavorite = [mealObject.favorite boolValue];
+        self.objectName = mealObject.name;
+        
+        self.restaurant = @[mealObject.restaurant];
+        self.mealsList = [mealObject.mealParents allObjects];
+        self.ingredientsList = [mealObject.ingredientsAdded allObjects];
+        self.imagesArray = [mealObject.images allObjects];
+    }
+    
+    else if ([dataObject isKindOfClass:[EDEatenMeal class]]) {
+        
+        EDEatenMeal *eatenMealObject = (EDEatenMeal *)dataObject;
+        
+        self.date = eatenMealObject.date;
+        self.tagsList = [eatenMealObject.meal.tags allObjects];
+        self.isFavorite = [eatenMealObject.meal.favorite boolValue];
+        self.objectName = eatenMealObject.meal.name;
+        
+        self.restaurant = @[eatenMealObject.meal.restaurant];
+        self.mealsList = [eatenMealObject.meal.mealParents allObjects];
+        self.ingredientsList = [eatenMealObject.meal.ingredientsAdded allObjects];
+        self.imagesArray = [eatenMealObject.meal.images allObjects];
+    }
+    
+    else if ([dataObject isKindOfClass:[EDIngredient class]]) {
+        
+    }
+    
+    else if ([dataObject isKindOfClass:[EDSymptom class]]) {
+        
+    }
+    
+    else if ([dataObject isKindOfClass:[EDHadSymptom class]]) {
+        
+    }
+    
+    return self;
+}
+
+
 
 
 - (void) mhedPostFoodDataUpdateNotification
@@ -89,16 +148,56 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
 #pragma mark - Data getters and setters
 
-- (EDRestaurant *) restaurant
+
+
+- (id) coreDataObject
 {
-    if ([self.objectsDictionary[mhedObjectsDictionaryRestaurantKey] count]) {
-        return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey][0];
+    if ([self.objectsDictionary[mhedObjectsDictionaryCoreDataObject] count]) {
+        return self.objectsDictionary[mhedObjectsDictionaryCoreDataObject][0];
     }
     
     return nil;
 }
 
-- (void) setNewRestaurant:(NSArray *)restaurant
+- (void) setCoreDataObject:(id)object
+{
+    
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:object forKey:mhedObjectsDictionaryCoreDataObject];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+}
+
+
+
+- (BOOL) isFavorite
+{
+    NSNumber *fav = self.objectsDictionary[mhedObjectsDictionaryFavoriteKey];
+    
+    return [fav boolValue];
+}
+
+- (void) setIsFavorite:(BOOL)favorite
+{
+    NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
+    [mutObjectsDictionary setObject:@(favorite) forKey:mhedObjectsDictionaryFavoriteKey];
+    
+    self.objectsDictionary = [mutObjectsDictionary copy];
+    [self mhedPostFoodDataUpdateNotification];
+}
+
+
+- (EDRestaurant *) restaurant
+{
+    if ([self.objectsDictionary[mhedObjectsDictionaryRestaurantKey] count]) {
+        return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey][0];
+    }
+
+    return nil;
+}
+
+- (void) setRestaurant:(NSArray *)restaurant
 {
     if (restaurant) {
         NSMutableDictionary *mutObjectDictionary = [self.objectsDictionary mutableCopy];
@@ -115,7 +214,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     return self.objectsDictionary[mhedObjectsDictionaryTagsKey];
 }
 
-- (void) setNewTagsList: (NSArray *) newTagsList
+- (void) setTagsList: (NSArray *) newTagsList
 {
     
     NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
@@ -132,7 +231,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryTagsKey];
     NSArray *newList = [oldList arrayByAddingObjectsFromArray:tags];
     
-    [self setNewTagsList:newList];
+    [self setTagsList:newList];
 }
 
 - (void) removeTagsFromTagsList:(NSArray *)tags
@@ -141,7 +240,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectsInArray:tags];
     
-    [self setNewTagsList:mutOldList];
+    [self setTagsList:mutOldList];
 }
 
 
@@ -168,7 +267,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     
 }
 
-- (void) setNewMealsList: (NSArray *) newMealsList
+- (void) setMealsList: (NSArray *) newMealsList
 {
     
     NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
@@ -191,7 +290,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSArray *oldList = self.objectsDictionary[mhedObjectsDictionaryMealsKey];
     NSArray *newList = [oldList arrayByAddingObjectsFromArray:meals];
     
-    [self setNewMealsList:newList];
+    [self setMealsList:newList];
 }
 
 - (void) removeMealsFromMealsList: (NSArray *) meals
@@ -200,7 +299,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectsInArray:meals];
     
-    [self setNewMealsList:mutOldList];
+    [self setMealsList:mutOldList];
 }
 
 
@@ -233,7 +332,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
 
 
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList
+- (void) setIngredientsList: (NSArray *) newIngredientsList
 {
     //    if (newIngredientsList) {
     //        self.ingredientsList = newIngredientsList;
@@ -258,7 +357,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSArray *oldList = [self ingredientsList];
     NSArray *newList = [oldList arrayByAddingObjectsFromArray:ingredients];
     
-    [self setNewIngredientsList:newList];
+    [self setIngredientsList:newList];
 }
 
 
@@ -268,7 +367,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectsInArray:ingredients];
     
-    [self setNewIngredientsList:mutOldList];
+    [self setIngredientsList:mutOldList];
 }
 
 
@@ -293,7 +392,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     return self.objectsDictionary[mhedObjectsDictionaryMedicationKey];
 }
 
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList
+- (void) setMedicationsList: (NSArray *) newMedicationsList
 {
     NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
     [mutObjectsDictionary setObject:[newMedicationsList copy] forKey:mhedObjectsDictionaryMedicationKey];
@@ -308,7 +407,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSArray *oldList = [self medicationsList];
     NSArray *newList = [oldList arrayByAddingObjectsFromArray:medications];
     
-    [self setNewMedicationsList:newList];
+    [self setMedicationsList:newList];
 }
 
 - (void) removeMedicationsFromMedicationsList:(NSArray *)medications
@@ -317,7 +416,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectsInArray:medications];
     
-    [self setNewMedicationsList:mutOldList];
+    [self setMedicationsList:mutOldList];
 }
 
 - (BOOL) doesMedicationsListContainMedications:(NSArray *)medications
@@ -343,7 +442,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     return self.objectsDictionary[mhedObjectsDictionaryImagesKey];
 }
 
-- (void) setNewImagesArray:(NSArray *)images
+- (void) setImagesArray:(NSArray *)images
 {
     NSMutableDictionary *mutObjectsDictionary = [self.objectsDictionary mutableCopy];
     [mutObjectsDictionary setObject:[images copy] forKey:mhedObjectsDictionaryImagesKey];
@@ -358,7 +457,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSArray *oldList = [self imagesArray];
     NSArray *newList = [oldList arrayByAddingObjectsFromArray:images];
     
-    [self setNewImagesArray:newList];
+    [self setImagesArray:newList];
 }
 
 - (void) removeImagesFromImagesArray:(NSArray *)images
@@ -367,7 +466,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectsInArray:images];
     
-    [self setNewImagesArray:mutOldList];
+    [self setImagesArray:mutOldList];
 }
 
 - (void) removeImageAtIndex:(NSUInteger)index
@@ -376,7 +475,7 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
     NSMutableArray *mutOldList = [oldList mutableCopy];
     [mutOldList removeObjectAtIndex:index];
     
-    [self setNewImagesArray: mutOldList];
+    [self setImagesArray: mutOldList];
 }
 
 
@@ -443,6 +542,62 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
 #pragma mark - Model Object Creation
 
+- (void) saveChangesToObject
+{
+    if (self.coreDataObject) {
+        
+        
+        if ([self.coreDataObject isKindOfClass:[EDMeal class]]) {
+            
+            EDMeal *mealObject = (EDMeal *)self.coreDataObject;
+            
+            mealObject.tags = [NSSet setWithArray:self.tagsList];
+            mealObject.favorite = @(self.isFavorite);
+            mealObject.name = self.objectName;
+            
+            mealObject.restaurant = self.restaurant;
+            mealObject.mealParents = [NSSet setWithArray:self.mealsList];
+            mealObject.ingredientsAdded = [NSSet setWithArray:self.ingredientsList];
+            
+            [mealObject addImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
+        }
+        
+        else if ([self.coreDataObject isKindOfClass:[EDEatenMeal class]]) {
+            
+            EDEatenMeal *eatenMealObject = (EDEatenMeal *)self.coreDataObject;
+            EDMeal *mealObject = eatenMealObject.meal;
+            
+            eatenMealObject.date = self.date;
+            mealObject.tags = [NSSet setWithArray:self.tagsList];
+            mealObject.favorite = @(self.isFavorite);
+            mealObject.name = self.objectName;
+            
+            mealObject.restaurant = self.restaurant;
+            mealObject.mealParents = [NSSet setWithArray:self.mealsList];
+            mealObject.ingredientsAdded = [NSSet setWithArray:self.ingredientsList];
+            
+            [mealObject addImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
+            
+
+        }
+        
+        else if ([self.coreDataObject isKindOfClass:[EDIngredient class]]) {
+            
+        }
+        
+        else if ([self.coreDataObject isKindOfClass:[EDSymptom class]]) {
+            
+        }
+        
+        else if ([self.coreDataObject isKindOfClass:[EDHadSymptom class]]) {
+            
+        }
+        
+        
+    }
+}
+
+
 - (void) createMealInContext:(NSManagedObjectContext *)managedObjectContext
 {
     // if we don't have a context, we get one and call this method again
@@ -485,10 +640,12 @@ NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
                                               restaurant:self.restaurant tags:nil
                                               forContext:managedObjectContext];
             
+            newMeal.favorite = @(self.isFavorite);
+            
             
             
             if ([self.imagesArray count]) {
-                [newMeal addUIImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
+                [newMeal addImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
             }
             
             

@@ -60,18 +60,32 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
             if (self.managedObjectContext) {
                 NSFetchRequest *fetchRequest = [EDEatenMeal fetchEatenMealsForLastWeekWithMedication:NO];
                 [fetchRequest setFetchLimit:1];
-#warning perform the fetch, 
-                // perform the fetch
-                // get the meal from the eaten meal
-                // set the objectsDictionary using the data from the meal/eatenMeal
-                // when we are done, we modify the meal based on the objectsDictionary
+
+                
+                
+                
             }
+            
+            
+            [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
+                [self setManagedObjectContext:context];
+                
+                NSFetchRequest *fetchRequest = [EDEatenMeal fetchEatenMealsForLastWeekWithMedication:NO];
+                [fetchRequest setFetchLimit:1];
+                
+                NSError *error;
+                EDEatenMeal *mostRecentEatenMeal = [context executeFetchRequest:fetchRequest error:&error][0];
+                
+                self.objectsDictionary = [[MHEDObjectsDictionary alloc] initWithDataFromObject:mostRecentEatenMeal];
+            }];
+            
             
             [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(handleNextbutton:)]];
         }
     }
 }
-    
+
+
     
 
 - (void) viewWillAppear:(BOOL)animated
@@ -132,17 +146,24 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
 
 - (void) handleDoneButton:(id)sender
 {
-    [self createMeal];
-    [self popToHomePage];
+    if (self.inputType == MHEDCarouselAndSummaryInputTypeQuickCapture) {
+        [self createMeal];
+        [self popToHomePage];
+    }
+    
 }
 
 - (void) handleNextButton: (id) sender
 {
-    MHEDMealOptionsViewController *mealOptionsVC = [[MHEDMealOptionsViewController alloc] init];
     
-    mealOptionsVC.dataSource = self;
+    if (self.inputType == MHEDCarouselAndSummaryInputTypeFillinType) {
+        MHEDMealOptionsViewController *mealOptionsVC = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealOptions];
+        
+        mealOptionsVC.dataSource = self;
+        
+        [self.navigationController pushViewController:mealOptionsVC animated:YES];
+    }
     
-    [self.navigationController pushViewController:mealOptionsVC animated:YES];
 }
 
 #pragma mark - UIImagePickerController methods

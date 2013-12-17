@@ -30,8 +30,11 @@ typedef NS_ENUM(NSUInteger, FoodTypeForTable) {MealFoodType, IngredientFoodType,
 
 #pragma mark - Images
 
-/// saves the given images as EDImage objects and sets as the images of the food
-- (void) addUIImagesToFood:(NSSet *) images error: (NSError **) error;
+/// saves the given images (paths, EDImage, or UIIMage), creating EDImage if necessary, and sets as the images of the food
+- (void) addImagesToFood:(NSSet *) images error: (NSError **) error;
+
+/// Returns YES if the food receiver has an EDImage with the given path location
+- (BOOL) foodHasImageWithPath:(NSString *) imagePath;
 
 #pragma mark - Elimination Methods
 

@@ -1931,8 +1931,6 @@ NSString *const mhedTableCellIDLinkToRecentCell = @"Link To Recent Cell";
 - (void) handleMealDoneButton
 {
     
-    [[self.dataSource objectsDictionary]  createMealInContext:self.managedObjectContext];
-    
 //    if ([self respondsToSelector:@selector(mealsList)] &&
 //        [self respondsToSelector:@selector(ingredientsList)]) {
 //        
@@ -1986,6 +1984,7 @@ NSString *const mhedTableCellIDLinkToRecentCell = @"Link To Recent Cell";
 //        
 //    }
     
+    [[self.dataSource objectsDictionary]  createMealInContext:self.managedObjectContext];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

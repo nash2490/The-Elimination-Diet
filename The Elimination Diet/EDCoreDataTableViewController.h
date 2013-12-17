@@ -43,6 +43,10 @@
 //@property (nonatomic, strong) UIManagedDocument *document;
 
 #pragma mark - Methods
+
+/// called in ViewDidLoad, within a block. gets called after context is set, but before the table is reloaded
+- (void) mhedViewDidLoadCoreDataHelper;
+
 /// called within viewWillAppear - in performWithDocument:
 - (void) helperViewWillAppear;
 

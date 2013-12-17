@@ -28,7 +28,9 @@ extern NSString *const mhedObjectsDictionaryDateKey;
 
 extern NSString *const mhedObjectsDictionaryNameKey;
 
+extern NSString *const mhedObjectsDictionaryCoreDataObject;
 
+extern NSString *const mhedObjectsDictionaryFavoriteKey;
 
 @interface MHEDObjectsDictionary : NSObject
 
@@ -36,41 +38,48 @@ extern NSString *const mhedObjectsDictionaryNameKey;
 
 
 
-
+/// Designated Initializer
 - (instancetype) initWithDefaults;
 
-
+- (instancetype) initWithDataFromObject:(id) dataObject;
 
 #pragma mark - Data getters and setters
+
+- (id) coreDataObject;
+- (void) setCoreDataObject: (id) object;
+
 - (EDRestaurant *) restaurant;
-- (void) setNewRestaurant: (NSArray *) restaurant;
+- (void) setRestaurant: (NSArray *) restaurant;
+
+- (BOOL) isFavorite;
+- (void) setIsFavorite: (BOOL) favorite;
 
 - (NSArray *) tagsList;
-- (void) setNewTagsList: (NSArray *) newTagsList;
+- (void) setTagsList: (NSArray *) newTagsList;
 - (void) addToTagsList: (NSArray *) tags;
 - (void) removeTagsFromTagsList: (NSArray *) tags;
 - (BOOL) doesTagsListContainTags:(NSArray *) tags;
 
 - (NSArray *) mealsList;
-- (void) setNewMealsList: (NSArray *) newMealsList;
+- (void) setMealsList: (NSArray *) newMealsList;
 - (void) addToMealsList: (NSArray *) meals;
 - (void) removeMealsFromMealsList: (NSArray *) meals;
 - (BOOL) doesMealsListContainMeals:(NSArray *) meals;
 
 - (NSArray *) ingredientsList;
-- (void) setNewIngredientsList: (NSArray *) newIngredientsList;
+- (void) setIngredientsList: (NSArray *) newIngredientsList;
 - (void) addToIngredientsList: (NSArray *) ingredients;
 - (void) removeIngredientsFromIngredientsList: (NSArray *) ingredients;
 - (BOOL) doesIngredientsListContainIngredients:(NSArray *) ingredients;
 
 - (NSArray *) medicationsList;
-- (void) setNewMedicationsList: (NSArray *) newMedicationsList;
+- (void) setMedicationsList: (NSArray *) newMedicationsList;
 - (void) addToMedicationsList: (NSArray *) medications;
 - (void) removeMedicationsFromMedicationsList: (NSArray *) medications;
 - (BOOL) doesMedicationsListContainMedications:(NSArray *) medications;
 
 - (NSArray *) imagesArray;
-- (void) setNewImagesArray: (NSArray *) images;
+- (void) setImagesArray: (NSArray *) images;
 - (void) addToImagesArray: (NSArray *) images;
 - (void) removeImagesFromImagesArray: (NSArray *) images;
 - (void) removeImageAtIndex: (NSUInteger) index;
@@ -98,6 +107,8 @@ extern NSString *const mhedObjectsDictionaryNameKey;
 //- (BOOL) isEqualToObjectsDictionary:(MHEDObjectsDictionary *) objectsDictionary;
 
 #pragma mark - Model Object Creation
+
+- (void) saveChangesToObject;
 
 - (void) createMealInContext: (NSManagedObjectContext *) managedObjectContext;
 

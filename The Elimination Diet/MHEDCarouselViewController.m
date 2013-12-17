@@ -14,6 +14,7 @@
 
 #import "NSString+MHED_EatDate.h"
 #import "UIImage+MHED_fixOrientation.h"
+#import "EDImage+Methods.h"
 
 static double mhedCarouselCellDefaultSize = 250.0;
 static double mhedCarouselImageMaxHeight = 200.0;
@@ -127,6 +128,91 @@ static double mhedCarouselImageMaxWidth = 280.0;
     [self.mhedCarousel insertItemAtIndex:[[self.dataSource imagesForCarousel] count] - 1 animated:YES];
 }
 
+
+
+#pragma mark - Image Resizing
+
+- (UIImage *) convertImage:(id)imageObject forCarousel:(iCarousel *)carousel
+{
+    if ([imageObject isKindOfClass:[NSString class]]) {
+        return [self convertUIImage:imageObject forCarousel:carousel];
+    }
+    else if ([imageObject isKindOfClass:[EDImage class]]) {
+        return [self convertEDImage:imageObject forCarousel:carousel];
+    }
+    else if ([imageObject isKindOfClass:[UIImage class]]) {
+        return [self convertUIImage:imageObject forCarousel:carousel];
+    }
+    
+    return nil;
+}
+
+- (UIImage *) convertEDImage:(EDImage *)edImage forCarousel:(iCarousel *)carousel
+{
+    if (edImage && carousel) {
+        UIImage *image = [edImage getImageFile];
+        
+        return [self convertUIImage:image forCarousel:carousel];
+    }
+    
+    return nil;
+}
+
+
+- (UIImage *) convertImageFromPath:(NSString *)imagePath forCarousel:(iCarousel *)carousel
+{
+    if (imagePath && carousel) {
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+        
+        return [self convertUIImage:image forCarousel:carousel];
+    }
+    
+    return nil;
+}
+
+- (UIImage *) convertUIImageForCarousel:(UIImage *) originalImage
+{
+    UIImage *displayImage;
+    
+    //[originalImage fixOrientation];
+    
+    //    if (originalImage.imageOrientation == UIImageOrientationUp ||
+    //        originalImage.imageOrientation == UIImageOrientationDown) {
+    //        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 * SCREEN_RATIO, 130.0f)];
+    //        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
+    //        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
+    //
+    //    }
+    //    else if (originalImage.imageOrientation == UIImageOrientationRight ||
+    //             originalImage.imageOrientation == UIImageOrientationLeft){
+    //        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 / SCREEN_RATIO, 130.0f)];
+    //        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
+    //        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
+    //
+    //    }
+    
+    if (originalImage) {
+        displayImage = [self convertUIImage:originalImage forCarousel:self.mhedCarousel];
+    }
+    
+    return displayImage;
+}
+
+- (UIImage *) convertUIImage:(UIImage *) originalImage forCarousel:(iCarousel *) carousel
+{
+    UIImage *displayImage;
+    
+    if (originalImage && carousel) {
+        displayImage = [UIImage newImageFrom:originalImage
+                           scaledToFitHeight:carousel.bounds.size.height
+                                    andWidth:carousel.bounds.size.width];
+    }
+    
+    return displayImage;
+}
+
+
+
 #pragma mark - EDImageButtonCellDelegate
 
 - (void) handleDeletePictureButton:(id)sender
@@ -154,6 +240,9 @@ static double mhedCarouselImageMaxWidth = 280.0;
     [self.dataSource deletePictureAtIndex:pictureIndex];
     [self.mhedCarousel removeItemAtIndex:pictureIndex animated:YES];
 }
+
+
+
 
 #pragma mark - iCarousel data and delegate
 
@@ -194,12 +283,14 @@ static double mhedCarouselImageMaxWidth = 280.0;
         
         UIImage *displayImage = [self convertImage:[self.dataSource imagesForCarousel][index] forCarousel:carousel];
         
-        if (!view) {
-            view = [[UIImageView alloc] initWithImage:displayImage];
-        }
-        else {
-            ((UIImageView *)view).image = displayImage;
-            [view sizeToFit];
+        if (displayImage) {
+            if (!view) {
+                view = [[UIImageView alloc] initWithImage:displayImage];
+            }
+            else if ([view isKindOfClass:[UIImageView class]]) {
+                ((UIImageView *)view).image = displayImage;
+                [view sizeToFit];
+            }
         }
     }
     
@@ -217,38 +308,6 @@ static double mhedCarouselImageMaxWidth = 280.0;
 }
 
 
-- (UIImage *) convertImageForCarousel:(UIImage *) originalImage
-{
-    UIImage *displayImage;
-    
-    //[originalImage fixOrientation];
-    
-    if (originalImage.imageOrientation == UIImageOrientationUp ||
-        originalImage.imageOrientation == UIImageOrientationDown) {
-        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 * SCREEN_RATIO, 130.0f)];
-        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
-        
-    }
-    else if (originalImage.imageOrientation == UIImageOrientationRight ||
-             originalImage.imageOrientation == UIImageOrientationLeft){
-        //imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 130.0 / SCREEN_RATIO, 130.0f)];
-        //displayImage = [UIImage newImageFrom:originalImage toFitHeight: LARGE_IMAGE_CELL_DEFAULT_SIZE];
-        displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
-        
-    }
-    
-    return displayImage;
-}
-
-- (UIImage *) convertImage:(UIImage *) originalImage forCarousel:(iCarousel *) carousel
-{
-    UIImage *displayImage = [UIImage newImageFrom:originalImage
-                                scaledToFitHeight:carousel.bounds.size.height
-                                         andWidth:carousel.bounds.size.width];
-    
-    return displayImage;
-}
 
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value

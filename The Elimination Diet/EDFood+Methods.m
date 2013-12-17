@@ -36,17 +36,42 @@
 
 #pragma mark - Images
 
-- (void) addUIImagesToFood:(NSSet *)images error:(NSError *__autoreleasing *)error
+- (void) addImagesToFood:(NSSet *)images error:(NSError *__autoreleasing *)error
 {
     if (images) {
         
-        for (UIImage *img in images) {
+        for (id img in images) {
             
-            EDImage *mhedImage = [EDImage createFromImage:img inContext:self.managedObjectContext];
+            if ([img isKindOfClass:[UIImage class]]) {
+                EDImage *mhedImage = [EDImage createFromImage:(UIImage *)img inContext:self.managedObjectContext];
+                
+                [self addImagesObject:mhedImage];
+            }
             
-            [self addImagesObject:mhedImage];
+            else if ([img isKindOfClass:[EDImage class]]) {
+                
+                if (![self.images containsObject:img]) {
+                    [self addImagesObject:(EDImage *)img];
+                }
+            }
+            
+            else if ([img isKindOfClass:[NSString class]]) {
+                
+                [self addImagesObject:[EDImage createFromImagePath:(NSString *)img inContext:self.managedObjectContext]];
+            }
         }
     }
+}
+
+
+- (BOOL) foodHasImageWithPath:(NSString *)imagePath
+{
+    for (EDImage *edImage in self.images) {
+        if ([edImage.imagePath isEqualToString:imagePath]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - Elimination Methods

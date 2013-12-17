@@ -24,12 +24,9 @@
 
 
 
-
 #pragma mark - Saving and Loading UIImages
 
 - (UIImage *) getImageFile;
-
-
 
 + (NSSet *) saveImages: (NSSet *) images;
 
