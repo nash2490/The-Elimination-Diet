@@ -375,8 +375,8 @@ NSString *const mhedStoryBoardSegueIDCarouselAndSummarySegue = @"CarouselAndSumm
             
         case 1:
             // barcode
-            [self performSegueWithIdentifier:@"CarouselImageSegue" sender:self];
-            break;
+//            [self performSegueWithIdentifier:@"CarouselImageSegue" sender:self];
+//            break;
             
             
         case 2:
@@ -395,7 +395,10 @@ NSString *const mhedStoryBoardSegueIDCarouselAndSummarySegue = @"CarouselAndSumm
             
         case 4:
             // meal info add
-            
+            // for now it will just show the most recent meal
+                // but i want it to show the most recent meal that is prior to the most recent symptom
+            [self performSegueWithIdentifier:mhedStoryBoardSegueIDCarouselAndSummarySegue sender:indexPath];
+
             break;
             
         default:
@@ -421,26 +424,26 @@ NSString *const mhedStoryBoardSegueIDCarouselAndSummarySegue = @"CarouselAndSumm
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"MealCarouselSegue"]) {
-        if ([sender isKindOfClass:[NSIndexPath class]]) {
-            NSIndexPath *indexPath = (NSIndexPath *)sender;
-            
-            MHEDMealCarouselViewController *destinationVC = segue.destinationViewController;
-            
-            
-            if (indexPath.row == 0) {
-                destinationVC.inputType = MHEDMealCarouselInputTypeQuickCapture;
-            }
-            
-            if (indexPath.row == 1) {
-                
-            }
-            
-            if (indexPath.row == 3) {
-                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
-            }
-        }
-    }
+//    if ([segue.identifier isEqualToString:@"MealCarouselSegue"]) {
+//        if ([sender isKindOfClass:[NSIndexPath class]]) {
+//            NSIndexPath *indexPath = (NSIndexPath *)sender;
+//            
+//            MHEDMealCarouselViewController *destinationVC = segue.destinationViewController;
+//            
+//            
+//            if (indexPath.row == 0) {
+//                destinationVC.inputType = MHEDMealCarouselInputTypeQuickCapture;
+//            }
+//            
+//            if (indexPath.row == 1) {
+//                
+//            }
+//            
+//            if (indexPath.row == 3) {
+//                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
+//            }
+//        }
+//    }
     
     if ([segue.identifier isEqualToString:mhedStoryBoardSegueIDCarouselAndSummarySegue]) {
         
@@ -451,15 +454,20 @@ NSString *const mhedStoryBoardSegueIDCarouselAndSummarySegue = @"CarouselAndSumm
             
             
             if (indexPath.row == 0) {
-                destinationVC.inputType = MHEDMealCarouselInputTypeQuickCapture;
+                destinationVC.inputType = MHEDCarouselAndSummaryInputTypeQuickCapture;
             }
             
-            if (indexPath.row == 1) {
+//            if (indexPath.row == 1) {
+//                
+//            }
+//            
+//            if (indexPath.row == 3) {
+//                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
+//            }
+            
+            if (indexPath.row == 4) {
+                destinationVC.inputType = MHEDCarouselAndSummaryInputTypeFillinType;
                 
-            }
-            
-            if (indexPath.row == 3) {
-                destinationVC.inputType = MHEDMealCarouselInputTypeFillinType;
             }
         }
     }

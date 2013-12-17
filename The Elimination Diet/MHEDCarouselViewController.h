@@ -18,10 +18,10 @@
 
 //@property (nonatomic, strong) NSMutableArray *images;
 ////@property (nonatomic, strong) iCarousel *mhedCarousel;
-@property (nonatomic, strong) NSMutableArray *carouselImages;
+//@property (nonatomic, strong) NSMutableArray *carouselImages;
 @property (nonatomic, strong) iCarousel *mhedCarousel;
 
 - (UIImage *) convertImageForCarousel:(UIImage *) originalImage;
-
+- (void) deletePictureAtIndex:(NSInteger)pictureIndex;
 
 @end

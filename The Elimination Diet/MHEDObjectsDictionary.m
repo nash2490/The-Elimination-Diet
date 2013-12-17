@@ -18,6 +18,7 @@
 #import "EDTakenMedication+Methods.h"
 #import "EDImage+Methods.h"
 
+#import "EDEliminatedAPI.h"
 
 
 NSString *const mhedFoodDataUpdateNotification = @"mhedFoodDataUpdateNotification";
@@ -25,18 +26,18 @@ NSString *const mhedFoodDataUpdateNotification = @"mhedFoodDataUpdateNotificatio
 
 
 // Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
-static NSString *mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
-static NSString *mhedObjectsDictionaryMedicationKey = @"Medication List Key";
-static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
-static NSString *mhedObjectsDictionaryImagesKey = @"Images List Key";
+NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
+NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
+NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
+NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+NSString *const mhedObjectsDictionaryImagesKey = @"Images List Key";
 
-static NSString *mhedObjectsDictionaryRestaurantKey = @"Restaurant Key";
-static NSString *mhedObjectsDictionaryTagsKey = @"Tags Key";
+NSString *const mhedObjectsDictionaryRestaurantKey = @"Restaurant Key";
+NSString *const mhedObjectsDictionaryTagsKey = @"Tags Key";
 
-static NSString *mhedObjectsDictionaryDateKey = @"Date Key";
+NSString *const mhedObjectsDictionaryDateKey = @"Date Key";
 
-static NSString *mhedObjectsDictionaryNameKey = @"Name Key";
+NSString *const mhedObjectsDictionaryNameKey = @"Name Key";
 
 
 
@@ -90,7 +91,11 @@ static NSString *mhedObjectsDictionaryNameKey = @"Name Key";
 
 - (EDRestaurant *) restaurant
 {
-    return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey][0];
+    if ([self.objectsDictionary[mhedObjectsDictionaryRestaurantKey] count]) {
+        return self.objectsDictionary[mhedObjectsDictionaryRestaurantKey][0];
+    }
+    
+    return nil;
 }
 
 - (void) setNewRestaurant:(NSArray *)restaurant
@@ -438,15 +443,33 @@ static NSString *mhedObjectsDictionaryNameKey = @"Name Key";
 
 #pragma mark - Model Object Creation
 
-- (void) createMealInContext:(NSManagedObjectContext *)context
+- (void) createMealInContext:(NSManagedObjectContext *)managedObjectContext
 {
-    if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
+    // if we don't have a context, we get one and call this method again
+    if (!managedObjectContext) {
+        
+        if ([self.mealsList count] + [self.ingredientsList count]) { // we can get context from one of them
+            NSManagedObjectContext *mealContext = [[[self.mealsList arrayByAddingObjectsFromArray:self.ingredientsList] lastObject] managedObjectContext];
+            [self createMealInContext:mealContext];
+        }
+        else {
+            // need to
+            [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
+                if (context) {
+                    [self createMealInContext:context];
+                }
+            }];
+        }
+    }
+    
+    
+    else if ([self.mealsList count] == 1 && [self.ingredientsList count] == 0)
     {
         // also should check the restaurant
         // but anyways, this means we don't need to create a new meal
         
-        [context performBlockAndWait:^{
-            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date forContext:context];
+        [managedObjectContext performBlockAndWait:^{
+            [EDEatenMeal createEatenMealWithMeal:self.mealsList[0] atTime:self.date forContext:managedObjectContext];
             
         }];
         
@@ -454,22 +477,26 @@ static NSString *mhedObjectsDictionaryNameKey = @"Name Key";
     
     else
     { // we need to create a new new meal first
-        [context performBlockAndWait:^{
+        
+        [managedObjectContext performBlockAndWait:^{
             EDMeal *newMeal = [EDMeal createMealWithName:self.objectName
                                         ingredientsAdded:[NSSet setWithArray:self.ingredientsList]
                                              mealParents:[NSSet setWithArray:self.mealsList]
                                               restaurant:self.restaurant tags:nil
-                                              forContext:context];
+                                              forContext:managedObjectContext];
             
             
             
-                        if ([self.imagesArray count]) {
-                            [newMeal addUIImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
-                        }
+            if ([self.imagesArray count]) {
+                [newMeal addUIImagesToFood:[NSSet setWithArray:self.imagesArray] error:nil];
+            }
             
             
-            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date forContext:context];
+            [EDEatenMeal createEatenMealWithMeal:newMeal atTime:self.date forContext:managedObjectContext];
         }];
+        
+        
+        
     }
 }
 

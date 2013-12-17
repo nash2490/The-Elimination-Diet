@@ -39,8 +39,22 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        
+        [self mhedSetDefaults];
     }
     return self;
+}
+
+- (void) awakeFromNib{
+    [super awakeFromNib];
+    if (self) {
+        [self mhedSetDefaults];
+    }
+}
+
+- (void) mhedSetDefaults
+{
+    self.rowsSelectable = YES;
 }
 
 - (void)viewDidLoad
@@ -57,10 +71,6 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:mhedAddFoodButtonCellIdentifier];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleFoodDataUpdateNotification:)
-                                                 name:mhedFoodDataUpdateNotification
-                                               object:nil];
 
     if (self.navigationController) {
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFoodToMeal:)]];
@@ -79,7 +89,21 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
 {
     [super viewWillAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleFoodDataUpdateNotification:)
+                                                 name:mhedFoodDataUpdateNotification
+                                               object:nil];
+    
     [self.tableView reloadData];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:mhedFoodDataUpdateNotification
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -132,6 +156,19 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
     return @"";
 }
 
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 2;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.rowsSelectable) {
+        return 30.0;
+    }
+    return tableView.rowHeight;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = nil;
@@ -145,6 +182,7 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
         
         EDMeal *mealForCell = [[self.delegate objectsDictionary] mealsList][indexPath.row];
         
+        cell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         cell.textLabel.text = mealForCell.name;
         
         // detail label
@@ -220,10 +258,15 @@ static NSString *mhedSegueIDBrowseFoodSegue = @"Browse Food Segue ID";
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        [self performSegueWithIdentifier:mhedSegueIDBrowseFoodSegue sender:self];
-    }
+//    if (indexPath.section == 0 && indexPath.row == 0) {
+//        [self performSegueWithIdentifier:mhedSegueIDBrowseFoodSegue sender:self];
+//    }
     
+}
+
+- (BOOL) tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.rowsSelectable;
 }
 
 

@@ -8,12 +8,21 @@
 
 #import "MHEDCarouselAndSummaryViewController.h"
 
+#import "MHEDMealOptionsViewController.h"
+
+#import "MHEDMealSummaryViewController.h"
+
 #import "UIImage+MHED_fixOrientation.h"
+
+#import "EDEliminatedAPI.h"
+
+#import "EDEatenMeal+Methods.h"
 
 @import MobileCoreServices;
 
 
 NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCarouselAddedPictureToModel";
+
 
 
 @interface MHEDCarouselAndSummaryViewController ()
@@ -33,18 +42,37 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
 
 - (void)viewDidLoad
 {
+    if (!self.inputType) {
+        self.inputType = MHEDCarouselAndSummaryInputTypeQuickCapture;
+        //[super displayQuickCaptureSequenceInContainerLocation:MHEDSplitViewContainerViewLocationBottom];
+    }
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if (!self.inputType) {
-        self.inputType = MHEDCarouselAndSummaryInputTypeQuickCapture;
-        [super displayQuickCaptureSequenceInContainerLocation:MHEDSplitViewContainerViewLocationBottom];
-    }
     
-    else if (self.inputType == MHEDCarouselAndSummaryInputTypeFillinType) {
-        [super displayMealFillinViewControllerInContainerLocation:MHEDSplitViewContainerViewLocationBottom];
+    
+    if (self.inputType == MHEDCarouselAndSummaryInputTypeFillinType) {
+        //[super displayMealFillinViewControllerInContainerLocation:MHEDSplitViewContainerViewLocationBottom];
+        
+        if (self.navigationController) {
+            
+            if (self.managedObjectContext) {
+                NSFetchRequest *fetchRequest = [EDEatenMeal fetchEatenMealsForLastWeekWithMedication:NO];
+                [fetchRequest setFetchLimit:1];
+#warning perform the fetch, 
+                // perform the fetch
+                // get the meal from the eaten meal
+                // set the objectsDictionary using the data from the meal/eatenMeal
+                // when we are done, we modify the meal based on the objectsDictionary
+            }
+            
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(handleNextbutton:)]];
+        }
     }
 }
+    
+    
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -102,6 +130,20 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
 }
 
 
+- (void) handleDoneButton:(id)sender
+{
+    [self createMeal];
+    [self popToHomePage];
+}
+
+- (void) handleNextButton: (id) sender
+{
+    MHEDMealOptionsViewController *mealOptionsVC = [[MHEDMealOptionsViewController alloc] init];
+    
+    mealOptionsVC.dataSource = self;
+    
+    [self.navigationController pushViewController:mealOptionsVC animated:YES];
+}
 
 #pragma mark - UIImagePickerController methods
 
@@ -280,6 +322,41 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
     
 }
 
+
+
+#pragma mark - Container Views
+
+- (void) setupContainerViews
+{
+ 
+    [super setupContainerViews];
+    
+    if (self.inputType == MHEDCarouselAndSummaryInputTypeFillinType) {
+        // get view controller
+        UINavigationController *bottomViewController = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealFillinSequence];
+        
+        MHEDMealSummaryViewController *summaryVC = [bottomViewController viewControllers][0];
+        summaryVC.delegate = self;
+        
+        // display in container view
+        [self view:self.mhedBottomView displayContentController:bottomViewController];
+        
+        //self.mhedMealSummaryVC = summaryVC;
+        
+    }
+    
+    else if (self.inputType == MHEDCarouselAndSummaryInputTypeQuickCapture) {
+        MHEDMealOptionsViewController *optionVC = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealOptions];
+        
+//        MHEDMealOptionsViewController *optionVC = [bottomViewController viewControllers][0];
+        optionVC.dataSource = self;
+        
+        
+        // display in container view
+        [self view:self.mhedBottomView displayContentController:optionVC];
+        
+    }
+}
 
 
 @end

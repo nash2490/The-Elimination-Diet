@@ -73,13 +73,15 @@ NSString *const mhedTableCellIDDefaultDetailCell = @"Default Detail Cell";
 NSString *const mhedTableCellIDBrowseOptionsCell = @"Browse Options Cell";
 NSString *const mhedTableSectionIDBrowseSection = @"Browse Section";
 
+NSString *const mhedTableSectionIDLinkToRecentSection = @"link to recent section";
+NSString *const mhedTableCellIDLinkToRecentCell = @"Link To Recent Cell";
 
-// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
-NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
-NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
-NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
-
+//// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
+//NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
+//NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
+//NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
+//NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+//
 
 
 
@@ -1239,6 +1241,12 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     }
     
     
+    else if ([sectionID isEqualToString:mhedTableCellIDLinkToRecentCell]) {
+        
+        cell = [self tableView:tableView linkToRecentCell:cell forDictionary:sectionData];
+    }
+    
+    
     
     if (!cell) {
         NSLog(@"SectionID is nil with cellID = %@", sectionID);
@@ -1321,6 +1329,10 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
         
         else if ([cellID isEqualToString:mhedTableCellIDBrowseOptionsCell]) {
             // needs to be implemented in subclass
+        }
+        
+        else if ([cellID isEqualToString:mhedTableCellIDLinkToRecentCell]) {
+#warning push to recent view
         }
         
     }
@@ -1633,6 +1645,8 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
             else {
                 self.objectNameTextView.textColor = [UIColor blackColor];
             }
+            
+            
         }
         
         [(EDImageAndNameCell *)cell loadImageView];
@@ -1730,6 +1744,23 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     return cell;
 }
 
+
+- (UITableViewCell *) tableView:(UITableView *)tableView linkToRecentCell:(UITableViewCell *)currentCell forDictionary:(NSDictionary *)itemDictionary
+{
+    UITableViewCell *cell = currentCell;
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:mhedTableCellIDLinkToRecentCell];
+    }
+    
+    if (cell) {
+        cell.textLabel.text = itemDictionary[mhedTableComponentTitleKey];
+    }
+    
+    return cell;
+}
+
+
 #pragma mark - Default Cell Dictionaries
 
 
@@ -1742,6 +1773,16 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
                                     mhedTableComponentMainHeaderKey : header,
                                     mhedTableComponentBrowseOptionsKey : rowNames,
                                     mhedTableComponentCellIDKey : mhedTableCellIDBrowseOptionsCell} mutableCopy];
+    return dict;
+}
+
+- (NSMutableDictionary *) linkMealToRecentSectionDictionary
+{
+    NSMutableDictionary *dict = [@{ mhedTableComponentSectionKey : mhedTableSectionIDLinkToRecentSection,
+                                    mhedTableComponentNoHeaderBooleanKey : @(NO),
+                                    mhedTableComponentTitleKey : @"Link picture to recent",
+                                    mhedTableComponentCellIDKey : mhedTableCellIDLinkToRecentCell} mutableCopy];
+    
     return dict;
 }
 

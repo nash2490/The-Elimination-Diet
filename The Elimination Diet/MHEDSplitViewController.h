@@ -14,6 +14,7 @@
 
 extern NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence;
 extern NSString *const mhedStoryBoardViewControllerIDMealSummary;
+extern NSString *const mhedStoryBoardViewControllerIDMealOptions;
 
 extern NSString *const mhedStoryBoardViewControllerIDMealFillinSequence;
 extern NSString *const mhedStoryBoardViewControllerIDQuickCaptureSequence;
@@ -79,12 +80,14 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 
 
-
+- (void) popToHomePage;
 
 
 
 #pragma mark - Container View Controller Methods
 
+/// override this method in subclasses
+- (void) setupContainerViews;
 
 //- (void) handleShowHideButtonPress:(id)sender;
 
@@ -145,6 +148,8 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 - (void) createMeal;
 
+
+#pragma mark -
 
 
 @end

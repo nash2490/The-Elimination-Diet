@@ -14,6 +14,21 @@
 extern NSString *const mhedFoodDataUpdateNotification;
 
 
+// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
+extern NSString *const mhedObjectsDictionaryMealsKey;
+extern NSString *const mhedObjectsDictionaryIngredientsKey;
+extern NSString *const mhedObjectsDictionaryMedicationKey ;
+extern NSString *const mhedObjectsDictionarySymptomsKey ;
+extern NSString *const mhedObjectsDictionaryImagesKey;
+
+extern NSString *const mhedObjectsDictionaryRestaurantKey;
+extern NSString *const mhedObjectsDictionaryTagsKey;
+
+extern NSString *const mhedObjectsDictionaryDateKey;
+
+extern NSString *const mhedObjectsDictionaryNameKey;
+
+
 
 @interface MHEDObjectsDictionary : NSObject
 
@@ -84,7 +99,7 @@ extern NSString *const mhedFoodDataUpdateNotification;
 
 #pragma mark - Model Object Creation
 
-- (void) createMealInContext: (NSManagedObjectContext *) context;
+- (void) createMealInContext: (NSManagedObjectContext *) managedObjectContext;
 
 @end
 

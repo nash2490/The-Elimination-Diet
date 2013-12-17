@@ -37,13 +37,13 @@ static double mhedCarouselImageMaxWidth = 280.0;
 //}
 
 
-- (NSMutableArray *) carouselImages
-{
-    if (!_carouselImages) {
-        _carouselImages = [[NSMutableArray alloc] init];
-    }
-    return _carouselImages;
-}
+//- (NSMutableArray *) carouselImages
+//{
+//    if (!_carouselImages) {
+//        _carouselImages = [[NSMutableArray alloc] init];
+//    }
+//    return _carouselImages;
+//}
 
 
 - (iCarousel *) mhedCarousel
@@ -81,7 +81,10 @@ static double mhedCarouselImageMaxWidth = 280.0;
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
+    self.mhedCarousel.frame = [self.view bounds];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,7 +92,7 @@ static double mhedCarouselImageMaxWidth = 280.0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    self.mhedCarousel = nil;
+    //self.mhedCarousel = nil;
 }
 
 - (void) dealloc
@@ -115,7 +118,13 @@ static double mhedCarouselImageMaxWidth = 280.0;
 
 - (void) addImageToEndOfCarousel:(id) sender
 {
-    [self.mhedCarousel insertItemAtIndex:[self.carouselImages count] - 1 animated:YES];
+//    UIImage *newImage = [self.dataSource imageForIndex:[self.carouselImages count]];
+//    
+//    UIImage *newCarouselImage = [self convertImageForCarousel:newImage];
+//    
+//    [self.carouselImages addObject:newCarouselImage];
+    
+    [self.mhedCarousel insertItemAtIndex:[[self.dataSource imagesForCarousel] count] - 1 animated:YES];
 }
 
 #pragma mark - EDImageButtonCellDelegate
@@ -128,25 +137,30 @@ static double mhedCarouselImageMaxWidth = 280.0;
     // get the index of the image displayed
     NSInteger imageIndex = self.mhedCarousel.currentItemIndex;
     
+    
+    
+    [self deletePictureAtIndex:imageIndex];
+    
+}
+
+- (void) deletePictureAtIndex:(NSInteger)pictureIndex
+{
     // remove image from the array,
     //        NSMutableArray *mutImages = [self.images mutableCopy];
     //        [mutImages removeObjectAtIndex:(NSUInteger)imageIndex];
     //        self.images = [mutImages copy];
     
-    
-    [self.mhedCarousel removeItemAtIndex:imageIndex animated:YES];
-    [self.dataSource deletePictureAtIndex:imageIndex];
-    
+    //[self.carouselImages removeObjectAtIndex:pictureIndex];
+    [self.dataSource deletePictureAtIndex:pictureIndex];
+    [self.mhedCarousel removeItemAtIndex:pictureIndex animated:YES];
 }
-
-
 
 #pragma mark - iCarousel data and delegate
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
-    NSLog(@"number of carousel items = %i", [self.carouselImages count]);
-    return [self.carouselImages count];
+    NSLog(@"number of carousel items = %i", [[self.dataSource imagesForCarousel] count]);
+    return [[self.dataSource imagesForCarousel] count];
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
@@ -167,17 +181,38 @@ static double mhedCarouselImageMaxWidth = 280.0;
     //UIImage *displayImage = [UIImage alloc] initwith
     
     
-    if ([self.carouselImages count] < [[self.dataSource imagesForCarousel] count]) {
-        // use this to size the image
-        UIImage *displayImage = [self convertImageForCarousel:[self.dataSource imagesForCarousel][index]];
+//    if ([self.carouselImages count] < [[self.dataSource imagesForCarousel] count]) {
+//        // use this to size the image
+//        UIImage *displayImage = [self convertImageForCarousel:[self.dataSource imagesForCarousel][index]];
+//        
+//        [self.carouselImages addObject:displayImage];
+//    }
+//
+    
+    if (index < [[self.dataSource imagesForCarousel] count]) {
+        //UIImage *displayImage = [self convertImageForCarousel:[self.dataSource imagesForCarousel][index]];
         
-        [self.carouselImages addObject:displayImage];
+        UIImage *displayImage = [self convertImage:[self.dataSource imagesForCarousel][index] forCarousel:carousel];
+        
+        if (!view) {
+            view = [[UIImageView alloc] initWithImage:displayImage];
+        }
+        else {
+            ((UIImageView *)view).image = displayImage;
+            [view sizeToFit];
+        }
     }
     
     // OR this to get it if it is already made
-    UIImage *displayImage = self.carouselImages[index];
+    //UIImage *displayImage = self.carouselImages[index];
     
-    view = [[UIImageView alloc] initWithImage:displayImage];
+//    if (!view) {
+//        view = [[UIImageView alloc] initWithImage:displayImage];
+//    }
+//    else {
+//        ((UIImageView *)view).image = displayImage;
+//        [view sizeToFit];
+//    }
     return view;
 }
 
@@ -202,6 +237,15 @@ static double mhedCarouselImageMaxWidth = 280.0;
         displayImage = [UIImage newImageFrom:originalImage scaledToFitHeight:mhedCarouselImageMaxHeight andWidth:mhedCarouselImageMaxWidth];
         
     }
+    
+    return displayImage;
+}
+
+- (UIImage *) convertImage:(UIImage *) originalImage forCarousel:(iCarousel *) carousel
+{
+    UIImage *displayImage = [UIImage newImageFrom:originalImage
+                                scaledToFitHeight:carousel.bounds.size.height
+                                         andWidth:carousel.bounds.size.width];
     
     return displayImage;
 }

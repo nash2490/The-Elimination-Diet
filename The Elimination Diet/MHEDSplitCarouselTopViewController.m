@@ -17,6 +17,14 @@
 
 @implementation MHEDSplitCarouselTopViewController
 
+- (NSMutableArray *) images
+{
+    if (!_images) {
+        _images = [[NSMutableArray alloc] init];
+    }
+    return _images;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -30,13 +38,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    MHEDCarouselViewController *carouselVC = [[MHEDCarouselViewController alloc] init];
-    carouselVC.dataSource = self;
-    
-    [super displayContentController:carouselVC
-                inContainerLocation:MHEDSplitViewContainerViewLocationTop];
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,9 +53,16 @@
 
 - (NSArray *) imagesForCarousel
 {
-    return [self.carouselImages copy];
+    return [self.images copy];
 }
 
+- (id) imageForIndex:(NSUInteger)index
+{
+    if (index < [self.images count]) {
+        return self.images[index];
+    }
+    return nil;
+}
 
 
 #pragma mark - View Layout and Adjusting
@@ -63,18 +72,29 @@
 //    [super handleShowHideButtonPress:sender];
 //}
 
+
+- (void) setupContainerViews
+{
+    [self displayCarouselViewControllerInTopContainerView];
+}
+
+- (void) displayCarouselViewControllerInTopContainerView
+{
+    MHEDCarouselViewController *carouselVC = [[MHEDCarouselViewController alloc] initWithNibName:nil bundle:nil];
+    
+    carouselVC.dataSource = self;
+    
+    [super displayContentController:carouselVC
+                inContainerLocation:MHEDSplitViewContainerViewLocationTop];
+    
+}
+
 #pragma mark - EDImageButtonCellDelegate
 
 - (void) deletePictureAtIndex:(NSInteger)pictureIndex
 {
     if ([self.images count]) {
-        // show alert
-        
-        
-        
         [self.images removeObjectAtIndex:(NSUInteger)pictureIndex];
-        [self.carouselImages removeObjectAtIndex:(NSUInteger) pictureIndex];
-        //
     }
     
 }

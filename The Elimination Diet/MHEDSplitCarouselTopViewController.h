@@ -16,6 +16,7 @@
 @optional
 
 - (NSArray *) imagesForCarousel;
+- (id) imageForIndex:(NSUInteger) index;
 - (void) deletePictureAtIndex:(NSInteger) pictureIndex;
 
 @end
@@ -25,13 +26,15 @@
 
 
 @property (nonatomic, strong) NSMutableArray *images;
-@property (nonatomic, strong) NSMutableArray *carouselImages;
+//@property (nonatomic, strong) NSMutableArray *carouselImages;
 
 
 
 #pragma mark - MHEDSplitCarouselDataSource methods
 
 - (NSArray *) imagesForCarousel;
+- (id) imageForIndex:(NSUInteger) index;
+- (void) deletePictureAtIndex:(NSInteger)pictureIndex;
 
 #pragma mark - View Layout and Adjusting
 

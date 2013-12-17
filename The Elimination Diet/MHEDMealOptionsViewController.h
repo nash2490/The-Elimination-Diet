@@ -13,11 +13,17 @@
 
 @class EDRestaurant;
 
+typedef NS_ENUM(NSInteger, MHEDMealOptionsViewControllerType) {
+    MHEDMealOptionsViewControllerTypeQuickCapture = 0,
+    MHEDMealOptionsViewControllerTypeFullScreen
+};
 
 
 
 @interface MHEDMealOptionsViewController : MHEDTableViewController
 
+
+@property (nonatomic) MHEDMealOptionsViewControllerType type;
 
 //#pragma mark - Default Medication Methods
 //// ---------------------------------------
@@ -72,7 +78,7 @@
 
 #pragma mark - Create Meal Methods
 
-- (void) handleDoneButton: (id) sender;
+- (void) handleDoneButton;
 
 //- (void) createMeal;
 

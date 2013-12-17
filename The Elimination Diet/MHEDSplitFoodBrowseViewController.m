@@ -11,6 +11,7 @@
 #import "MHEDMealSummaryViewController.h"
 #import "MHEDBrowseFoodViewController.h"
 
+#import "MHEDMealOptionsViewController.h"
 
 //#import "mhed"
 
@@ -28,10 +29,10 @@
 
 
 // Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
-NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
-NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
-NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
+//NSString *const mhedObjectsDictionaryMealsKey = @"Meals List Key";
+//NSString *const mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
+//NSString *const mhedObjectsDictionaryMedicationKey = @"Medication List Key";
+//NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 
 //NSString *const mhedStoryBoardViewControllerIDMealFillinSequence = @"Meal Fill-in Sequence";
@@ -78,11 +79,11 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self updateContainerViewWithMealOptionsViewController];
+    [self setupContainerViews];
     
     if (self.navigationController) {
         
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(addMealDetails:)]];
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(handleNextButton:)]];
         
        // [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDoneButton:)]];
     }
@@ -118,9 +119,6 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     // Dispose of any resources that can be recreated.
 }
 
-- (void) dealloc
-{
-}
 
 //- (BOOL)prefersStatusBarHidden
 //{
@@ -147,8 +145,19 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
     // segue to meal options etc.
     
     
+    
 }
 
+
+- (void) handleNextButton: (id) sender
+{
+    MHEDMealOptionsViewController *mealOptionsVC = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealOptions];
+    
+    mealOptionsVC.dataSource = self;
+    mealOptionsVC.type = MHEDMealOptionsViewControllerTypeFullScreen;
+    
+    [self.navigationController pushViewController:mealOptionsVC animated:YES];
+}
 
 #pragma mark - Create Meal methods
 
@@ -162,24 +171,25 @@ NSString *const mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
 
 #pragma mark - Container View Controller
 
-- (void) updateContainerViewWithMealOptionsViewController
+- (void) setupContainerViews
 {
     // get view controllers
     MHEDMealSummaryViewController *topViewController = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealSummary];
+    topViewController.delegate = self;
+    topViewController.rowsSelectable = NO;
     
     UINavigationController *bottomViewController = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDBottomBrowseSequence];
     
     MHEDBrowseFoodViewController *browseViewController = [bottomViewController viewControllers][0];
     browseViewController.delegate = self;
-    topViewController.delegate = self;
     
     // display in container view
     [self view:self.mhedBottomView displayContentController:bottomViewController];
     [self view:self.mhedTopView displayContentController:topViewController];
     
     self.mhedMealSummaryVC = topViewController;
-    
 }
+
 
 #pragma mark - 
 

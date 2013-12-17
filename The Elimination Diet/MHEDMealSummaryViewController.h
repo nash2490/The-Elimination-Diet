@@ -16,4 +16,6 @@
 
 @property (nonatomic, weak) id <MHEDObjectsDictionaryProtocol> delegate;
 
+@property (nonatomic) BOOL rowsSelectable;
+
 @end

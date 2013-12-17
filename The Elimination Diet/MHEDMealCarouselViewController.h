@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, MHEDMealCarouselInputType) {
 
 
 
-@interface MHEDMealCarouselViewController : MHEDCarouselTopTableBottomViewController <MHEDFoodSelectionViewControllerDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface MHEDMealCarouselViewController : MHEDCarouselTopTableBottomViewController < UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 
 

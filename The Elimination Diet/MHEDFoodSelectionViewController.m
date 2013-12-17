@@ -64,7 +64,24 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
 
 - (void)viewDidLoad
 {
+    if (self.sortBy == ByTags) {
+        self.populatedTableUsingFRC = NO;
+        self.customSectionOrdering = NO;
+    }
+    
+    else if (self.sortBy == ByTypes) {
+        self.customSectionOrdering = NO;
+        self.populatedTableUsingFRC = NO;
+    }
+    
+    else if (self.sortBy == ByParentFood) {
+        self.customSectionOrdering = NO;
+        self.populatedTableUsingFRC = NO;
+        
+    }
+    
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view.
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:mhedBackCellIdentifier];
     
@@ -87,6 +104,8 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
             }
         }
     }
+    
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -114,6 +133,8 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
     
     // otherwise this is the only vc on the stack, so we don't want to do anything
     
+    
+    
 }
 
 
@@ -121,19 +142,7 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    if (self.sortBy == ByTags) {
-        self.populatedTableUsingFRC = NO;
-        self.customSectionOrdering = NO;
-    }
     
-    else if (self.sortBy == ByTypes) {
-        self.populatedTableUsingFRC = NO;
-    }
-    
-    else if (self.sortBy == ByParentFood) {
-        self.populatedTableUsingFRC = NO;
-        
-    }
     
     if (self.delegate) {
         
@@ -374,8 +383,9 @@ static NSString *mhedTableCellIngredientCell = @"Ingredient Table Cell";
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-
-    return [super tableView:tableView heightForHeaderInSection:section];
+    CGFloat height = [super tableView:tableView heightForHeaderInSection:section];
+    //NSLog(@"height = %f", height);
+    return height;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -40,33 +40,33 @@
 static NSString *mhedStoryBoardSegueIDMealSummarySegue = @"MealSummarySegue";
 
 
-NSString *const mhedDateCellID = @"DateCell";     // the cells with the start or end date
-NSString *const mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
-
-NSString *const mhedValueCellID = @"ValueCell";
-NSString *const mhedValuePickerCellID = @"ValuePickerCell";
-
-NSString *const mhedTagCellID = @"TagCell";
-NSString *const mhedImageAndNameCellID = @"ImageAndNameCell";
-NSString *const mhedRestaurantCellID = @"RestaurantCell";
-//NSString *const mhedAddMealsAndIngredientsCellID = @"AddMealsAndIngredientsCell";
-//NSString *const mhedDetailMealsAndIngredientsCellID = @"DetailMealsAndIngredientsCell";
-
-//NSString *const mhedAddMedsAndIngredientsCellID = @"AddMedsAndIngredientsCell";
-//NSString *const mhedDetailMedsAndIngredientsCellID = @"DetailMedsAndIngredientsCell";
-
-NSString *const mhedAddObjectsCellID = @"AddObjectsCell";
-NSString *const mhedDetailObjectsCellID = @"DetailedObjectsCellID";
-
-NSString *const mhedLargeImageCellID = @"LargeImageCell";
-NSString *const mhedImageButtonCellID = @"ImageButtonCell";
-
-NSString *const mhedShowHideCellID = @"ShowHideCell";
-
-
-NSString *const mhedMealAndMedicationSegmentedControlCellID = @"MealAndMedicationSegmentedControlCell";
-
-NSString *const mhedReminderCellID = @"ReminderCell";
+//NSString *const mhedDateCellID = @"DateCell";     // the cells with the start or end date
+//NSString *const mhedDatePickerID = @"DatePicker"; // the cell containing the date picker
+//
+//NSString *const mhedValueCellID = @"ValueCell";
+//NSString *const mhedValuePickerCellID = @"ValuePickerCell";
+//
+//NSString *const mhedTagCellID = @"TagCell";
+//NSString *const mhedImageAndNameCellID = @"ImageAndNameCell";
+//NSString *const mhedRestaurantCellID = @"RestaurantCell";
+////NSString *const mhedAddMealsAndIngredientsCellID = @"AddMealsAndIngredientsCell";
+////NSString *const mhedDetailMealsAndIngredientsCellID = @"DetailMealsAndIngredientsCell";
+//
+////NSString *const mhedAddMedsAndIngredientsCellID = @"AddMedsAndIngredientsCell";
+////NSString *const mhedDetailMedsAndIngredientsCellID = @"DetailMedsAndIngredientsCell";
+//
+//NSString *const mhedAddObjectsCellID = @"AddObjectsCell";
+//NSString *const mhedDetailObjectsCellID = @"DetailedObjectsCellID";
+//
+//NSString *const mhedLargeImageCellID = @"LargeImageCell";
+//NSString *const mhedImageButtonCellID = @"ImageButtonCell";
+//
+//NSString *const mhedShowHideCellID = @"ShowHideCell";
+//
+//
+//NSString *const mhedMealAndMedicationSegmentedControlCellID = @"MealAndMedicationSegmentedControlCell";
+//
+//NSString *const mhedReminderCellID = @"ReminderCell";
 
 //NSString *const mhedDetailMealMedCellID = @"DetailMealMedCell";
 
@@ -107,6 +107,15 @@ NSString *const mhedReminderCellID = @"ReminderCell";
     
     self.cellArray = [self defaultDataArray];
     
+    if (self.navigationController) {
+        if (self.type == MHEDMealOptionsViewControllerTypeFullScreen) {
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDoneButton)]];
+        }
+        else if (self.type == MHEDMealOptionsViewControllerTypeQuickCapture) {
+            [self.navigationItem setRightBarButtonItem:nil];
+        }
+    }
+    
     
     
     // Notifications
@@ -130,35 +139,56 @@ NSString *const mhedReminderCellID = @"ReminderCell";
                                                object:nil];
 }
 
+- (NSArray *) defaultDataArrayQuickCapture
+{
+    [[self.dataSource objectsDictionary] setDate:[NSDate date]];
+    
+    NSMutableDictionary *dateDict = [self dateSectionDictionary:self.date];
+    
+    
+    NSMutableDictionary *nameDict = [self imageAndNameSectionDictionary];
+    
+    NSMutableDictionary *tagsDict = [self tagSectionDictionary];
+    
+    NSMutableDictionary *restaurantDict = [self restaurantSectionDictionary];
+
+    NSMutableDictionary *foodOrMedciationDict = [self mealAndMedicationSegmentedControllSectionDictionary];
+    
+    return @[foodOrMedciationDict, dateDict, nameDict, restaurantDict, tagsDict ];
+
+}
+
+- (NSArray *) defaultDataArrayFullScreen
+{
+    [[self.dataSource objectsDictionary] setDate:[NSDate date]];
+    
+    NSMutableDictionary *dateDict = [self dateSectionDictionary:self.date];
+    
+    
+    NSMutableDictionary *nameDict = [self imageAndNameSectionDictionary];
+    
+    NSMutableDictionary *tagsDict = [self tagSectionDictionary];
+    
+    NSMutableDictionary *restaurantDict = [self restaurantSectionDictionary];
+    
+    NSMutableDictionary *foodOrMedciationDict = [self mealAndMedicationSegmentedControllSectionDictionary];
+    
+    return @[foodOrMedciationDict, dateDict, nameDict, restaurantDict, tagsDict ];
+    
+}
+
+
 - (NSArray *) defaultDataArray
 // override method, don't call super
 {
-    [self.objectsDictionary setDate:[NSDate date]];
+    if (self.type == MHEDMealOptionsViewControllerTypeFullScreen) {
+        return [self defaultDataArrayFullScreen];
+    }
+    else if (self.type == MHEDMealOptionsViewControllerTypeQuickCapture) {
+        return [self defaultDataArrayQuickCapture];
+    }
     
-    NSMutableDictionary *dateDict = [@{ mhedTableComponentTitleKey : @"Date",
-                                        mhedTableComponentDateKey : self.date,
-                                        mhedTableComponentCellIDKey : mhedDateCellID} mutableCopy];
-    
-    
-    
-    NSMutableDictionary *nameDict = [@{ mhedTableComponentTitleKey : @"Name and Image",
-                                        mhedTableComponentCellIDKey : mhedImageAndNameCellID} mutableCopy];
-    
-//    NSMutableDictionary *mealsAndIngredientsDict = [@{ mhedTableComponentTitleKey : @"Meals and Ingredients",
-//                                                       mhedTableComponentCellIDKey : mhedAddMealsAndIngredientsCellID} mutableCopy];
-    
-    NSMutableDictionary *restaurantDict = [@{ mhedTableComponentTitleKey : @"Restaurant",
-                                              mhedTableComponentCellIDKey : mhedRestaurantCellID} mutableCopy];
-    
-    //NSMutableDictionary *tagsDict = [@{ mhedTitleKey : @"Tags",
-    //                                    mhedCellIDKey : mhedTagCellID} mutableCopy];
-    
-    
-    return @[dateDict, nameDict, restaurantDict ];
-    
-    
-    
-    
+    return nil;
 }
 
 - (void) setupDateAndDatePickerCell
@@ -168,7 +198,7 @@ NSString *const mhedReminderCellID = @"ReminderCell";
     self.dateFormatter = dateFormatter;
     
     // obtain the picker view cell's height, works because the cell was pre-defined in our storyboard
-    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedDatePickerID];
+    UITableViewCell *pickerViewCellToCheck = [self.tableView dequeueReusableCellWithIdentifier:mhedTableCellIDDatePickerCell];
     self.pickerCellRowHeight = pickerViewCellToCheck.frame.size.height;
 }
 
@@ -218,15 +248,17 @@ NSString *const mhedReminderCellID = @"ReminderCell";
 {
     [super viewWillAppear:animated];
     
-    if (self.navigationController) {
-        
-        
-        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(popToHomePage)];
-        
-        leftBarButton.tintColor = [UIColor redColor];
-        [self.navigationItem setLeftBarButtonItem:leftBarButton animated:NO];
-        
-    }
+//    if (self.navigationController) {
+//        
+//        
+//        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(popToHomePage)];
+//        
+//        leftBarButton.tintColor = [UIColor redColor];
+//        [self.navigationItem setLeftBarButtonItem:leftBarButton animated:NO];
+//        
+//    }
+
+
     
     // if the first time we get info directly from previous and not from delegate
     // but then we want to set self as delegate for future

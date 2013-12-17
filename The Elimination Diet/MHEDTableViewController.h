@@ -96,12 +96,15 @@ extern NSString *const mhedTableCellIDDefaultDetailCell;
 extern NSString *const mhedTableCellIDBrowseOptionsCell;
 extern NSString *const mhedTableSectionIDBrowseSection;
 
+extern NSString *const mhedTableSectionIDLinkToRecentSection;
+extern NSString *const mhedTableCellIDLinkToRecentCell;
 
-// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-extern NSString *const mhedObjectsDictionaryMealsKey;
-extern NSString *const mhedObjectsDictionaryIngredientsKey;
-extern NSString *const mhedObjectsDictionaryMedicationKey;
-extern NSString *const mhedObjectsDictionarySymptomsKey;
+
+//// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
+//extern NSString *const mhedObjectsDictionaryMealsKey;
+//extern NSString *const mhedObjectsDictionaryIngredientsKey;
+//extern NSString *const mhedObjectsDictionaryMedicationKey;
+//extern NSString *const mhedObjectsDictionarySymptomsKey;
 
 //typedef NS_OPTIONS(NSUInteger, mhedObjectsDictionaryItemType) {
 //    mhedObjectsDictionaryItemTypeMeals = 1 << 0,
@@ -285,6 +288,7 @@ mealAndMedicationSegmentedControlCell:(UITableViewCell *) currentCell
 - (NSMutableDictionary *) browseSectionDictionaryWithHeader: (NSString *) header
                                                 andRowNames:(NSArray *) rowNames;
 
+- (NSMutableDictionary *) linkMealToRecentSectionDictionary;
 
 - (NSMutableDictionary *) dateSectionDictionary:(NSDate *) date;
 - (NSMutableDictionary *) imageAndNameSectionDictionary;

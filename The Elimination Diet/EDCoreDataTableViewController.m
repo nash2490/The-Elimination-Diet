@@ -48,6 +48,35 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.mheditButtonItem;
+    
+    // if the VC doesn't have a MOC but it was given a FRC that has one then we will use it
+    if (!self.managedObjectContext && self.fetchedResultsController && self.fetchedResultsController.managedObjectContext)
+    {
+        [self setManagedObjectContext:self.fetchedResultsController.managedObjectContext];
+        //[self helperViewWillAppear];
+        [self performFetch];
+    }
+    
+    else if (!self.managedObjectContext) {
+        
+        [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
+            [self setManagedObjectContext:context];
+            //[self helperViewWillAppear];
+            
+            [self performFetch];
+        }];
+        
+        //        [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
+        //            //self.managedObjectContext = document.managedObjectContext;
+        //            [self setManagedObjectContext:document.managedObjectContext];
+        //            [self helperViewWillAppear];
+        //
+        //            [self performFetch];
+        //        }];
+    }
+    else {
+        [self performFetch];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -61,33 +90,12 @@
                  object:self.document.managedObjectContext];
      */
     
-    // if the VC doesn't have a MOC but it was given a FRC that has one then we will use it
-    if (!self.managedObjectContext && self.fetchedResultsController && self.fetchedResultsController.managedObjectContext)
-    {
-        [self setManagedObjectContext:self.fetchedResultsController.managedObjectContext];
-        [self helperViewWillAppear];
-        [self performFetch];
-    }
-    
-    else if (!self.managedObjectContext) {
+    // if we didn't suspend the auto tracking then we don't need to reload the data
+    if (self.fetchedResultsController.delegate && !self.suspendAutomaticTrackingOfChangesInManagedObjectContext) {
         
-        [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
-            [self setManagedObjectContext:context];
-            [self helperViewWillAppear];
-            
-            [self performFetch];
-        }];
-        
-//        [[EDDocumentHandler sharedDocumentHandler] performWithDocument:^(UIManagedDocument *document) {
-//            //self.managedObjectContext = document.managedObjectContext;
-//            [self setManagedObjectContext:document.managedObjectContext];
-//            [self helperViewWillAppear];
-//            
-//            [self performFetch];
-//        }];
     }
     else {
-        [self performFetch];
+        [self.tableView reloadData];
     }
 }
 
@@ -254,7 +262,7 @@
             NSLog(@"[%@ %@] %@ (%@)", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [error localizedDescription], [error localizedFailureReason]);
         }
         
-        [self.tableView reloadData];
+        //[self.tableView reloadData];
     }
     
     else if (self.managedObjectContext){ // if there is a MOC but no FRC then we create the default FRC, set it, and call performFetch again
@@ -433,6 +441,16 @@
         return nil;
     
 	//return [[[self.fetchedResultsController sections] objectAtIndex:section] name];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if ([self tableView:tableView titleForHeaderInSection:section]) {
+        return tableView.sectionHeaderHeight;
+    }
+    else {
+        return 0.0;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index

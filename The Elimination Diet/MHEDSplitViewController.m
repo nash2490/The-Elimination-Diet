@@ -28,12 +28,7 @@
 
 static double mhedSplitViewDefaultHeightForTopView = 282.0;
 
-// Objects Dictionary keys - use to retrieve arrays from objectsDictionary
-static NSString *mhedObjectsDictionaryMealsKey = @"Meals List Key";
-static NSString *mhedObjectsDictionaryIngredientsKey = @"Ingredients List Key";
-static NSString *mhedObjectsDictionaryMedicationKey = @"Medication List Key";
-static NSString *mhedObjectsDictionarySymptomsKey = @"Symptom List Key";
-static NSString *mhedObjectsDictionaryImagesKey = @"Images List Key";
+
 
 
 NSString *const mhedStoryBoardViewControllerIDMealFillinSequence = @"Meal Fill-in Sequence";
@@ -41,6 +36,8 @@ NSString *const mhedStoryBoardViewControllerIDQuickCaptureSequence = @"Quick Cap
 
 NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence = @"MHEDBottomBrowse";
 NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
+
+NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewController";
 
 
 
@@ -78,17 +75,35 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self updateContainerViewWithMealOptionsViewController];
+    [self setupContainerViews];
+    
+    if (!self.managedObjectContext) {
+        [EDEliminatedAPI performBlockWithContext:^(NSManagedObjectContext *context) {
+            if (context) {
+                self.managedObjectContext = context;
+            }
+        }];
+    }
     
     if (self.navigationController) {
         
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDoneButton:)]];
+        
+        UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(popToHomePage)];
+        
+        leftBarButton.tintColor = [UIColor redColor];
+        [self.navigationItem setLeftBarButtonItem:leftBarButton animated:NO];
     }
     
     if (self.tabBarController) {
         self.tabBarController.tabBar.hidden = YES;
     }
 
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -255,6 +270,13 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 
 #pragma mark - Container View Controller
 
+
+- (void) setupContainerViews
+{
+    
+    //[self updateContainerViewWithMealOptionsViewController];
+}
+
 - (void) updateContainerViewWithMealOptionsViewController
 {
     // get view controller
@@ -302,10 +324,12 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 
 - (void) displayMealFillinViewControllerInContainerLocation: (MHEDSplitViewContainerViewLocation) location
 {
-    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealFillinSequence];
+    UINavigationController *contentVC = [self.storyboard instantiateViewControllerWithIdentifier:mhedStoryBoardViewControllerIDMealFillinSequence];
     
-    [self displayContentController:vc inContainerLocation: location];
+    MHEDMealSummaryViewController *summaryVC = [contentVC viewControllers][0];
+    summaryVC.delegate = self;
     
+    [self displayContentController:contentVC inContainerLocation:location];
 }
 
 - (void) displayMealSummaryViewControllerInContainerLocation:(MHEDSplitViewContainerViewLocation) location
@@ -334,6 +358,7 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
 - (void) handleDoneButton: (id) sender
 {
     [self createMeal];
+    [self popToHomePage];
 }
 
 
@@ -618,6 +643,12 @@ NSString *const mhedStoryBoardViewControllerIDMealSummary = @"MHEDMealSummary";
     }
 }
 
+- (void) popToHomePage
+{
+    if (self.navigationController) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
 
 
 
