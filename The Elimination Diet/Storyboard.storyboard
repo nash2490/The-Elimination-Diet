@@ -1007,12 +1007,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gOO-DS-APb">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gOO-DS-APb" customClass="MHEDDividerView">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6Y-0a-K59">
-                                        <rect key="frame" x="20" y="0.0" width="280" height="44"/>
+                                        <rect key="frame" x="20" y="0.0" width="76" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="show/hide">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1026,7 +1026,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="GLj-sQ-Rar"/>
                                     <constraint firstAttribute="bottom" secondItem="b6Y-0a-K59" secondAttribute="bottom" id="MYY-46-Mwt"/>
-                                    <constraint firstAttribute="trailing" secondItem="b6Y-0a-K59" secondAttribute="trailing" constant="20" symbolic="YES" id="OR9-Yy-oxF"/>
+                                    <constraint firstAttribute="trailing" secondItem="b6Y-0a-K59" secondAttribute="trailing" constant="224" id="OR9-Yy-oxF"/>
                                     <constraint firstItem="b6Y-0a-K59" firstAttribute="leading" secondItem="gOO-DS-APb" secondAttribute="leading" constant="20" symbolic="YES" id="gf9-0i-Shl"/>
                                     <constraint firstItem="b6Y-0a-K59" firstAttribute="top" secondItem="gOO-DS-APb" secondAttribute="top" id="y1b-V1-ltb"/>
                                 </constraints>
@@ -1049,8 +1049,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" id="k3F-zA-1hv"/>
                     <connections>
                         <outlet property="mhedBottomView" destination="Vbv-hH-l5D" id="M6V-QY-CDZ"/>
+                        <outlet property="mhedDividerView" destination="gOO-DS-APb" id="0Tb-HD-Wpo"/>
                         <outlet property="mhedShowHideButton" destination="b6Y-0a-K59" id="phW-8L-v1E"/>
-                        <outlet property="mhedShowHideView" destination="gOO-DS-APb" id="HmQ-Im-bXB"/>
                         <outlet property="mhedTopView" destination="F34-dk-yxA" id="qbj-Zh-lKJ"/>
                     </connections>
                 </viewController>
@@ -1159,12 +1159,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <constraint firstAttribute="height" priority="999" constant="282" id="fjs-Bx-itk"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tja-1S-RKX">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tja-1S-RKX" customClass="MHEDDividerView">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgT-xZ-EBV">
-                                        <rect key="frame" x="20" y="0.0" width="280" height="44"/>
+                                        <rect key="frame" x="20" y="0.0" width="94" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="show/hide">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1173,13 +1173,17 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <action selector="mhedShowHideButtonPress:" destination="BzJ-54-4Dx" eventType="touchUpInside" id="XMx-eg-c8P"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="14o-1z-HaP">
+                                        <rect key="frame" x="253" y="0.0" width="47" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fgT-xZ-EBV" firstAttribute="leading" secondItem="tja-1S-RKX" secondAttribute="leading" constant="20" symbolic="YES" id="K5x-5N-T4t"/>
                                     <constraint firstAttribute="height" constant="44" id="QJc-nV-tlt"/>
                                     <constraint firstAttribute="bottom" secondItem="fgT-xZ-EBV" secondAttribute="bottom" id="R7j-AI-h2z"/>
-                                    <constraint firstAttribute="trailing" secondItem="fgT-xZ-EBV" secondAttribute="trailing" constant="20" symbolic="YES" id="jxf-5S-dpk"/>
+                                    <constraint firstAttribute="trailing" secondItem="fgT-xZ-EBV" secondAttribute="trailing" constant="206" id="jxf-5S-dpk"/>
                                     <constraint firstItem="fgT-xZ-EBV" firstAttribute="top" secondItem="tja-1S-RKX" secondAttribute="top" id="mOr-8c-6Af"/>
                                 </constraints>
                             </view>
@@ -1201,8 +1205,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" id="tP0-FB-NQo"/>
                     <connections>
                         <outlet property="mhedBottomView" destination="oFS-u8-AgN" id="Qjh-Co-JUr"/>
+                        <outlet property="mhedDividerView" destination="tja-1S-RKX" id="ujH-yA-cs9"/>
                         <outlet property="mhedShowHideButton" destination="fgT-xZ-EBV" id="m7i-LL-iwe"/>
-                        <outlet property="mhedShowHideView" destination="tja-1S-RKX" id="oVL-gS-oG3"/>
+                        <outlet property="mhedSplitterImageView" destination="14o-1z-HaP" id="mvd-OT-ju0"/>
                         <outlet property="mhedTopView" destination="CXh-R6-xeJ" id="QV1-kt-EXP"/>
                     </connections>
                 </viewController>

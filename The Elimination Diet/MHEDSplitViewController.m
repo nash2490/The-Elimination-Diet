@@ -8,6 +8,8 @@
 
 #import "MHEDSplitViewController.h"
 
+#import "MHEDDividerView.h"
+
 #import "MHEDMealSummaryViewController.h"
 
 #import "EDMeal+Methods.h"
@@ -23,6 +25,8 @@
 #import "UIView+MHED_AdjustView.h"
 
 #import "EDEliminatedAPI.h"
+
+#import "MHEDDividerGestureRecognizer.h"
 
 @import MobileCoreServices;
 
@@ -47,6 +51,10 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 
 @property (nonatomic) CGFloat mhedTopViewHeight;
 
+@property (nonatomic) BOOL handlingMove;
+@property (nonatomic) CGPoint priorPoint;
+
+
 @end
 
 
@@ -66,8 +74,41 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [self mhedInitializeSplitViewController];
     }
     return self;
+}
+
+
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    [self mhedInitializeSplitViewController];
+    
+}
+
+- (void) mhedInitializeSplitViewController
+{
+    self.mhedMinimumViewSize_topView = CGSizeMake(100, 0);
+    self.mhedMinimumViewSize_bottomView = CGSizeMake(100, 100);
+}
+
+- (void) mhedDividerViewSetup
+{
+    self.mhedDividerView.delegate = self;
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(moveDivider:)];
+    
+    longPressRecognizer.allowableMovement = 100.0;
+    
+    
+    [self.mhedDividerView addGestureRecognizer:longPressRecognizer];
+    
+    // add gesture recognizer
+    
+//    MHEDDividerGestureRecognizer *dividerGesture = [[MHEDDividerGestureRecognizer alloc] initWithTarget:self action:@selector(mhedMoveDivider:)];
+//    [self.mhedDividerView addGestureRecognizer:dividerGesture];
+    
 }
 
 - (void)viewDidLoad
@@ -75,6 +116,7 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self mhedDividerViewSetup];
     [self setupContainerViews];
     
     if (!self.managedObjectContext) {
@@ -98,6 +140,14 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     if (self.tabBarController) {
         self.tabBarController.tabBar.hidden = YES;
     }
+    
+    // setup divider
+    
+    // find divider location
+    // divider position uses the y of showHide view and x of mhedDividerImageView (x of showHide, y of divider if portrait)
+
+    
+    
 
 }
 
@@ -128,8 +178,8 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
                          animations:^{
                              
                              [self.mhedTopView mhedSetFrameHeight: self.mhedTopViewHeight];
-                             [self.mhedShowHideView mhedSetOriginY: CGRectGetMaxY(self.mhedTopView.frame)];
-                             [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedShowHideView.frame)];
+                             [self.mhedDividerView mhedSetOriginY: CGRectGetMaxY(self.mhedTopView.frame)];
+                             [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedDividerView.frame)];
                              //[self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + mhedSplitViewDefaultHeightForTopView];
                          }
                          completion:^(BOOL finished){
@@ -205,8 +255,8 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
                                               animations:^{
                                                   
                                                   [self.mhedTopView mhedSetFrameHeight: 0.0];
-                                                  [self.mhedShowHideView mhedSetOriginY: CGRectGetMaxY(self.mhedTopView.frame)];
-                                                  [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedShowHideView.frame)];
+                                                  [self.mhedDividerView mhedSetOriginY: CGRectGetMaxY(self.mhedTopView.frame)];
+                                                  [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedDividerView.frame)];
                                                   //[self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + mhedSplitViewDefaultHeightForTopView];
                                               }
                                               completion:nil];
@@ -216,55 +266,130 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 }
 
 
-//- (void) handleShowHideButtonPress:(id)sender
-//{
-//    if (self.isTopViewHidden) {
-//        self.isTopViewHidden = NO;
-//        
-//        // animate Open
-//    }
-//    
-//    else {
-//        self.isTopViewHidden = YES;
-//        
-//        // animate close;
-//        // ---------
-//                // self.mhedTopView.frame.height = 0.0
-//                // self.mhedShowHideView.frame.y = 0.0
-//                // self.mhedBottomView.frame.y = self.mhedShowHideView.frame.height
-//                // self.mhedBottomView.frame.height = self.mhedBottomView.frame.height + mhedSplitViewDefaultHeightForTopView
-//        
-//        // Do I also need to change the autolayout things?
-//        //      - think i would only need to do that if viewWillLayoutSubviews gets called again, does it ?
-//        
-//        
-//        [UIView animateWithDuration:1.0
-//                              delay: 0.0
-//                            options: UIViewAnimationOptionCurveEaseIn
-//                         animations:^{
-//                             
-//                             self.mhedTopView.alpha = 0.0;
-//                             
-//                         }
-//                         completion:^(BOOL finished){
-//                             // Wait one second and then fade in the view
-//                             [UIView animateWithDuration:1.0
-//                                                   delay: 1.0
-//                                                 options:UIViewAnimationOptionCurveEaseOut
-//                                              animations:^{
-//                                                  
-//                                                  [self.mhedTopView mhedSetFrameHeight: 0.0];
-//                                                  [self.mhedShowHideView mhedSetOriginY: 0.0];
-//                                                  [self.mhedBottomView mhedSetOriginY: CGRectGetHeight(self.mhedShowHideView.frame)];
-//                                                  [self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + mhedSplitViewDefaultHeightForTopView];
-//                                              }
-//                                              completion:nil];
-//                         }];
-//        
-//        
-//    }
-//    
-//}
+
+#pragma mark - Divider Delegate and related
+
+- (void)moveDivider:(UILongPressGestureRecognizer *)sender {
+    UIView *view = sender.view;
+    CGPoint point = [sender locationInView:view.superview];
+    if (sender.state == UIGestureRecognizerStateChanged) {
+        CGPoint center = view.center;
+        
+        
+        //center.x += point.x - self.priorPoint.x;
+        center.y += point.y - self.priorPoint.y;
+        //view.center = center;
+        
+        if (center.y >= [self.topLayoutGuide length] + [self dividerLength] / 2) {
+            NSLog(@"new center will be %f", center.y);
+            [self setDividerPosition:center.y];
+        }
+        
+    }
+    self.priorPoint = point;
+    
+    NSLog(@"prior point = %f", point);
+}
+
+
+
+- (void) mhedMoveDivider:(id) sender
+{
+    
+}
+
+
+-(void)dividerViewWillStartTrackingTouches:(MHEDDividerView *) dividerView
+{
+    if ([self.delegate respondsToSelector:@selector(willMoveDivider:)])
+        [self.delegate willMoveDivider:self];
+}
+
+-(void)dividerViewDidEndTrackingTouches:(MHEDDividerView *) dividerView
+{
+    if ([self.delegate respondsToSelector:@selector(didMoveDivider:)])
+        [self.delegate didMoveDivider:self];
+}
+
+-(void)dividerView:(MHEDDividerView*) dividerView moveByOffset:(CGFloat)offset
+{
+    
+    NSLog(@"offset = %f", offset);
+
+    
+    BOOL isLand = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    CGRect dividerRect = dividerView.frame;
+    
+    //validate the offset is in the acceptable range
+    CGFloat curLoc = isLand ? self.mhedDividerView.frame.origin.x : self.mhedDividerView.frame.origin.y;
+    CGFloat newLoc = curLoc + offset;
+    CGFloat minOffset = isLand ? self.mhedMinimumViewSize_topView.width : self.mhedMinimumViewSize_topView.height;
+    CGFloat maxOffset = isLand ? self.view.bounds.size.width : self.view.bounds.size.height;
+    maxOffset -= isLand ? self.mhedMinimumViewSize_bottomView.width : self.mhedMinimumViewSize_bottomView.height;
+    if (newLoc < minOffset)
+        offset = 0;
+    if (newLoc > maxOffset)
+        offset = maxOffset - curLoc;
+    if (offset == 0)
+        return;
+    
+    CGRect r1 = self.mhedTopView.frame;
+    CGRect r2 = self.mhedBottomView.frame;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        dividerRect.origin.x = dividerRect.origin.x + offset;
+        r1.size.width += offset;
+        r2.origin.x += offset;
+        r2.size.width = self.view.bounds.size.width - r2.origin.x;
+    } else {
+        dividerRect.origin.y = dividerRect.origin.y + offset;
+        r1.size.height += offset;
+        r2.origin.y += offset;
+        r2.size.height = self.view.bounds.size.height - r2.origin.y;
+    }
+    dividerView.frame = dividerRect;
+    self.mhedTopView.frame = r1;
+    self.mhedBottomView.frame = r2;
+    
+    [self.view setNeedsDisplay];
+}
+
+
+- (CGFloat) dividerLength
+{
+    if ((UIInterfaceOrientationIsLandscape(self.interfaceOrientation))) {
+        return self.mhedDividerView.frame.size.width;
+    }
+    
+    return self.mhedDividerView.frame.size.height;
+}
+
+-(CGFloat)dividerPosition
+{
+    if ((UIInterfaceOrientationIsLandscape(self.interfaceOrientation))) {
+        return self.mhedDividerView.frame.origin.x + floorf([self dividerLength] / 2);
+    }
+    
+    return self.mhedDividerView.frame.origin.y + floorf([self dividerLength] / 2);
+}
+
+-(void)setDividerPosition:(CGFloat)dividerPosition
+{
+    [self setDividerPosition:dividerPosition animated:NO];
+}
+
+-(void)setDividerPosition:(CGFloat)dividerPosition animated:(BOOL)animated
+{
+    CGFloat offset = dividerPosition;
+    
+    if ((UIInterfaceOrientationIsLandscape(self.interfaceOrientation))) {
+        offset -= self.mhedDividerView.frame.origin.x;
+    }
+    else {
+        offset -= self.mhedDividerView.frame.origin.y;
+    }
+    
+    [self dividerView:self.mhedDividerView moveByOffset:offset - floorf([self dividerLength] / 2)];
+}
 
 
 

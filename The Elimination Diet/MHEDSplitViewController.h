@@ -11,6 +11,8 @@
 
 #import "MHEDObjectsDictionary.h"
 
+#import "MHEDDividerView.h"
+
 
 extern NSString *const mhedStoryBoardViewControllerIDBottomBrowseSequence;
 extern NSString *const mhedStoryBoardViewControllerIDMealSummary;
@@ -25,10 +27,43 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 };
 
 
-@class EDRestaurant;
+@class EDRestaurant, MHEDSplitViewController;
 
 
-@interface MHEDSplitViewController : UIViewController <MHEDObjectsDictionaryProtocol>
+@protocol MHEDSplitViewControllerDividerDelegate <NSObject>
+
+@optional
+
+- (void) willMoveDivider: (MHEDSplitViewController*) controller;
+- (void) didMoveDivider: (MHEDSplitViewController*) controller;
+
+@end
+
+
+@interface MHEDSplitViewController : UIViewController <MHEDObjectsDictionaryProtocol, MHEDDividerViewDelegate>
+
+
+
+
+@property (nonatomic, weak) id <MHEDSplitViewControllerDividerDelegate> delegate;
+
+
+//the midpoint of the divider view (x/y depending on orientation)
+@property (nonatomic) CGFloat dividerPosition;
+
+//the minimum size (width used when landscape, height used when portrait) for the first view. default is 100, 0
+@property (nonatomic) CGSize mhedMinimumViewSize_topView;
+
+//the minimum size (width used when landscape, height used when portrait) for the second view. default is 100, 100
+@property (nonatomic) CGSize mhedMinimumViewSize_bottomView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *mhedDividerImageView;
+
+/// divider position uses the y of showHide view and x of mhedDividerImageView (x of showHide, y of divider if portrait)
+- (void) setDividerPosition:(CGFloat)dividerPosition animated:(BOOL)animated;
+
+
+
 
 
 
@@ -40,7 +75,7 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 @property (weak, nonatomic) IBOutlet UIView *mhedTopView;
 @property (weak, nonatomic) IBOutlet UIView *mhedBottomView;
-@property (weak, nonatomic) IBOutlet UIView *mhedShowHideView;
+@property (weak, nonatomic) IBOutlet MHEDDividerView *mhedDividerView;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *mhedShowHideButton;

@@ -96,6 +96,8 @@
 		6CE51DEF183FCEB2004C7ABC /* EDBodyPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DEE183FCEB2004C7ABC /* EDBodyPart.m */; };
 		6CE51DF2183FCECC004C7ABC /* EDBodyLocation+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DF1183FCECC004C7ABC /* EDBodyLocation+Methods.m */; };
 		6CE51DF8183FD5AD004C7ABC /* EDBodyLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE51DF7183FD5AD004C7ABC /* EDBodyLocation.m */; };
+		6CE8733118621E2200DA9F70 /* MHEDDividerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE8733018621E2200DA9F70 /* MHEDDividerView.m */; };
+		6CE8733418622D9900DA9F70 /* MHEDDividerGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE8733318622D9900DA9F70 /* MHEDDividerGestureRecognizer.m */; };
 		6CED588C1763FA3F005BFF76 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED588B1763FA3F005BFF76 /* UIKit.framework */; };
 		6CED588E1763FA3F005BFF76 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED588D1763FA3F005BFF76 /* Foundation.framework */; };
 		6CED58901763FA3F005BFF76 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED588F1763FA3F005BFF76 /* CoreGraphics.framework */; };
@@ -181,8 +183,8 @@
 		6CA03B33184FB96500057CA3 /* NSArray+MHED_Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MHED_Methods.m"; sourceTree = "<group>"; };
 		6CA03B3518511FCE00057CA3 /* MHEDBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDBrowseViewController.h; sourceTree = "<group>"; };
 		6CA03B3618511FCE00057CA3 /* MHEDBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDBrowseViewController.m; sourceTree = "<group>"; };
-		6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitViewController.h; sourceTree = "<group>"; };
-		6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDSplitViewController.m; sourceTree = "<group>"; };
+		6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MHEDSplitViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MHEDSplitViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6CA59E12185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitFoodBrowseViewController.h; sourceTree = "<group>"; };
 		6CA59E13185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDSplitFoodBrowseViewController.m; sourceTree = "<group>"; };
 		6CA59E15185B877E000F1C1E /* MHEDSplitCarouselTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDSplitCarouselTopViewController.h; sourceTree = "<group>"; };
@@ -282,6 +284,10 @@
 		6CE51DF1183FCECC004C7ABC /* EDBodyLocation+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDBodyLocation+Methods.m"; sourceTree = "<group>"; };
 		6CE51DF6183FD5AD004C7ABC /* EDBodyLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDBodyLocation.h; sourceTree = "<group>"; };
 		6CE51DF7183FD5AD004C7ABC /* EDBodyLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EDBodyLocation.m; sourceTree = "<group>"; };
+		6CE8732F18621E2200DA9F70 /* MHEDDividerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDDividerView.h; sourceTree = "<group>"; };
+		6CE8733018621E2200DA9F70 /* MHEDDividerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDDividerView.m; sourceTree = "<group>"; };
+		6CE8733218622D9900DA9F70 /* MHEDDividerGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHEDDividerGestureRecognizer.h; sourceTree = "<group>"; };
+		6CE8733318622D9900DA9F70 /* MHEDDividerGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHEDDividerGestureRecognizer.m; sourceTree = "<group>"; };
 		6CED58881763FA3F005BFF76 /* The Elimination Diet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Elimination Diet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CED588B1763FA3F005BFF76 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6CED588D1763FA3F005BFF76 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -370,6 +376,10 @@
 				6C0842D417B43B8C006169F2 /* Core Data */,
 				6CA59E0F185B65BB000F1C1E /* MHEDSplitViewController.h */,
 				6CA59E10185B65BB000F1C1E /* MHEDSplitViewController.m */,
+				6CE8733218622D9900DA9F70 /* MHEDDividerGestureRecognizer.h */,
+				6CE8733318622D9900DA9F70 /* MHEDDividerGestureRecognizer.m */,
+				6CE8732F18621E2200DA9F70 /* MHEDDividerView.h */,
+				6CE8733018621E2200DA9F70 /* MHEDDividerView.m */,
 				6CA59E12185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.h */,
 				6CA59E13185B69AC000F1C1E /* MHEDSplitFoodBrowseViewController.m */,
 				6C365D2D182C18B300DC9990 /* EDSelectTagsViewController.h */,
@@ -750,6 +760,7 @@
 				6C2B76B318528F2800881902 /* MHEDBrowseFoodViewController.m in Sources */,
 				6C8CF340176BAB7C0080F3F2 /* NSString+MHED_EatDate.m in Sources */,
 				6CA59E17185B877E000F1C1E /* MHEDSplitCarouselTopViewController.m in Sources */,
+				6CE8733118621E2200DA9F70 /* MHEDDividerView.m in Sources */,
 				6C4DC05117736E8F00AE401F /* UIView+MHED_AdjustView.m in Sources */,
 				6C2B76C5185402CF00881902 /* MHEDMealInformationEnterViewController.m in Sources */,
 				6CADA0BE1831210800A9C6AA /* EDMeal.m in Sources */,
@@ -767,6 +778,7 @@
 				6CADA0CD183134FD00A9C6AA /* EDTakenMedication.m in Sources */,
 				6CA59E1D185B992B000F1C1E /* MHEDMealOptionsViewController.m in Sources */,
 				6CAEC09017A843AE00649199 /* EDEatenMeal+Methods.m in Sources */,
+				6CE8733418622D9900DA9F70 /* MHEDDividerGestureRecognizer.m in Sources */,
 				6C8B3656181ABFAA00B022F3 /* EDEliminatedAPI+Searching.m in Sources */,
 				6CAEC09917A8441700649199 /* EDHadSymptom+Methods.m in Sources */,
 				6CD236CE1834817600102959 /* EDImage.m in Sources */,
