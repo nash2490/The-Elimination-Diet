@@ -22,40 +22,40 @@
     }
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    
-    
-    if ([self.delegate respondsToSelector:@selector(dividerViewWillStartTrackingTouches:)])
-        [self.delegate dividerViewWillStartTrackingTouches:self];
-}
-
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    BOOL isLand = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
-    CGPoint pt = [touches.anyObject locationInView:self.superview];
-    CGFloat ptVal = isLand ? pt.x : pt.y;
-    CGFloat startVal = isLand ? self.frame.origin.x : self.frame.origin.y;
-    CGFloat offset = (startVal - ptVal) * -1;
-    [self.delegate dividerView:self moveByOffset:offset];
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if ([self.delegate respondsToSelector:@selector(dividerViewDidEndTrackingTouches:)])
-        [self.delegate dividerViewDidEndTrackingTouches:self];
-}
-
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if ([self.delegate respondsToSelector:@selector(dividerViewDidEndTrackingTouches:)])
-        [self.delegate dividerViewDidEndTrackingTouches:self];
-}
-
-
-- (void) reset
-{
-    
-}
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    
+//    
+//    if ([self.delegate respondsToSelector:@selector(dividerViewWillStartTrackingTouches:)])
+//        [self.delegate dividerViewWillStartTrackingTouches:self];
+//}
+//
+//-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    BOOL isLand = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+//    CGPoint pt = [touches.anyObject locationInView:self.superview];
+//    CGFloat ptVal = isLand ? pt.x : pt.y;
+//    CGFloat startVal = isLand ? self.frame.origin.x : self.frame.origin.y;
+//    CGFloat offset = (startVal - ptVal) * -1;
+//    [self.delegate dividerView:self moveByOffset:offset];
+//}
+//
+//-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    if ([self.delegate respondsToSelector:@selector(dividerViewDidEndTrackingTouches:)])
+//        [self.delegate dividerViewDidEndTrackingTouches:self];
+//}
+//
+//-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    if ([self.delegate respondsToSelector:@selector(dividerViewDidEndTrackingTouches:)])
+//        [self.delegate dividerViewDidEndTrackingTouches:self];
+//}
+//
+//
+//- (void) reset
+//{
+//    
+//}
 
 @end

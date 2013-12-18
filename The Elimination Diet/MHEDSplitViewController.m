@@ -99,10 +99,15 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(moveDivider:)];
     
-    longPressRecognizer.allowableMovement = 100.0;
-    
+    longPressRecognizer.allowableMovement = 300.0;
+    longPressRecognizer.minimumPressDuration = 0.2;
     
     [self.mhedDividerView addGestureRecognizer:longPressRecognizer];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDivider:)];
+    [self.mhedDividerView addGestureRecognizer:tapRecognizer];
+    
+    //[longPressRecognizer requireGestureRecognizerToFail:tapRecognizer];
     
     // add gesture recognizer
     
@@ -165,14 +170,16 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 #pragma mark - View Layout and Adjusting
 
 - (IBAction)mhedShowHideButtonPress:(id)sender {
-    if (self.isTopViewHidden) {
-        self.isTopViewHidden = NO;
+    if (self.mhedTopView.frame.size.height < 50.0) {
+        //self.isTopViewHidden = NO;
         
         // animate Open
         
+        self.mhedTopViewHeight = MAX(self.mhedTopViewHeight, 100.0);
         
+        CGFloat duration = (self.mhedTopViewHeight * 0.002);
         
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:duration
                               delay: 0.1
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
@@ -180,6 +187,7 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
                              [self.mhedTopView mhedSetFrameHeight: self.mhedTopViewHeight];
                              [self.mhedDividerView mhedSetOriginY: CGRectGetMaxY(self.mhedTopView.frame)];
                              [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedDividerView.frame)];
+                             
                              //[self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + mhedSplitViewDefaultHeightForTopView];
                          }
                          completion:^(BOOL finished){
@@ -199,8 +207,9 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
         
     }
     
-    else {
-        self.isTopViewHidden = YES;
+    else if (self.mhedTopView.frame.size.height >= 50) {
+        
+        //self.isTopViewHidden = YES;
         
         // animate close;
         // ---------
@@ -238,18 +247,20 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 //                         }
 //                         completion:nil];
         
-        self.mhedTopViewHeight = self.mhedTopView.frame.size.height;
+        self.mhedTopViewHeight = MAX( self.mhedTopView.frame.size.height, 100.0);
         
         [UIView animateWithDuration:0.0
                               delay: 0.0
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                         
-                             [self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + self.mhedTopViewHeight];
+                             [self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + CGRectGetHeight(self.mhedTopView.frame)];
                          }
                          completion: ^(BOOL finished){
                              
-                             [UIView animateWithDuration:0.3
+                             CGFloat duration = (self.mhedTopView.frame.size.height * 0.002);
+                             
+                             [UIView animateWithDuration:duration
                                                    delay: 0.1
                                                  options:UIViewAnimationOptionCurveEaseOut
                                               animations:^{
@@ -269,6 +280,13 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 
 #pragma mark - Divider Delegate and related
 
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+
 - (void)moveDivider:(UILongPressGestureRecognizer *)sender {
     UIView *view = sender.view;
     CGPoint point = [sender locationInView:view.superview];
@@ -281,35 +299,37 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
         //view.center = center;
         
         if (center.y >= [self.topLayoutGuide length] + [self dividerLength] / 2) {
-            NSLog(@"new center will be %f", center.y);
+            //NSLog(@"new center will be %f", center.y);
             [self setDividerPosition:center.y];
+            
         }
         
     }
     self.priorPoint = point;
     
-    NSLog(@"prior point = %f", point);
-}
-
-
-
-- (void) mhedMoveDivider:(id) sender
-{
     
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+#warning change this to look nicer
+        // change background color
+        [sender.view setBackgroundColor:[UIColor blueColor]];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded ||
+             sender.state == UIGestureRecognizerStateFailed ||
+             sender.state == UIGestureRecognizerStateCancelled) {
+        
+        [sender.view setBackgroundColor:[UIColor whiteColor]];
+    }
+    
+//    NSLog(@"prior point.y = %f", point.y);
+//    NSLog(@"long press state = %i", sender.state);
 }
 
-
--(void)dividerViewWillStartTrackingTouches:(MHEDDividerView *) dividerView
+- (void) tapDivider:(UITapGestureRecognizer *) sender
 {
-    if ([self.delegate respondsToSelector:@selector(willMoveDivider:)])
-        [self.delegate willMoveDivider:self];
+    [self mhedShowHideButtonPress:sender];
 }
 
--(void)dividerViewDidEndTrackingTouches:(MHEDDividerView *) dividerView
-{
-    if ([self.delegate respondsToSelector:@selector(didMoveDivider:)])
-        [self.delegate didMoveDivider:self];
-}
 
 -(void)dividerView:(MHEDDividerView*) dividerView moveByOffset:(CGFloat)offset
 {
@@ -348,6 +368,7 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     }
     dividerView.frame = dividerRect;
     self.mhedTopView.frame = r1;
+    self.mhedTopViewHeight = self.mhedTopView.frame.size.height;
     self.mhedBottomView.frame = r2;
     
     [self.view setNeedsDisplay];
