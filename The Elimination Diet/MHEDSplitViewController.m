@@ -295,9 +295,9 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
         
         
         //center.x += point.x - self.priorPoint.x;
-        center.y += point.y - self.priorPoint.y;
+        //center.y += point.y - self.priorPoint.y;
         //view.center = center;
-        
+        center.y = point.y;
         if (center.y >= [self.topLayoutGuide length] + [self dividerLength] / 2) {
             //NSLog(@"new center will be %f", center.y);
             [self setDividerPosition:center.y];
