@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 //the minimum size (width used when landscape, height used when portrait) for the second view. default is 100, 100
 @property (nonatomic) CGSize mhedMinimumViewSize_bottomView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *mhedDividerImageView;
+//@property (weak, nonatomic) IBOutlet UIImageView *mhedDividerImageView;
 
 /// divider position uses the y of showHide view and x of mhedDividerImageView (x of showHide, y of divider if portrait)
 - (void) setDividerPosition:(CGFloat)dividerPosition animated:(BOOL)animated;
@@ -78,8 +78,7 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 @property (weak, nonatomic) IBOutlet MHEDDividerView *mhedDividerView;
 
 
-@property (weak, nonatomic) IBOutlet UIButton *mhedShowHideButton;
-- (IBAction)mhedShowHideButtonPress:(id)sender;
+- (void) mhedShowHideButtonPress:(id)sender;
 
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;

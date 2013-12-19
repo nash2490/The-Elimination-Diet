@@ -22,6 +22,8 @@
 
 @interface MHEDDividerView : UIView
 
+
+
 @property (nonatomic, weak) id<MHEDDividerViewDelegate> delegate;
 @property (nonatomic) BOOL gripVisible;
 

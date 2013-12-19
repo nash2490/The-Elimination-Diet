@@ -25,6 +25,7 @@
 #import "UIView+MHED_AdjustView.h"
 
 #import "EDEliminatedAPI.h"
+#import "EDEliminatedAPI+MHEDColors.h"
 
 #import "MHEDDividerGestureRecognizer.h"
 
@@ -169,7 +170,10 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 
 #pragma mark - View Layout and Adjusting
 
-- (IBAction)mhedShowHideButtonPress:(id)sender {
+- (void) mhedShowHideButtonPress:(id)sender {
+    
+    self.mhedDividerView.backgroundColor = [EDEliminatedAPI mhedMiddleColor];
+    
     if (self.mhedTopView.frame.size.height < 50.0) {
         //self.isTopViewHidden = NO;
         
@@ -201,6 +205,7 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
                                               }
                                               completion: ^(BOOL finished){
                                                   
+                                                  self.mhedDividerView.backgroundColor = [EDEliminatedAPI mhedLightestColor];
                                                   
                                               }];
                          }];
@@ -270,7 +275,10 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
                                                   [self.mhedBottomView mhedSetOriginY: CGRectGetMaxY(self.mhedDividerView.frame)];
                                                   //[self.mhedBottomView mhedSetFrameHeight:CGRectGetHeight(self.mhedBottomView.frame) + mhedSplitViewDefaultHeightForTopView];
                                               }
-                                              completion:nil];
+                                              completion:^(BOOL finished) {
+                                                  self.mhedDividerView.backgroundColor = [EDEliminatedAPI mhedLightestColor];
+
+                                              }];
                          }];
         
     }
@@ -312,13 +320,13 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
         
 #warning change this to look nicer
         // change background color
-        [sender.view setBackgroundColor:[UIColor blueColor]];
+        [sender.view setBackgroundColor:[EDEliminatedAPI mhedMiddleColor]];
     }
     else if (sender.state == UIGestureRecognizerStateEnded ||
              sender.state == UIGestureRecognizerStateFailed ||
              sender.state == UIGestureRecognizerStateCancelled) {
         
-        [sender.view setBackgroundColor:[UIColor whiteColor]];
+        [sender.view setBackgroundColor:[EDEliminatedAPI mhedLightestColor]];
     }
     
 //    NSLog(@"prior point.y = %f", point.y);

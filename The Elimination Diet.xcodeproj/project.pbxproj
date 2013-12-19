@@ -107,6 +107,7 @@
 		6CED589E1763FA3F005BFF76 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CED589D1763FA3F005BFF76 /* Default.png */; };
 		6CED58A01763FA3F005BFF76 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CED589F1763FA3F005BFF76 /* Default@2x.png */; };
 		6CED58A21763FA3F005BFF76 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CED58A11763FA3F005BFF76 /* Default-568h@2x.png */; };
+		6CF03FFE18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CF03FFD18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -301,6 +302,8 @@
 		6CED589D1763FA3F005BFF76 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6CED589F1763FA3F005BFF76 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		6CED58A11763FA3F005BFF76 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6CF03FFC18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDEliminatedAPI+MHEDColors.h"; sourceTree = "<group>"; };
+		6CF03FFD18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDEliminatedAPI+MHEDColors.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,6 +427,8 @@
 		6C8B3653181ABF9700B022F3 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				6CF03FFC18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.h */,
+				6CF03FFD18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.m */,
 				6C8B3650181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.h */,
 				6C8B3651181ABF8A00B022F3 /* EDEliminatedAPI+Fetching.m */,
 				6C75C36A18157CEB00676288 /* EDEliminatedAPI.h */,
@@ -792,6 +797,7 @@
 				6CAEC0AB17A8454F00649199 /* EDSymptom+Methods.m in Sources */,
 				6C2B76BC1852C71B00881902 /* MHEDBrowseSymptomViewController.m in Sources */,
 				6CAEC0AE17A8456A00649199 /* EDType+Methods.m in Sources */,
+				6CF03FFE18633BD900FA6110 /* EDEliminatedAPI+MHEDColors.m in Sources */,
 				6CA59E20185BA985000F1C1E /* MHEDCarouselAndSummaryViewController.m in Sources */,
 				6CE51DDD183EA9BD004C7ABC /* EDBodyPart+Methods.m in Sources */,
 				6C32A0C417AA93A0007E932D /* EDDocumentHandler.m in Sources */,
