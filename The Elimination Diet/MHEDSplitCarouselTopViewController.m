@@ -65,12 +65,17 @@
 }
 
 
-#pragma mark - View Layout and Adjusting
 
-//- (void) handleShowHideButtonPress:(id)sender
-//{
-//    [super handleShowHideButtonPress:sender];
-//}
+#pragma mark - Container View Controller
+
+
+- (void) updateViewForResizeInLocation:(MHEDSplitViewContainerViewLocation) location
+{
+    if (location == MHEDSplitViewContainerViewLocationTop) {
+        
+    }
+}
+
 
 
 - (void) setupContainerViews
@@ -88,6 +93,9 @@
                 inContainerLocation:MHEDSplitViewContainerViewLocationTop];
     
 }
+
+
+
 
 #pragma mark - EDImageButtonCellDelegate
 

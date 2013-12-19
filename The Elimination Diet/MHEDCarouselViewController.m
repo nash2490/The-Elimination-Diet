@@ -78,6 +78,8 @@ static double mhedCarouselImageMaxWidth = 280.0;
                                                  name:MHEDSplitCarouselAddedPictureToModelNotification
                                                object:nil];
     
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -85,6 +87,8 @@ static double mhedCarouselImageMaxWidth = 280.0;
     [super viewWillAppear:animated];
     
     self.mhedCarousel.frame = [self.view bounds];
+    self.mhedCarousel.autoresizesSubviews = YES;
+    self.mhedCarousel.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 
 }
 
@@ -279,31 +283,38 @@ static double mhedCarouselImageMaxWidth = 280.0;
 //
     
     if (index < [[self.dataSource imagesForCarousel] count]) {
-        //UIImage *displayImage = [self convertImageForCarousel:[self.dataSource imagesForCarousel][index]];
         
-        UIImage *displayImage = [self convertImage:[self.dataSource imagesForCarousel][index] forCarousel:carousel];
+//        UIImage *displayImage = [self convertImage:[self.dataSource imagesForCarousel][index] forCarousel:carousel];
+        
+        UIImage *displayImage = [self.dataSource imagesForCarousel][index];
+        
+//        if (displayImage) {
+//            if (!view) {
+//                view = [[UIImageView alloc] initWithImage:displayImage];
+//            }
+//            else if ([view isKindOfClass:[UIImageView class]]) {
+//                ((UIImageView *)view).image = displayImage;
+//            }
+//            CGSize maxViewSize = carousel.bounds.size;
+//            maxViewSize.width = maxViewSize.width - 50.0;
+//            
+//            [view sizeThatFits:maxViewSize];
+//        }
         
         if (displayImage) {
             if (!view) {
-                view = [[UIImageView alloc] initWithImage:displayImage];
+                CGSize maxViewSize = carousel.bounds.size;
+                maxViewSize.width = maxViewSize.width - 50.0;
+                CGRect imageFrame = CGRectZero;
+                imageFrame.size = maxViewSize;
+                
+                view = [[UIImageView alloc] initWithFrame:imageFrame];
             }
-            else if ([view isKindOfClass:[UIImageView class]]) {
-                ((UIImageView *)view).image = displayImage;
-                [view sizeToFit];
-            }
+            ((UIImageView *)view).image = displayImage;
+            view.contentMode = UIViewContentModeScaleAspectFit;
         }
     }
     
-    // OR this to get it if it is already made
-    //UIImage *displayImage = self.carouselImages[index];
-    
-//    if (!view) {
-//        view = [[UIImageView alloc] initWithImage:displayImage];
-//    }
-//    else {
-//        ((UIImageView *)view).image = displayImage;
-//        [view sizeToFit];
-//    }
     return view;
 }
 

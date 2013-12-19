@@ -266,7 +266,7 @@ NSString *const MHEDSplitCarouselAddedPictureToModelNotification = @"MHEDSplitCa
         UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
         
         
-        UIImage *smallerImage = [UIImage newImageFrom:image scaledToFitHeight:960.0 andWidth:960.0];
+        UIImage *smallerImage = [UIImage newImageFrom:image scaledToFitHeight:480.0 andWidth:480.0];
         
         self.capturedImages = @[smallerImage];
     }

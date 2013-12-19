@@ -8,7 +8,7 @@
 
 #import "MHEDSplitViewController.h"
 
-#import "iCarousel.h"
+//#import "iCarousel.h"
 
 
 @protocol MHEDSplitCarouselDataSource <NSObject>
@@ -21,6 +21,14 @@
 
 @end
 
+@protocol MHEDSplitCarouselDelegate <NSObject>
+
+@optional
+
+- (void) mhedUpdateViewOnResize;
+
+@end
+
 
 @interface MHEDSplitCarouselTopViewController : MHEDSplitViewController <MHEDSplitCarouselDataSource>
 
@@ -29,6 +37,11 @@
 //@property (nonatomic, strong) NSMutableArray *carouselImages;
 
 
+#pragma mark - Container View Controller
+
+
+- (void) updateViewForResizeInLocation:(MHEDSplitViewContainerViewLocation) location;
+- (void) setupContainerViews;
 
 #pragma mark - MHEDSplitCarouselDataSource methods
 

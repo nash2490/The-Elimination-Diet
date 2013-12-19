@@ -120,6 +120,9 @@ typedef NS_ENUM(NSInteger, MHEDSplitViewContainerViewLocation) {
 
 #pragma mark - Container View Controller Methods
 
+/// override this method in sublcasses to update the view when resized
+- (void) updateViewForResizeInLocation:(MHEDSplitViewContainerViewLocation) location;
+
 /// override this method in subclasses
 - (void) setupContainerViews;
 

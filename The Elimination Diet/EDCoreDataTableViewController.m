@@ -42,7 +42,7 @@
 {
     [super viewDidLoad];
     [self setSuspendAutomaticTrackingOfChangesInManagedObjectContext:NO];
-    self.populatedTableUsingFRC = YES;
+    //self.populatedTableUsingFRC = YES;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  

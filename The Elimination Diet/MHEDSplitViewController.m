@@ -379,6 +379,10 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
     self.mhedTopViewHeight = self.mhedTopView.frame.size.height;
     self.mhedBottomView.frame = r2;
     
+    [self updateViewForResizeInLocation:MHEDSplitViewContainerViewLocationBottom];
+    [self updateViewForResizeInLocation:MHEDSplitViewContainerViewLocationTop];
+
+    
     [self.view setNeedsDisplay];
 }
 
@@ -424,6 +428,11 @@ NSString *const mhedStoryBoardViewControllerIDMealOptions = @"MealOptionsViewCon
 
 #pragma mark - Container View Controller
 
+
+- (void) updateViewForResizeInLocation:(MHEDSplitViewContainerViewLocation) location
+{
+    
+}
 
 - (void) setupContainerViews
 {
